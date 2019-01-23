@@ -18,6 +18,7 @@ const Option = Select.Option
   loading: loading.models.client,
 }))
 @Form.create()
+@withRouter
 class HandleSiteModal extends Component {
   constructor(props) {
     super(props)
@@ -241,4 +242,4 @@ class HandleSiteModal extends Component {
   }
 }
 
-export default withRouter(HandleSiteModal)
+export default HandleSiteModal

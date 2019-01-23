@@ -5,11 +5,12 @@ import { IconFont, IP } from '@/common/constants'
 import withRouter from 'umi/withRouter'
 import styles from '../../index.less'
 
-@connect(({logistics, loading}) => ({
+@connect(({ logistics, loading }) => ({
   logistics,
   loading: loading.models.logistics,
 }))
 @Form.create()
+@withRouter
 class Index extends Component {
   constructor(props) {
     super(props)
@@ -120,7 +121,7 @@ class Index extends Component {
     e && e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const {insertFleet, modalFiled1, modalFiled2} = this.state
+        const { insertFleet, modalFiled1, modalFiled2 } = this.state
         // values.id = this.props.match.params.LogisticsDetail
         // this.props.dispatch({
         //   type: 'logistics/insertFleet',
@@ -156,8 +157,8 @@ class Index extends Component {
   }
 
   renderInsertItem = () => {
-    const {labelList, insertFleet} = this.state
-    return <Col span={24} xxl={12} style={{position: 'relative'}}>
+    const { labelList, insertFleet } = this.state
+    return <Col span={24} xxl={12} style={{ position: 'relative' }}>
       <Col span={22} className={styles['fleet-item']}>
         <Col span={7}>
           <div className={styles['item-box']}>
@@ -166,9 +167,9 @@ class Index extends Component {
             </div>
             <div className={styles['box-right']}>
               {insertFleet.driver_name === '' ?
-                <div style={{cursor: 'pointer'}} onClick={this.openModal.bind(null, {type: '新增', ...labelList[0]})}>
+                <div style={{ cursor: 'pointer' }} onClick={this.openModal.bind(null, { type: '新增', ...labelList[0] })}>
                   <IconFont type='icon-icon-test' />
-                  <span style={{marginLeft: 20}} className='font-gray-color'>新增司机</span>
+                  <span style={{ marginLeft: 20 }} className='font-gray-color'>新增司机</span>
                 </div>
                 :
                 <>
@@ -180,16 +181,16 @@ class Index extends Component {
               null
               :
               <div className={styles['hover-box']}>
-                <Button type='primary' onClick={this.openModal.bind(null, {type: '编辑', ...labelList[0]})}>编辑</Button>
+                <Button type='primary' onClick={this.openModal.bind(null, { type: '编辑', ...labelList[0] })}>编辑</Button>
                 <Popconfirm title='是否确认删除司机？' okType='danger'
-                            icon={<Icon style={{color: 'red'}} type="exclamation-circle" />}>
+                            icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
                   <Button className='red-btn'>删除</Button>
                 </Popconfirm>
               </div>}
           </div>
         </Col>
         <Col span={1}>
-          <div style={{display: 'flex', alignItems: 'center', height: 100, justifyContent: 'center'}}>
+          <div style={{ display: 'flex', alignItems: 'center', height: 100, justifyContent: 'center' }}>
             <IconFont type='icon-guanlian' className={styles['iconFont']} />
           </div>
         </Col>
@@ -200,9 +201,9 @@ class Index extends Component {
             </div>
             <div className={styles['box-right']}>
               {insertFleet.car_head_code === '' ?
-                <div style={{cursor: 'pointer'}} onClick={this.openModal.bind(null, {type: '新增', ...labelList[1]})}>
+                <div style={{ cursor: 'pointer' }} onClick={this.openModal.bind(null, { type: '新增', ...labelList[1] })}>
                   <IconFont type='icon-icon-test' />
-                  <span style={{marginLeft: 20}} className='font-gray-color'>新增车头</span>
+                  <span style={{ marginLeft: 20 }} className='font-gray-color'>新增车头</span>
                 </div>
                 :
                 <>
@@ -217,16 +218,16 @@ class Index extends Component {
               null
               :
               <div className={styles['hover-box']}>
-                <Button type='primary' onClick={this.openModal.bind(null, {type: '编辑', ...labelList[1]})}>编辑</Button>
+                <Button type='primary' onClick={this.openModal.bind(null, { type: '编辑', ...labelList[1] })}>编辑</Button>
                 <Popconfirm title='是否确认删除车头？' okType='danger'
-                            icon={<Icon style={{color: 'red'}} type="exclamation-circle" />}>
+                            icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
                   <Button className='red-btn'>删除</Button>
                 </Popconfirm>
               </div>}
           </div>
         </Col>
         <Col span={1}>
-          <div style={{display: 'flex', alignItems: 'center', height: 100, justifyContent: 'center'}}>
+          <div style={{ display: 'flex', alignItems: 'center', height: 100, justifyContent: 'center' }}>
             <IconFont type='icon-guanlian' className={styles['iconFont']} />
           </div>
         </Col>
@@ -237,9 +238,9 @@ class Index extends Component {
             </div>
             <div className={styles['box-right']}>
               {insertFleet.car_body_code === '' ?
-                <div style={{cursor: 'pointer'}} onClick={this.openModal.bind(null, {type: '新增', ...labelList[2]})}>
+                <div style={{ cursor: 'pointer' }} onClick={this.openModal.bind(null, { type: '新增', ...labelList[2] })}>
                   <IconFont type='icon-icon-test' />
-                  <span style={{marginLeft: 20}} className='font-gray-color'>新增车挂</span>
+                  <span style={{ marginLeft: 20 }} className='font-gray-color'>新增车挂</span>
                 </div>
                 :
                 <>
@@ -254,9 +255,9 @@ class Index extends Component {
               null
               :
               <div className={styles['hover-box']}>
-                <Button type='primary' onClick={this.openModal.bind(null, {type: '编辑', ...labelList[2]})}>编辑</Button>
+                <Button type='primary' onClick={this.openModal.bind(null, { type: '编辑', ...labelList[2] })}>编辑</Button>
                 <Popconfirm title='是否确认删除车挂？' okType='danger'
-                            icon={<Icon style={{color: 'red'}} type="exclamation-circle" />}>
+                            icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
                   <Button className='red-btn'>删除</Button>
                 </Popconfirm>
               </div>}
@@ -281,14 +282,14 @@ class Index extends Component {
   }
 
   mapItem = () => {
-    const {managementStatus, labelList} = this.state
+    const { managementStatus, labelList } = this.state
     return this.props.logistics.fleetList.map((value, index) => (
       <Col span={24} xxl={12} key={index}>
         <Col span={22} className={styles['fleet-item']}>
-          <Col span={24} style={managementStatus ? {display: 'flex'} : {display: 'none'}}
+          <Col span={24} style={managementStatus ? { display: 'flex' } : { display: 'none' }}
                className={styles['fleet-item-modify']}>
             <Popconfirm title='是否确认删除此条记录？' okType='danger' onConfirm={this.deleteFleet.bind(null, value.id)}
-                        icon={<Icon style={{color: 'red'}} type="exclamation-circle" />}>
+                        icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
               <Button className='red-btn'>删除</Button>
             </Popconfirm>
           </Col>
@@ -304,17 +305,17 @@ class Index extends Component {
                 </div>
                 <div className={styles['hover-box']}>
                   <Button type='primary'
-                          onClick={this.openModal.bind(null, {type: '编辑', ...labelList[0]})}>编辑</Button>
+                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[0] })}>编辑</Button>
                   <Popconfirm title='是否确认删除司机？' okType='danger'
-                              icon={<Icon style={{color: 'red'}} type="exclamation-circle" />}>
+                              icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
                     <Button className='red-btn'>删除</Button>
                   </Popconfirm>
                 </div>
-              </> : <div style={{width: '100%', textAlign: 'center'}}>暂无</div>}
+              </> : <div style={{ width: '100%', textAlign: 'center' }}>暂无</div>}
             </div>
           </Col>
           <Col span={1}>
-            <div style={{display: 'flex', alignItems: 'center', height: 100, justifyContent: 'center'}}>
+            <div style={{ display: 'flex', alignItems: 'center', height: 100, justifyContent: 'center' }}>
               <IconFont type='icon-guanlian' className={styles['iconFont']} />
             </div>
           </Col>
@@ -333,17 +334,17 @@ class Index extends Component {
                 </div>
                 <div className={styles['hover-box']}>
                   <Button type='primary'
-                          onClick={this.openModal.bind(null, {type: '编辑', ...labelList[1]})}>编辑</Button>
+                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[1] })}>编辑</Button>
                   <Popconfirm title='是否确认删除车头？' okType='danger'
-                              icon={<Icon style={{color: 'red'}} type="exclamation-circle" />}>
+                              icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
                     <Button className='red-btn'>删除</Button>
                   </Popconfirm>
                 </div>
-              </> : <div style={{width: '100%', textAlign: 'center'}}>暂无</div>}
+              </> : <div style={{ width: '100%', textAlign: 'center' }}>暂无</div>}
             </div>
           </Col>
           <Col span={1}>
-            <div style={{display: 'flex', alignItems: 'center', height: 100, justifyContent: 'center'}}>
+            <div style={{ display: 'flex', alignItems: 'center', height: 100, justifyContent: 'center' }}>
               <IconFont type='icon-guanlian' className={styles['iconFont']} />
             </div>
           </Col>
@@ -361,13 +362,14 @@ class Index extends Component {
                   </div>
                 </div>
                 <div className={styles['hover-box']}>
-                  <Button type='primary' onClick={this.openModal.bind(null, {type: '编辑', ...labelList[2]})}>编辑</Button>
+                  <Button type='primary'
+                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[2] })}>编辑</Button>
                   <Popconfirm title='是否确认删除车挂？' okType='danger'
-                              icon={<Icon style={{color: 'red'}} type="exclamation-circle" />}>
+                              icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
                     <Button className='red-btn'>删除</Button>
                   </Popconfirm>
                 </div>
-              </> : <div style={{width: '100%', textAlign: 'center'}}>暂无</div>}
+              </> : <div style={{ width: '100%', textAlign: 'center' }}>暂无</div>}
             </div>
           </Col>
         </Col>
@@ -387,17 +389,17 @@ class Index extends Component {
   }
 
   render() {
-    const {managementStatus, modalTitle, modalLabel1, modalFiled1, modalLabel2, modalFiled2, insertStatus} = this.state
-    const {form, loading} = this.props
-    const {getFieldDecorator} = form
+    const { managementStatus, modalTitle, modalLabel1, modalFiled1, modalLabel2, modalFiled2, insertStatus } = this.state
+    const { form, loading } = this.props
+    const { getFieldDecorator } = form
     const formItemLayout = {
       labelCol: {
-        xs: {span: 24},
-        sm: {span: 6},
+        xs: { span: 24 },
+        sm: { span: 6 },
       },
       wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 14},
+        xs: { span: 24 },
+        sm: { span: 14 },
       },
     }
     const tailFormItemLayout = {
@@ -413,13 +415,13 @@ class Index extends Component {
       },
     }
     return (
-      <div style={{padding: '0 30px', marginTop: '-15px'}}>
+      <div style={{ padding: '0 30px', marginTop: '-15px' }}>
         <div className='tabs-toolbar'>
           {managementStatus ?
             <>
-              <Button className='yellow-btn' style={{marginRight: 10}}
-                      onClick={() => this.setState({managementStatus: !managementStatus})}>完成</Button>
-              <Button disabled={true} style={{marginRight: 10}}>新增车队</Button>
+              <Button className='yellow-btn' style={{ marginRight: 10 }}
+                      onClick={() => this.setState({ managementStatus: !managementStatus })}>完成</Button>
+              <Button disabled={true} style={{ marginRight: 10 }}>新增车队</Button>
               <Upload
                 accept='.xls,.xlsx'
                 name='excel'
@@ -433,8 +435,8 @@ class Index extends Component {
             :
             insertStatus ?
               <>
-                <Button disabled={true} style={{marginRight: 10}}>管理车队</Button>
-                <Button disabled={true} style={{marginRight: 10}}>新增车队</Button>
+                <Button disabled={true} style={{ marginRight: 10 }}>管理车队</Button>
+                <Button disabled={true} style={{ marginRight: 10 }}>新增车队</Button>
                 <Upload
                   accept='.xls,.xlsx'
                   name='excel'
@@ -447,10 +449,10 @@ class Index extends Component {
               </>
               :
               <>
-                <Button type='primary' style={{marginRight: 10}}
-                        onClick={() => this.setState({managementStatus: !managementStatus})}>管理车队</Button>
-                <Button type='primary' style={{marginRight: 10}}
-                        onClick={() => this.setState({insertStatus: true})}>新增车队</Button>
+                <Button type='primary' style={{ marginRight: 10 }}
+                        onClick={() => this.setState({ managementStatus: !managementStatus })}>管理车队</Button>
+                <Button type='primary' style={{ marginRight: 10 }}
+                        onClick={() => this.setState({ insertStatus: true })}>新增车队</Button>
                 <Upload
                   accept='.xls,.xlsx'
                   name='excel'
@@ -468,7 +470,7 @@ class Index extends Component {
           {insertStatus ? this.renderInsertItem() : null}
           {this.mapItem()}
         </Row>
-        <div style={{textAlign: 'center', marginTop: 15}}>
+        <div style={{ textAlign: 'center', marginTop: 15 }}>
           <Pagination />
         </div>
         <Modal
@@ -485,7 +487,7 @@ class Index extends Component {
               label={modalLabel1}
             >
               {getFieldDecorator(`${modalFiled1}`, {
-                rules: [{required: true}],
+                rules: [{ required: true }],
               })(
                 <Input placeholder={`请输入${modalLabel1}`} />,
               )}
@@ -495,14 +497,14 @@ class Index extends Component {
               label={modalLabel2}
             >
               {getFieldDecorator(`${modalFiled2}`, {
-                rules: [{required: true}],
+                rules: [{ required: true }],
               })(
                 <Input placeholder={`请输入${modalLabel2}`} />,
               )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" htmlType="submit" loading={loading}>确定</Button>
-              <Button className='red-btn' style={{marginLeft: 20, marginTop: 20}}
+              <Button className='red-btn' style={{ marginLeft: 20, marginTop: 20 }}
                       onClick={this.closeModal}>取消</Button>
             </Form.Item>
           </Form>
@@ -512,4 +514,4 @@ class Index extends Component {
   }
 }
 
-export default withRouter(Index)
+export default Index

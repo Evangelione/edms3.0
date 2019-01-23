@@ -9,10 +9,11 @@ import { IP, PAGE_LIMIT, site_type } from '@/common/constants'
 const Search = Input.Search
 const Option = Select.Option
 
-@connect(({client, loading}) => ({
+@connect(({ client, loading }) => ({
   client,
   loading: loading.models.client,
 }))
+@withRouter
 class Index extends Component {
   constructor(props) {
     super(props)
@@ -35,8 +36,8 @@ class Index extends Component {
   }
 
   mapItem = () => {
-    const {managementStatus} = this.state
-    const {siteList} = this.props.client
+    const { managementStatus } = this.state
+    const { siteList } = this.props.client
     return siteList.length ? siteList.map((value, index) => (
       <div className='list-item' key={value.id}>
         <div className='serial-num'>{index + 1}</div>
@@ -65,7 +66,7 @@ class Index extends Component {
           </div>
         </div>
       </div>
-    )) : <Empty style={{marginTop: 20}} />
+    )) : <Empty style={{ marginTop: 20 }} />
   }
 
   changeSiteName = (e) => {
@@ -112,15 +113,15 @@ class Index extends Component {
   }
 
   render() {
-    const {managementStatus} = this.state
-    const {client, loading} = this.props
-    const {sitePage, siteTotal, site_name} = client
+    const { managementStatus } = this.state
+    const { client, loading } = this.props
+    const { sitePage, siteTotal, site_name } = client
     return (
       <>
         <div className='tabs-toolbar'>
-          <div style={{display: 'inline-block', marginRight: 10}}>
-            <div style={{display: 'inline-block', marginRight: 12}}>排序方式</div>
-            <Select defaultValue="jack" style={{width: '8.75rem'}} onChange={this.handleChange}>
+          <div style={{ display: 'inline-block', marginRight: 10 }}>
+            <div style={{ display: 'inline-block', marginRight: 12 }}>排序方式</div>
+            <Select defaultValue="jack" style={{ width: '8.75rem' }} onChange={this.handleChange}>
               <Option value="jack">结算量</Option>
               <Option value="lucy">利润贡献</Option>
               <Option value="Yiminghe">贡献占比</Option>
@@ -132,16 +133,16 @@ class Index extends Component {
             value={site_name}
             onChange={this.changeSiteName}
             onSearch={this.searchSiteList}
-            style={{width: '25rem', height: '2.5rem', marginRight: 15}}
+            style={{ width: '25rem', height: '2.5rem', marginRight: 15 }}
           />
           {managementStatus ?
-            <Button className='yellow-btn' style={{marginRight: 10}}
-                    onClick={() => this.setState({managementStatus: !managementStatus})}>完成</Button>
+            <Button className='yellow-btn' style={{ marginRight: 10 }}
+                    onClick={() => this.setState({ managementStatus: !managementStatus })}>完成</Button>
             :
-            <Button type='primary' style={{marginRight: 10}}
-                    onClick={() => this.setState({managementStatus: !managementStatus})}>管理站点</Button>}
+            <Button type='primary' style={{ marginRight: 10 }}
+                    onClick={() => this.setState({ managementStatus: !managementStatus })}>管理站点</Button>}
           <HandleSiteModal>
-            <Button type='primary' style={{marginRight: 10}}>新增站点</Button>
+            <Button type='primary' style={{ marginRight: 10 }}>新增站点</Button>
           </HandleSiteModal>
           <Upload
             accept='.xls,.xlsx'
@@ -154,7 +155,7 @@ class Index extends Component {
           </Upload>
         </div>
         {this.mapItem()}
-        <div style={{textAlign: 'center', marginTop: 40}}>
+        <div style={{ textAlign: 'center', marginTop: 40 }}>
           <Pagination current={sitePage} total={siteTotal} pageSize={PAGE_LIMIT} onChange={this.pageChange} />
         </div>
       </>
@@ -162,4 +163,4 @@ class Index extends Component {
   }
 }
 
-export default withRouter(Index)
+export default Index

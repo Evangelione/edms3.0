@@ -13,6 +13,7 @@ const Option = Select.Option
   loading: loading.models.logistics,
 }))
 @Form.create()
+@withRouter
 class InfoCard extends Component {
   constructor(props) {
     super(props)
@@ -209,4 +210,4 @@ class InfoCard extends Component {
   }
 }
 
-export default withRouter(InfoCard)
+export default InfoCard

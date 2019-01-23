@@ -4,11 +4,12 @@ import { connect } from 'dva'
 import withRouter from 'umi/withRouter'
 import styles from '../../../index.less'
 
-@connect(({client, loading}) => ({
+@connect(({ client, loading }) => ({
   client,
   loading: loading.models.client,
 }))
 @Form.create()
+@withRouter
 class FinanceCard extends Component {
   constructor(props) {
     super(props)
@@ -48,23 +49,23 @@ class FinanceCard extends Component {
   }
 
   render() {
-    const {idReceipt, modifying1, modifying2, modifying3} = this.state
-    const {form, client, loading} = this.props
-    const {currentClientInfo} = client
-    const {getFieldDecorator} = form
+    const { idReceipt, modifying1, modifying2, modifying3 } = this.state
+    const { form, client, loading } = this.props
+    const { currentClientInfo } = client
+    const { getFieldDecorator } = form
     return (
       <Card title={<>
         <Icon type="pay-circle" className='font-primary-color'
-              style={{marginRight: 20, marginTop: 2, fontSize: 24}} />
-        <span style={{verticalAlign: 'top'}}>基本信息</span>
+              style={{ marginRight: 20, marginTop: 2, fontSize: 24 }} />
+        <span style={{ verticalAlign: 'top' }}>基本信息</span>
       </>} bordered={false}>
         <Form>
           <Row className={styles['info-list']}>
             <Col span={6}><i>预付款额</i></Col>
             <Col span={7}>
-              {modifying1 ? <Form.Item wrapperCol={{span: 22}}>
+              {modifying1 ? <Form.Item wrapperCol={{ span: 22 }}>
                 {getFieldDecorator('balance', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentClientInfo.balance,
                 })(
                   <Input placeholder='请输入预收款额' />,
@@ -75,21 +76,21 @@ class FinanceCard extends Component {
               {modifying1 ? <>
                   <Button type='primary' onClick={this.handleSubmit.bind(null, 'balance', 'modifying1')}
                           loading={loading}>确定</Button>
-                  <Button className='red-btn' style={{marginLeft: 20}}
-                          onClick={() => this.setState({modifying1: false})}>取消</Button>
+                  <Button className='red-btn' style={{ marginLeft: 20 }}
+                          onClick={() => this.setState({ modifying1: false })}>取消</Button>
                 </>
                 :
                 <div>
-                  <Button className={idReceipt ? 'gray-btn' : 'yellow-btn'} style={{verticalAlign: 'middle'}}
-                          onClick={() => this.setState({modifying1: true})} disabled={idReceipt}>收款</Button>
+                  <Button className={idReceipt ? 'gray-btn' : 'yellow-btn'} style={{ verticalAlign: 'middle' }}
+                          onClick={() => this.setState({ modifying1: true })} disabled={idReceipt}>收款</Button>
                 </div>}
 
             </Col>
             <Col span={6}><i>信用总额</i></Col>
             <Col span={7}>
-              {modifying2 ? <Form.Item wrapperCol={{span: 22}}>
+              {modifying2 ? <Form.Item wrapperCol={{ span: 22 }}>
                 {getFieldDecorator('credit', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentClientInfo.credit,
                 })(
                   <Input placeholder='请输入信用总额' />,
@@ -100,19 +101,19 @@ class FinanceCard extends Component {
               {modifying2 ? <>
                   <Button type='primary' onClick={this.handleSubmit.bind(null, 'credit', 'modifying2')}
                           loading={loading}>保存</Button>
-                  <Button className='red-btn' style={{marginLeft: 20}}
-                          onClick={() => this.setState({modifying2: false})}>取消</Button>
+                  <Button className='red-btn' style={{ marginLeft: 20 }}
+                          onClick={() => this.setState({ modifying2: false })}>取消</Button>
                 </>
                 :
                 <div>
-                  <Button type='primary' onClick={() => this.setState({modifying2: true})}>设置</Button>
+                  <Button type='primary' onClick={() => this.setState({ modifying2: true })}>设置</Button>
                 </div>}
             </Col>
             <Col span={6}><i>预警额度</i></Col>
             <Col span={7}>
-              {modifying3 ? <Form.Item wrapperCol={{span: 22}}>
+              {modifying3 ? <Form.Item wrapperCol={{ span: 22 }}>
                 {getFieldDecorator('credit_notice', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentClientInfo.credit_notice,
                 })(
                   <Input placeholder='请输入预警额度' />,
@@ -123,12 +124,12 @@ class FinanceCard extends Component {
               {modifying3 ? <>
                   <Button type='primary' onClick={this.handleSubmit.bind(null, 'credit_notice', 'modifying3')}
                           loading={loading}>保存</Button>
-                  <Button className='red-btn' style={{marginLeft: 20}}
-                          onClick={() => this.setState({modifying3: false})}>取消</Button>
+                  <Button className='red-btn' style={{ marginLeft: 20 }}
+                          onClick={() => this.setState({ modifying3: false })}>取消</Button>
                 </>
                 :
                 <div>
-                  <Button type='primary' onClick={() => this.setState({modifying3: true})}>设置</Button>
+                  <Button type='primary' onClick={() => this.setState({ modifying3: true })}>设置</Button>
                 </div>}
             </Col>
             <Col span={6}><i>剩余额度</i></Col>
@@ -143,4 +144,4 @@ class FinanceCard extends Component {
   }
 }
 
-export default withRouter(FinanceCard)
+export default FinanceCard

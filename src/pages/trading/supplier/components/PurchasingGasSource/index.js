@@ -9,10 +9,11 @@ import { IP, PAGE_LIMIT } from '@/common/constants'
 const Search = Input.Search
 const Option = Select.Option
 
-@connect(({supplier, loading}) => ({
+@connect(({ supplier, loading }) => ({
   supplier,
   loading: loading.models.supplier,
 }))
+@withRouter
 class Index extends Component {
   constructor(props) {
     super(props)
@@ -46,8 +47,8 @@ class Index extends Component {
   }
 
   mapItem = () => {
-    const {managementStatus} = this.state
-    const {gasSourceList} = this.props.supplier
+    const { managementStatus } = this.state
+    const { gasSourceList } = this.props.supplier
     return gasSourceList.length ? gasSourceList.map((value, index) => (
       <div className='list-item' key={value.id}>
         <div className='serial-num'>{index + 1}</div>
@@ -80,7 +81,7 @@ class Index extends Component {
           </div>
         </div>
       </div>
-    )) : <Empty style={{marginTop: 20}} />
+    )) : <Empty style={{ marginTop: 20 }} />
   }
 
   changeGasSourceName = (e) => {
@@ -116,14 +117,14 @@ class Index extends Component {
   }
 
   render() {
-    const {supplier} = this.props
-    const {gasSourcePage, gasSourceTotal, goods_name} = supplier
+    const { supplier } = this.props
+    const { gasSourcePage, gasSourceTotal, goods_name } = supplier
     return (
       <>
         <div className='tabs-toolbar'>
-          <div style={{display: 'inline-block', marginRight: 10}}>
-            <div style={{display: 'inline-block', marginRight: 12}}>排序方式</div>
-            <Select defaultValue="jack" style={{width: '8.75rem'}} onChange={this.handleChange}>
+          <div style={{ display: 'inline-block', marginRight: 10 }}>
+            <div style={{ display: 'inline-block', marginRight: 12 }}>排序方式</div>
+            <Select defaultValue="jack" style={{ width: '8.75rem' }} onChange={this.handleChange}>
               <Option value="jack">结算量</Option>
               <Option value="lucy">利润贡献</Option>
               <Option value="Yiminghe">贡献占比</Option>
@@ -135,10 +136,10 @@ class Index extends Component {
             value={goods_name}
             onChange={this.changeGasSourceName}
             onSearch={this.searchGasSourceList}
-            style={{width: '25rem', height: '2.5rem', marginRight: 15}}
+            style={{ width: '25rem', height: '2.5rem', marginRight: 15 }}
           />
           <HandleGasSourceModal>
-            <Button type='primary' style={{marginRight: 10}}>新增气源</Button>
+            <Button type='primary' style={{ marginRight: 10 }}>新增气源</Button>
           </HandleGasSourceModal>
           <Upload
             accept='.xls,.xlsx'
@@ -151,7 +152,7 @@ class Index extends Component {
           </Upload>
         </div>
         {this.mapItem()}
-        <div style={{textAlign: 'center', marginTop: 40}}>
+        <div style={{ textAlign: 'center', marginTop: 40 }}>
           <Pagination current={gasSourcePage} total={gasSourceTotal} pageSize={PAGE_LIMIT} onChange={this.pageChange} />
         </div>
       </>
@@ -159,4 +160,4 @@ class Index extends Component {
   }
 }
 
-export default withRouter(Index)
+export default Index

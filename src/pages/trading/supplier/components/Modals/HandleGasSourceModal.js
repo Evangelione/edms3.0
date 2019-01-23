@@ -18,6 +18,7 @@ import { IP } from '@/common/constants'
   loading: loading.models.supplier,
 }))
 @Form.create()
+@withRouter
 class HandleGasSourceModal extends Component {
   constructor(props) {
     super(props)
@@ -222,7 +223,7 @@ class HandleGasSourceModal extends Component {
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   {modify ?
                     <div className='font-primary-color'
-                       style={{ marginRight: 20 }}>{currentGasSourceInfo.goods_report_url}</div>
+                         style={{ marginRight: 20 }}>{currentGasSourceInfo.goods_report_url}</div>
                     : ''
                   }
                   <Upload
@@ -296,4 +297,4 @@ class HandleGasSourceModal extends Component {
   }
 }
 
-export default withRouter(HandleGasSourceModal)
+export default HandleGasSourceModal

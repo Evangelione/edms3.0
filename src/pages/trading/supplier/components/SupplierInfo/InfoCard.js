@@ -7,12 +7,13 @@ import { company_type } from '@/common/constants'
 
 const Option = Select.Option
 
-@connect(({global, supplier, loading}) => ({
+@connect(({ global, supplier, loading }) => ({
   global,
   supplier,
   loading: loading.models.supplier,
 }))
 @Form.create()
+@withRouter
 class InfoCard extends Component {
   constructor(props) {
     super(props)
@@ -72,7 +73,7 @@ class InfoCard extends Component {
     this.setState({
       modifying: true,
     })
-    const {currentSupplierInfo} = this.props.supplier
+    const { currentSupplierInfo } = this.props.supplier
     this.props.dispatch({
       type: 'global/inquireCascadeOptionsAll',
       payload: {
@@ -84,17 +85,17 @@ class InfoCard extends Component {
   }
 
   render() {
-    const {modifying} = this.state
-    const {form, supplier, global, loading} = this.props
-    const {currentSupplierInfo} = supplier
-    const {cascadeOptions} = global
-    const {getFieldDecorator} = form
+    const { modifying } = this.state
+    const { form, supplier, global, loading } = this.props
+    const { currentSupplierInfo } = supplier
+    const { cascadeOptions } = global
+    const { getFieldDecorator } = form
     const area = (currentSupplierInfo.province + currentSupplierInfo.city + currentSupplierInfo.area) || ''
     return (
       <Card title={<>
         <Icon type="idcard" className='font-primary-color'
-              style={{marginRight: 20, marginTop: 2, fontSize: 24}} />
-        <span style={{verticalAlign: 'top'}}>基本信息</span>
+              style={{ marginRight: 20, marginTop: 2, fontSize: 24 }} />
+        <span style={{ verticalAlign: 'top' }}>基本信息</span>
       </>} bordered={false}>
         <Form onSubmit={this.handleSubmit}>
           <Row className={styles['info-list']}>
@@ -104,9 +105,9 @@ class InfoCard extends Component {
             </Col>
             <Col span={8} xxl={7}><i>公司全称</i></Col>
             <Col span={16} xxl={17}>
-              {modifying ? <Form.Item wrapperCol={{span: 16}}>
+              {modifying ? <Form.Item wrapperCol={{ span: 16 }}>
                 {getFieldDecorator('company_full_name', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentSupplierInfo.company_full_name,
                 })(
                   <Input placeholder='请输入公司全称' />,
@@ -115,9 +116,9 @@ class InfoCard extends Component {
             </Col>
             <Col span={8} xxl={7}><i>公司简称</i></Col>
             <Col span={16} xxl={17}>
-              {modifying ? <Form.Item wrapperCol={{span: 16}}>
+              {modifying ? <Form.Item wrapperCol={{ span: 16 }}>
                 {getFieldDecorator('company_name', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentSupplierInfo.company_name,
                 })(
                   <Input placeholder='请输入公司简称' />,
@@ -126,12 +127,12 @@ class InfoCard extends Component {
             </Col>
             <Col span={8} xxl={7}><i>公司类型</i></Col>
             <Col span={16} xxl={17}>
-              {modifying ? <Form.Item wrapperCol={{span: 16}}>
+              {modifying ? <Form.Item wrapperCol={{ span: 16 }}>
                 {getFieldDecorator('company_flow', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentSupplierInfo.company_flow + '',
                 })(
-                  <Select style={{width: '100%'}}>
+                  <Select style={{ width: '100%' }}>
                     <Option value="1">贸易商</Option>
                     <Option value="2">零售商</Option>
                   </Select>,
@@ -140,9 +141,9 @@ class InfoCard extends Component {
             </Col>
             <Col span={8} xxl={7}><i>省市区县</i></Col>
             <Col span={16} xxl={17}>
-              {modifying ? <Form.Item wrapperCol={{span: 16}}>
+              {modifying ? <Form.Item wrapperCol={{ span: 16 }}>
                 {getFieldDecorator('area_arr', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: [currentSupplierInfo.province, currentSupplierInfo.city, currentSupplierInfo.area],
                 })(
                   <Cascader options={cascadeOptions} loadData={this.loadData} placeholder='请选择省市区县' />,
@@ -151,9 +152,9 @@ class InfoCard extends Component {
             </Col>
             <Col span={8} xxl={7}><i>详细地址</i></Col>
             <Col span={16} xxl={17}>
-              {modifying ? <Form.Item wrapperCol={{span: 16}}>
+              {modifying ? <Form.Item wrapperCol={{ span: 16 }}>
                 {getFieldDecorator('company_address', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentSupplierInfo.company_address,
                 })(
                   <Input placeholder='请输入详细地址' />,
@@ -162,9 +163,9 @@ class InfoCard extends Component {
             </Col>
             <Col span={8} xxl={7}><i>开户银行</i></Col>
             <Col span={16} xxl={17}>
-              {modifying ? <Form.Item wrapperCol={{span: 16}}>
+              {modifying ? <Form.Item wrapperCol={{ span: 16 }}>
                 {getFieldDecorator('bank', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentSupplierInfo.bank,
                 })(
                   <Input placeholder='请选择开户银行' />,
@@ -173,20 +174,20 @@ class InfoCard extends Component {
             </Col>
             <Col span={8} xxl={7}><i>银行账号</i></Col>
             <Col span={16} xxl={17}>
-              {modifying ? <Form.Item wrapperCol={{span: 16}}>
+              {modifying ? <Form.Item wrapperCol={{ span: 16 }}>
                 {getFieldDecorator('bank_account', {
-                  rules: [{required: true}],
+                  rules: [{ required: true }],
                   initialValue: currentSupplierInfo.bank_account,
                 })(
                   <Input placeholder='请输入银行账号' />,
                 )}
               </Form.Item> : currentSupplierInfo.bank_account}
             </Col>
-            <Col span={24} style={{textAlign: 'center', marginTop: 20, marginBottom: 40}}>
+            <Col span={24} style={{ textAlign: 'center', marginTop: 20, marginBottom: 40 }}>
               {modifying ? <>
                   <Button type='primary' htmlType="submit" loading={loading}>确定</Button>
-                  <Button className='red-btn' style={{marginLeft: 20}}
-                          onClick={() => this.setState({modifying: false})}>取消</Button>
+                  <Button className='red-btn' style={{ marginLeft: 20 }}
+                          onClick={() => this.setState({ modifying: false })}>取消</Button>
                 </>
                 :
                 <div>
@@ -202,4 +203,4 @@ class InfoCard extends Component {
   }
 }
 
-export default withRouter(InfoCard)
+export default InfoCard
