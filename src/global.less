@@ -1,0 +1,450 @@
+@import "./common/theme";
+
+html, body, #root {
+  min-width: 1920px;
+  margin: 0;
+  padding: 0;
+  color: @font-base-color;
+  background-color: @backgroundColor;
+  font-family: "PingFang SC", serif;
+}
+
+@media screen and (min-width: 1600px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+//@media screen and (min-width: 1480px) and (max-width: 1600px) {
+//  html {
+//    font-size: 14px;
+//  }
+//}
+//
+//@media screen and (min-width: 1280px) and (max-width: 1480px) {
+//  html {
+//    font-size: 12px;
+//  }
+//}
+//
+//@media screen and (min-width: 0px) and (max-width: 1280px) {
+//  html {
+//    font-size: 10px;
+//  }
+//}
+
+// layout自定义样式
+.ant-layout {
+  background-color: @backgroundColor !important;
+}
+
+// 按钮自定义样式
+.ant-btn {
+  min-width: 6.875rem;
+  transition: all 0.2s !important;
+  font-size: 1rem !important;
+}
+
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+  background-image: linear-gradient(-132deg, #8FCBFF 0%, #7C82FF 100%) !important;
+  box-shadow: 0 8px 20px 0 rgba(145, 165, 245, 0.70);
+}
+
+.light-btn {
+  background-color: @primary-color-light !important;
+  color: @white-color !important;
+  border-color: transparent !important;
+}
+
+.light-btn:hover, .light-btn:focus {
+  background-color: @primary-color-light-hover !important;
+  box-shadow: 0 8px 20px 0 rgba(143, 203, 255, 0.70);
+}
+
+.red-btn {
+  background-color: @primary-color-red !important;
+  color: @white-color !important;
+  border-color: transparent !important;
+}
+
+.red-btn:hover, .red-btn:focus {
+  box-shadow: 0 8px 20px 0 rgba(251, 78, 92, 0.70);
+}
+
+.red-btn-line {
+  border: 1px solid @primary-color-red !important;
+  color: @primary-color-red !important;
+}
+
+.red-btn-line:hover, .red-btn-line:focus {
+  background-color: @primary-color-red !important;
+  color: @white-color !important;
+  box-shadow: 0 8px 20px 0 rgba(251, 78, 92, 0.70);
+}
+
+.btn-line {
+  border: 1px solid @primary-color !important;
+  color: @primary-color-red !important;
+}
+
+.btn-line:hover, .btn-line:focus {
+  background-color: @primary-color !important;
+  color: @white-color !important;
+  box-shadow: 0 8px 20px 0 rgba(147, 164, 255, 0.70);
+}
+
+.yellow-btn {
+  background-color: @primary-color-yellow !important;
+  color: @white-color !important;
+  border-color: transparent !important;
+}
+
+.yellow-btn:hover, .yellow-btn:focus {
+  box-shadow: 0 8px 20px 0 rgba(255, 173, 77, 0.70);
+}
+
+.green-btn {
+  background-color: @primary-color-green !important;
+  color: @white-color !important;
+  border-color: transparent !important;
+}
+
+.green-btn:hover, .green-btn:focus {
+  box-shadow: 0 8px 20px 0 rgba(0, 205, 147, 0.70);
+}
+
+.gray-btn {
+  background-color: @primary-color-gray !important;
+  color: @white-color !important;
+  border-color: transparent !important;
+  cursor: not-allowed;
+}
+
+.line-primary:active {
+  background-color: @primary-color !important;
+  color: @white-color !important;
+  border-color: @primary-color !important;
+}
+
+.line-red:active {
+  background-color: @primary-color-red !important;
+  color: @white-color !important;
+  border-color: @primary-color-red !important;
+}
+
+.button-group {
+  & > button {
+    min-width: auto;
+  }
+}
+
+// popover自定义样式
+.ant-popover-buttons button {
+  height: 35px;
+}
+
+.ant-popover-message {
+  font-size: 1rem !important;
+  color: @font-purple-color !important;
+}
+
+// input自定义样式
+.ant-input {
+  font-size: 1rem !important;
+  height: 2.5rem !important;
+}
+
+// tabs自定义样式
+.ant-tabs-bar {
+  border-bottom: 0 !important;
+}
+
+.ant-tabs-nav-container {
+  font-size: 1.125rem !important;
+}
+
+.ant-tabs-ink-bar {
+  background-image: linear-gradient(-178deg, #7E8AFF 0%, #ACDCFF 100%) !important;
+}
+
+.tabs-toolbar {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 1rem;
+}
+
+// 下拉选择自定义样式
+.ant-select {
+  font-size: 1rem !important;
+  color: @font-base-color !important;
+}
+
+.ant-select-selection--single {
+  height: 2.5rem !important;
+}
+
+.ant-select-selection__rendered {
+  line-height: 2.5rem !important;
+}
+
+.ant-select-dropdown-menu-item:hover {
+  background-color: @primary-color !important;
+  color: @white-color !important;
+}
+
+// card自定义样式
+.ant-card {
+  border-radius: 8px !important;
+  box-shadow: 0 8px 8px 0 rgba(147, 164, 255, 0.10);
+}
+
+.ant-card-head {
+  color: @font-base-color !important;
+  font-size: 1.125rem !important;
+}
+
+// table自定义样式
+.ant-table-thead > tr > th {
+  border-bottom: 1px solid @primary-color !important;
+  color: @primary-color !important;
+  font-size: 1.125rem;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom: none !important;
+  font-size: 1rem;
+}
+
+.table-container {
+  border-radius: 8px;
+  background-color: @white-color;
+  overflow: hidden;
+}
+
+// 分页器自定义样式
+.ant-pagination-item {
+  border: 1px solid @primary-color !important;
+}
+
+.ant-pagination-item a {
+  color: @primary-color !important;
+}
+
+.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+  border: 1px solid @primary-color !important;
+}
+
+.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+  color: @primary-color;
+}
+
+.ant-pagination-item-active {
+  background-color: @primary-color !important;
+}
+
+.ant-pagination-item-active a {
+  color: @white-color !important;
+}
+
+// modal自定义样式
+.ant-modal-title {
+  font-size: 1.125rem !important;
+}
+
+.ant-modal-close-x {
+  font-size: 1.125rem !important;
+}
+
+.ant-modal-header {
+  margin-left: 12px;
+  border-bottom: 1px solid @primary-color !important;
+}
+
+// cascade自定义样式
+.ant-cascader-picker {
+  font-size: 1rem !important;
+}
+
+.ant-cascader-menus {
+  font-size: 1rem !important;
+}
+
+// form自定义样式
+.ant-form-explain {
+  visibility: hidden;
+}
+
+.ant-form-item {
+  font-size: 1rem !important;
+}
+
+.ant-form label {
+  font-size: 1rem !important;
+}
+
+.ant-form-explain {
+  font-size: 14px !important;
+}
+
+// 弹窗自定义样式
+.ant-popover-title {
+  height: 55px;
+  line-height: 55px;
+  border-bottom: 1px solid @primary-color !important;
+  margin-left: 24px !important;
+  padding: 5px 0 4px !important;
+}
+
+.ant-popover-inner-content {
+  padding: 18px 24px !important;
+}
+
+.ant-popover-inner {
+  box-shadow: 0 8px 20px 0 rgba(145, 165, 245, 0.70) !important;
+}
+
+// 组件公用样式
+.top-menu {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.05);
+  background-color: @primary-color !important;
+  height: 100px !important;
+  line-height: 100px !important;
+  padding: 0 !important;
+}
+
+.toolbar {
+  height: 80px;
+  line-height: 80px;
+  padding: 0 24px;
+  background-color: @white-color;
+  box-shadow: 0 8px 8px 0 rgba(147, 164, 255, 0.10);
+  font-size: 1rem;
+}
+
+.font-primary-color {
+  color: @primary-color;
+  font-size: 1.125rem;
+}
+
+.font-purple-color {
+  color: @font-purple-color;
+  font-size: 1.125rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.font-gray-color {
+  color: @font-gray-color;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.oddRow {
+  background-color: @white-color;
+}
+
+.evenRow {
+  background-color: #fcfcfc;
+}
+
+.list-item {
+  height: 6.25rem;
+  background-color: @white-color;
+  box-shadow: 0 8px 8px 0 rgba(147, 164, 255, 0.10);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.5s;
+  border: 1px solid transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: @font-gray-color;
+
+  div {
+    display: inline-block;
+  }
+  .serial-num {
+    flex: 1;
+    color: @font-block-color;
+    font-size: 1.125rem;
+    text-align: center;
+  }
+  .company-box {
+    flex: 4;
+    text-align: left;
+    padding-left: 10%;
+    .company-name {
+      color: @font-purple-color;
+      font-weight: bold;
+      font-size: 1.125rem;
+      margin-left: 15px;
+    }
+  }
+  .contact-box {
+    flex: 6;
+    text-align: center;
+    .contact-name {
+      font-size: 1.125rem;
+      width: 120px;
+    }
+    .contact-phone {
+      font-size: 1.125rem;
+      margin-left: 15px;
+    }
+  }
+  .sales-box {
+    flex: 8;
+    display: flex;
+    align-items: center;
+    font-size: 1.125rem;
+    & > div {
+      flex: 1;
+    }
+    .sales-price {
+      color: @primary-color;
+      margin-left: 12px;
+    }
+    .sales-num {
+      color: @primary-color;
+      margin-left: 12px;
+    }
+  }
+  .detail-box {
+    flex: 16;
+    display: flex;
+    align-items: center;
+    font-size: 1.125rem;
+    & > div {
+      flex: 1;
+      text-align: center;
+    }
+    .result-num {
+      color: @primary-color;
+      margin-left: 12px;
+    }
+    .plan-num {
+      color: @primary-color;
+      margin-left: 12px;
+    }
+    .site-type {
+      flex: 2;
+      .site-color {
+        margin-left: 12px;
+        color: @primary-color;
+      }
+    }
+    .address {
+      margin-left: 12px;
+    }
+    .operating {
+      margin-left: 12px;
+    }
+  }
+}
+
+.list-item:hover {
+  box-shadow: 0 8px 20px 0 rgba(147, 164, 255, 0.50);
+  border: 1px solid @primary-color;
+}

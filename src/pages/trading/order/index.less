@@ -1,0 +1,282 @@
+@import "../../../common/theme";
+
+.order-type {
+  display: inline-block;
+  font-size: 1.125rem;
+  color: @font-gray-color;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.order-type-active {
+  color: @primary-color;
+}
+
+.order-card-active {
+  box-shadow: 0 8px 20px 0 rgba(147, 164, 255, 0.50);
+  border-color: @primary-color;
+}
+
+.order-card {
+  cursor: pointer;
+
+  .order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid @gray-line;
+    height: 50px;
+    padding: 0 12px 0 20px;
+    color: @font-purple-color;
+    font-size: 1.125rem;
+    font-weight: bold;
+    & > div {
+      display: flex;
+    }
+  }
+
+  .order-card-body {
+    height: 175px;
+    padding: 18px 8px;
+    text-align: center;
+
+    .name {
+      color: @font-purple-color;
+      font-size: 0.875rem;
+    }
+
+    .detail {
+      color: @font-gray-color;
+      font-size: 0.75rem;
+    }
+
+    .img {
+      width: 36px;
+      height: 36px;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+
+    .gas {
+      color: @font-gray-color;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+
+    .take-time {
+      color: @font-gray-color;
+      font-size: 0.8125rem;
+    }
+
+    .primary-color {
+      color: @primary-color;
+    }
+
+    .solid-line-blue {
+      border-bottom: 3px solid @primary-color;
+      width: 230px;
+      position: absolute;
+      top: 75px;
+      right: -115px;
+    }
+
+    .solid-line-gray {
+      border-bottom: 3px solid @primary-color-gray;
+      width: 230px;
+      position: absolute;
+      top: 75px;
+      right: -115px;
+    }
+
+    .dashed-line-blue {
+      border-bottom: 3px dashed @primary-color;
+      width: 230px;
+      position: absolute;
+      top: 75px;
+      right: -115px;
+    }
+
+    .logistics-car {
+      background: url("../../../assets/image/order_car.png");
+      width: 50px;
+      height: 22px;
+      position: absolute;
+      top: 48px;
+      right: -25px;
+      background-size: cover;
+    }
+  }
+
+  .order-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid @gray-line;
+    height: 65px;
+    padding: 0 12px 0 20px;
+  }
+
+}
+
+.map-title {
+  height: 50px;
+  border-bottom: 1px solid @gray-line;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: @font-gray-color;
+  .distance {
+    color: @font-purple-color;
+    & > span {
+      color: @font-gray-color;
+    }
+  }
+}
+
+.map-detail-min {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  height: 40px;
+  background-color: @white-color;
+  display: flex;
+  align-items: center;
+  z-index: 99;
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.1);
+  & > div {
+    flex: 1;
+    & > img {
+      width: 25px;
+      height: 25px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    & > span {
+      font-size: 0.875rem;
+    }
+  }
+  .map-detail-box-bar {
+    position: absolute;
+    width: 160px;
+    height: 40px;
+    left: 50%;
+    top: 40px;
+    margin-left: -80px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: @primary-color;
+    background: url("../../../assets/image/tx_160_24.png") 1px -10px;
+    background-size: cover;
+    transition: all .3s ease;
+    z-index: 99;
+  }
+}
+
+.map-detail-box {
+  position: absolute;
+  top: 90px;
+  width: 100%;
+  height: 310px;
+  background-color: @white-color;
+  z-index: 99;
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  .map-detail-items {
+    padding: 0 10px;
+
+    .detail-item {
+      height: 62px;
+      border-top: 1px solid @gray-line;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & > div {
+        & > div {
+          line-height: 23px;
+        }
+      }
+
+      & > div:nth-child(1) {
+        padding-left: 26px;
+        flex: 5;
+      }
+
+      & > div:nth-child(2) {
+        flex: 7;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+
+        & > div:nth-child(1) {
+          flex: 4;
+        }
+        & > div:nth-child(2) {
+          flex: 5;
+        }
+      }
+    }
+
+    .detail-item-area {
+      height: 60px;
+      border-top: 1px solid @gray-line;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & > div {
+        & > div {
+          line-height: 23px;
+        }
+      }
+
+      & > div:nth-child(1) {
+        padding-left: 26px;
+        flex: 5;
+      }
+
+      & > div:nth-child(2) {
+        flex: 7;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+
+        & > div:nth-child(1) {
+          flex: 4;
+        }
+        & > div:nth-child(2) {
+          flex: 5;
+          display: flex;
+          flex-direction: row;
+          & > div:nth-child(1) {
+            flex: 4;
+          }
+          & > div:nth-child(2) {
+            flex: 5;
+
+          }
+        }
+      }
+    }
+  }
+}
+
+.blue-color {
+  color: @primary-color;
+  font-weight: 600;
+}
+
+.blue-background {
+  display: inline-block;
+  color: @white-color;
+  font-size: 12px;
+  padding: 0 10px;
+  border-radius: 4px;
+  height: 20px;
+  line-height: 20px;
+  background-color: @primary-color;
+}

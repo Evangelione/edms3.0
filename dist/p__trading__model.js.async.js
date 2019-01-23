@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[16],{"+MQ4":function(e,s,t){"use strict";t.r(s);var a=t("MVZn"),n=t.n(a);s["default"]={namespace:"trading",state:{},subscriptions:{setup(e){e.dispatch;var s=e.history;return s.listen(e=>{e.pathname,e.query})}},effects:{},reducers:{save(e,s){return n()({},e,{},s.payload)}}}}}]);

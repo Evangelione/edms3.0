@@ -1,0 +1,54 @@
+@import "../../common/theme";
+
+.login-container {
+  height: 100%;
+  overflow: hidden;
+  background: url('../../assets/image/1920_1080.jpg') no-repeat;
+  .login-box {
+    width: 715px;
+    height: 490px;
+    background: rgba(0, 0, 0, 0.50);
+    margin: 250px auto;
+    border-radius: 8px;
+    overflow: hidden;
+    .login-form {
+      max-width: 400px;
+      margin: 35px auto;
+    }
+    .company-logo {
+      display: block;
+      width: 240px;
+      height: 42px;
+      margin: 40px auto 65px;
+    }
+
+    .form-input {
+      height: 60px;
+      & > input {
+        padding-left: 50px;
+        font-size: 18px;
+      }
+    }
+
+    .form-button {
+      width: 100%;
+      height: 60px;
+      background-image: linear-gradient(-135deg, #7C82FF 0%, #8FCBFF 100%);
+      box-shadow: 0 8px 20px 0 rgba(145, 165, 245, 0.30);
+      border: none;
+      color: @white-color;
+      font-size: 20px !important;
+    }
+
+    .custom-msg {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      color: @primary-color-red;
+      font-size: 1rem;
+    }
+
+  }
+}
+
+

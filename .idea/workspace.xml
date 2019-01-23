@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c75e10f3-1b6e-4b8c-8abf-8858e848f1ff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.editorconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.eslintrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/edms-web3.0.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.prettierignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.prettierrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.umirc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mock/order.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/1920_1080.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/Bitmap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/Group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/Position_on_24_24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/Position_un_24_24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/WechatIMG18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/bangdan-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/banner.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/baogao_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/bottom.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/cancel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/car.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/car_32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/car_body.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/car_driver.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/car_head.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/car_head_36_36.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/car_icon_24_10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/card.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/cg_70_55.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/che.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/confirm.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/ct_70_55.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daichuli.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daichulichuche.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daichuliyundan.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daijiedan2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daijiesuan2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daiqueren2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daiquerenBlue.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daiquerenGray.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daishenhe.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daishouhuo2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/daoru_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/dingdanzhaungtai_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/end_22_22.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/end_point.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/exit_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/expand_18_18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/gas_blue.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/gas_gray.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/houtai_login_bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/houtai_login_bg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/ht2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/hzhb.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/index_bg_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/index_bg_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/index_bg_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/lch_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/leftbar_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/lng_goods.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/login_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/logo_xny.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/ls_hide.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/ls_nor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/ls_show.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/map_arror.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/my_hide.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/my_nor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/my_show.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/order_car.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/pack_up_18_18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/pay.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/point.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/qianduan_login_bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/qianduan_login_bg@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/scheduling.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/scheduling_now.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/settlement.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/shouye_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/site_blue.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/site_gray.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/sj_70_55.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/start_22_22.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/start_point.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/sy_hide.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/sy_nor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/sy_show.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/tanchuang_cuowu_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/tanchuang_tishi_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/tanchuang_zhengque_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/tx_160_24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/wl_hide.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/wl_nor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/wl_show.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/xjln.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/xjln1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/xy_hide.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/xy_nor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/xy_show.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/yay.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/yingkui.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/yundanzhuangtai_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/zhht_s.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/image/zhjs.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/yay.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/constants.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/request.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/tableColumns.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/theme.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/theme.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PromptModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/global.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/layouts/Content.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/layouts/Header.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/layouts/__tests__/index.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/layouts/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/layouts/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/global.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/__tests__/index.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/login/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/login/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/login/model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/$ClientDetail$.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/ReconciliationDetails.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/ClientInfo/ContactCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/ClientInfo/FinanceCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/ClientInfo/InfoCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/ClientInfo/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/Modals/HandleClientModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/Modals/HandleSiteModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/ReconciliationHistory/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/SalesReconciliation/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/components/SupplySite/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/client/service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/company/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/company/model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/company/service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/$LogisticsDetail$.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/ReconciliationDetails.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/components/FleetList/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/components/LogisticsHistory/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/components/LogisticsInfo/ContactCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/components/LogisticsInfo/FinanceCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/components/LogisticsInfo/InfoCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/components/LogisticsInfo/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/components/Modals/HandleLogisticsModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/components/ReconciliationHistory/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/logistics/service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/order/OrderList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/order/OrderMap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/order/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/order/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/order/model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/order/service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/partner/components/Modals/HandlePartnerModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/partner/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/partner/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/partner/model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/partner/service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/report.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/$SupplierDetail$.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/ReconciliationDetails.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/Modals/HandleGasSourceModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/Modals/HandleSupplierModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/PurchaseReconciliation/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/PurchasingGasSource/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/ReconciliationHistory/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/SupplierInfo/ContactCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/SupplierInfo/FinanceCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/SupplierInfo/InfoCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/SupplierInfo/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/index.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/model.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/trading/supplier/service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/global.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/images.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tslint.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/login/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="31" column="47" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/services/global.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/login/index.less">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/images.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="34" column="19" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/global.less">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.umirc.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="6" lean-forward="true" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/.umirc.js" />
+        <option value="$PROJECT_DIR$/src/pages/login/index.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="72" />
+    <option name="y" value="23" />
+    <option name="width" value="1848" />
+    <option name="height" value="1057" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="edms-web3.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="edms-web3.0" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="edms-web3.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="edms-web3.0" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="edms-web3.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="edms-web3.0" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="edms-web3.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="edms-web3.0" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="login" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="editor.config.ad.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="$PROJECT_DIR$/node_modules/eslint" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/pages" />
+      <recent name="$PROJECT_DIR$/mock" />
+      <recent name="$PROJECT_DIR$/src/models" />
+      <recent name="$PROJECT_DIR$/src/layouts" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c75e10f3-1b6e-4b8c-8abf-8858e848f1ff" name="Default Changelist" comment="" />
+      <created>1548235663342</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1548235663342</updated>
+      <workItem from="1548235664603" duration="819000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="819000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="72" y="23" width="1848" height="1057" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24958949" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32953367" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/pages/__tests__/index.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/theme.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/PromptModal.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/layouts/Content.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mock/order.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/global.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/global.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.umirc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/images.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="34" column="19" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/login/index.less">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/login/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="31" column="47" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="6" lean-forward="true" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

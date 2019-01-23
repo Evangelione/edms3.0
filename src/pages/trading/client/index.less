@@ -1,0 +1,40 @@
+@import "../../../common/theme";
+
+.status-box {
+  background-color: @white-color;
+  border-radius: 8px;
+  padding: 20px 20px;
+  margin: 0 24px;
+  font-size: 1rem;
+  .status-title {
+    color: @primary-color;
+    padding-bottom: 12px;
+    border-bottom: 1px solid @primary-color-gray;
+    & > div {
+      display: inline-block;
+      margin-left: 12px;
+    }
+  }
+  .level1 {
+    margin-top: 16px;
+    & > div {
+      display: inline-block;
+    }
+    & > div:nth-child(2) {
+      margin-left: 12px;
+      color: @font-purple-color;
+      font-weight: bold;
+    }
+  }
+  .level2 {
+    margin-top: 8px;
+    & > div {
+      display: inline-block;
+    }
+    & > div:nth-child(2) {
+      margin-left: 12px;
+      color: @font-purple-color;
+      font-weight: bold;
+    }
+  }
+}
