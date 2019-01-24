@@ -30,6 +30,7 @@
     color: @font-purple-color;
     font-size: 1.125rem;
     font-weight: bold;
+
     & > div {
       display: flex;
     }
@@ -127,8 +128,10 @@
   align-items: center;
   font-size: 1rem;
   color: @font-gray-color;
+
   .distance {
     color: @font-purple-color;
+
     & > span {
       color: @font-gray-color;
     }
@@ -145,18 +148,22 @@
   align-items: center;
   z-index: 99;
   box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.1);
+
   & > div {
     flex: 1;
+
     & > img {
       width: 25px;
       height: 25px;
       margin-left: 10px;
       margin-right: 10px;
     }
+
     & > span {
       font-size: 0.875rem;
     }
   }
+
   .map-detail-box-bar {
     position: absolute;
     width: 160px;
@@ -215,6 +222,7 @@
         & > div:nth-child(1) {
           flex: 4;
         }
+
         & > div:nth-child(2) {
           flex: 5;
         }
@@ -248,13 +256,16 @@
         & > div:nth-child(1) {
           flex: 4;
         }
+
         & > div:nth-child(2) {
           flex: 5;
           display: flex;
           flex-direction: row;
+
           & > div:nth-child(1) {
             flex: 4;
           }
+
           & > div:nth-child(2) {
             flex: 5;
 
@@ -279,4 +290,84 @@
   height: 20px;
   line-height: 20px;
   background-color: @primary-color;
+}
+
+
+// createPlan 订单样式
+.site-select-info {
+  & > div:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > div {
+      & > div {
+        margin-bottom: 8px;
+      }
+    }
+
+    & > div:nth-child(1) {
+      font-size: 16px;
+    }
+
+    .site-name {
+      font-weight: bold;
+      color: @font-purple-color;
+    }
+
+    .red-font {
+      color: @font-red-color;
+      padding-left: 5px;
+    }
+
+    .blue-font {
+      color: @primary-color;
+      font-size: 14px;
+      font-weight: 400;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  }
+
+  & > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 28px;
+    color: @font-purple-color;
+    font-size: 16px;
+
+    & > div:nth-child(1) {
+      margin-right: 10px;
+      height: 26px;
+      line-height: 26px;
+    }
+  }
+}
+
+.create-plan-modal-footer {
+  height: 74px;
+  line-height: 74px;
+
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 12px;
+    border-top: 1px solid @primary-color;
+
+    & > div {
+      color: @font-purple-color;
+      font-size: 1rem;
+
+      .red-font {
+        color: @primary-color-red;
+        padding-left: 10px;
+      }
+    }
+
+    & > div:nth-child(1) {
+      display: flex;
+    }
+  }
 }

@@ -99,12 +99,12 @@ class OrderMap extends Component {
         </div>
       </div>
       <div className={styles['detail-item']}>
-        <div style={{paddingLeft: 12}}>
+        <div>
           <div className={styles['blue-color']}>物流：{orderMapDetail.logistics.name}</div>
           <div
             style={{paddingLeft: 55}}>{orderMapDetail.logistics.contact}&nbsp;&nbsp;&nbsp;&nbsp;{orderMapDetail.logistics.contact_phone}</div>
         </div>
-        <div style={{paddingLeft: 12}}>
+        <div>
           <div>
             <div>运输距离&nbsp;&nbsp;&nbsp;{orderMapDetail.logistics.distance}公里</div>
             <div>付款方式&nbsp;&nbsp;&nbsp;{orderMapDetail.logistics.type}</div>

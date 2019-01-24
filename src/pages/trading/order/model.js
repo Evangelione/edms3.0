@@ -112,18 +112,22 @@ export default {
         type: '预付款',
       },
     },
+    siteSelectInfoByCreatePlan: {},
+    clientSelectInfoBySalesBilling: {},
+    siteSelectInfoBySalesBilling: {},
+    siteInfoByLogisticsScheduling: {},
   },
 
   subscriptions: {
-    setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
       })
     },
   },
 
   effects: {
-    * fetchOrderList({payload: {page = 1}}, {call, put}) {
-      const data = yield call(orderService.fetchOrderList, {page})
+    * fetchOrderList({ payload: { page = 1 } }, { call, put }) {
+      const data = yield call(orderService.fetchOrderList, { page })
       // parseInt(data.code, 10) === 1 ?
       //   yield put({
       //     type: 'save',
@@ -142,8 +146,8 @@ export default {
         },
       })
     },
-    * upLoadExcel({payload: {file}}, {call}) {
-      const {data} = yield call(orderService.upLoadExcel, file)
+    * upLoadExcel({ payload: { file } }, { call }) {
+      const { data } = yield call(orderService.upLoadExcel, file)
       try {
         parseInt(data.code, 10) === 1 ?
           message.success(`导入成功 ${data.num.success_num} 条`)
@@ -153,11 +157,49 @@ export default {
         message.error(e)
       }
     },
+    * inquireSiteSelectInfoByCreatePlan({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireSiteSelectInfoByCreatePlan, file)
+      yield put({
+        type: 'save',
+        payload: {
+          siteSelectInfoByCreatePlan: data,
+        },
+      })
+    },
+    * inquireClientSelectInfoBySalesBilling({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireClientSelectInfoBySalesBilling, file)
+      yield put({
+        type: 'save',
+        payload: {
+          clientSelectInfoBySalesBilling: data,
+        },
+      })
+    },
+    * inquireSiteSelectInfoBySalesBilling({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireSiteSelectInfoBySalesBilling, file)
+      yield put({
+        type: 'save',
+        payload: {
+          siteSelectInfoBySalesBilling: data,
+        },
+      })
+    },
+
+    * inquireSiteInfoByLogisticsScheduling({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireSiteInfoByLogisticsScheduling, file)
+      yield put({
+        type: 'save',
+        payload: {
+          siteInfoByLogisticsScheduling: data,
+        },
+      })
+    },
+
   },
 
   reducers: {
     save(state, action) {
-      return {...state, ...action.payload}
+      return { ...state, ...action.payload }
     },
   },
 }

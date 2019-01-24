@@ -17,12 +17,21 @@ class Index extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.dispatch({
+      type: 'global/checkLogin',
+      payload: {}
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log(values)
+        values.platform_id = 'sh'
         this.props.dispatch({
-          type: 'login/login',
+          type: 'global/login',
           payload: {
             form: values,
           },
@@ -56,7 +65,7 @@ class Index extends Component {
                    style={showAccountMsg ? { display: 'block' } : { display: 'none' }}>{account_err_msg}</div>
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('password', {
+              {getFieldDecorator('pwd', {
                 rules: [{ required: true }],
               })(
                 <Input prefix={<Icon type="lock" style={{ color: '#898F97', fontSize: 23, marginLeft: 6 }} />}

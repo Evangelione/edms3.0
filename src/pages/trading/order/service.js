@@ -1,8 +1,9 @@
 import request from '@/common/request'
+
 // import { IP, PAGE_LIMIT } from '@/common/constants'
 
 
-export function fetchOrderList({page}) {
+export function fetchOrderList({ page }) {
   return fetch('/api/order-list').then(response => response.json()).then(data => {
     return data
   })
@@ -21,5 +22,29 @@ export function upLoadExcel(file) {
   return request(file.action, {
     method: 'POST',
     body: formData,
+  })
+}
+
+export function inquireSiteSelectInfoByCreatePlan() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireClientSelectInfoBySalesBilling() {
+  return fetch('/api/client-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireSiteSelectInfoBySalesBilling() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireSiteInfoByLogisticsScheduling() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
   })
 }

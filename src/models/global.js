@@ -1,4 +1,5 @@
 import * as globalServices from '../services/global'
+import router from 'umi/router'
 import { message } from 'antd'
 
 export default {
@@ -10,8 +11,8 @@ export default {
   },
 
   subscriptions: {
-    setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
         let arr = pathname.split('/')
         dispatch({
           type: 'save',
@@ -25,8 +26,8 @@ export default {
   },
 
   effects: {
-    * inquireCascadeOptions({payload: {module, district_name = '', targetOption}}, {call, put, select}) {
-      const {data} = yield call(globalServices.inquireCascadeOptions, {module, district_name})
+    * inquireCascadeOptions({ payload: { module, district_name = '', targetOption } }, { call, put, select }) {
+      const { data } = yield call(globalServices.inquireCascadeOptions, { module, district_name })
       if (parseInt(data.code) === 1) {
         if (!targetOption) {
           // 根节点数据
@@ -50,8 +51,8 @@ export default {
         }
       }
     },
-    * inquireCascadeOptionsAll({payload: {module, province, city}}, {call, put}) {
-      const {data} = yield call(globalServices.inquireCascadeOptionsAll, {module, province, city})
+    * inquireCascadeOptionsAll({ payload: { module, province, city } }, { call, put }) {
+      const { data } = yield call(globalServices.inquireCascadeOptionsAll, { module, province, city })
       parseInt(data.code, 10) === 1 ?
         yield put({
           type: 'save',
@@ -63,11 +64,42 @@ export default {
         message.error(data.msg)
 
     },
+    * login({ payload: { form } }, { call }) {
+      const { data } = yield call(globalServices.login, form)
+      if (parseInt(data.code, 10) === 1) {
+        message.success(data.msg)
+        localStorage.setItem('userData', JSON.stringify(data.user))
+        router.push({
+          pathname: '/trading/order',
+        })
+      } else {
+        message.error(data.msg)
+      }
+
+    },
+    * logout({ payload }, { call, put }) {
+      const { data } = yield call(globalServices.logout)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * checkLogin({ payload }, { call, put }) {
+      const { data } = yield call(globalServices.checkLogin)
+      if (parseInt(data.code, 10) === 1) {
+        message.success(data.msg)
+        router.push({
+          pathname: '/trading/order',
+        })
+      } else {
+        message.error(data.msg)
+      }
+    },
   },
 
   reducers: {
     save(state, action) {
-      return {...state, ...action.payload}
+      return { ...state, ...action.payload }
     },
   },
 }

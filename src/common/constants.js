@@ -1,4 +1,5 @@
 import { Icon } from 'antd'
+import React from 'react'
 
 // 全局接口
 export const IP = '/zaq'
@@ -41,9 +42,27 @@ export const LOGO = {
 
 // 阿里图库
 export const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1010333_m7pendvkim.js',
+  scriptUrl: '//at.alicdn.com/t/font_1010333_4rbbh8828dd.js',
 })
 
+export const SiteImg = <img src={require('@/assets/image/site_order_48_37.png')}
+                            style={{ width: 48, height: 37, marginLeft: 10 }}
+                            alt="" />
+export const ClientImg = <img src={require('@/assets/image/client__order_48_37.png')}
+                              style={{ width: 48, height: 37, marginLeft: 10 }}
+                              alt="" />
+export const GasImg = <img src={require('@/assets/image/gas_order_48_37.png')}
+                           style={{ width: 48, height: 37, marginLeft: 10 }}
+                           alt="" />
+export const LogisticsImg = <img src={require('@/assets/image/Logistics_order_48_37.png')}
+                                 style={{ width: 48, height: 37, marginLeft: 10 }}
+                                 alt="" />
+export const SuppImg = <img src={require('@/assets/image/supplier_order_48_37.png')}
+                            style={{ width: 48, height: 37, marginLeft: 10 }}
+                            alt="" />
+export const TransportImg = <img src={require('@/assets/image/transport_order_48_37.png')}
+                                 style={{ width: 48, height: 37, marginLeft: 10 }}
+                                 alt="" />
 // export const getIcon = icon => {
 //   if (typeof icon === 'string' && icon.indexOf('http') === 0) {
 //     return <img src={icon} alt="icon" className={`${styles.icon} sider-menu-item-img`}/>

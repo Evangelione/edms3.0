@@ -138,6 +138,12 @@ html, body, #root {
   }
 }
 
+.btn-select {
+  background-color: @btn-select !important;
+  color: @primary-color !important;
+  border-color: transparent !important;
+}
+
 // popover自定义样式
 .ant-popover-buttons button {
   height: 35px;
@@ -152,6 +158,11 @@ html, body, #root {
 .ant-input {
   font-size: 1rem !important;
   height: 2.5rem !important;
+}
+
+.ant-input-group-addon {
+  background-color: @addon-background !important;
+  font-size: 1rem !important;
 }
 
 // tabs自定义样式
@@ -287,6 +298,18 @@ html, body, #root {
   font-size: 14px !important;
 }
 
+.ant-form-item-label label:after {
+  content: ' ' !important;
+}
+
+.ant-form-item-control {
+  padding-left: 8px;
+}
+
+.ant-form-item-label label {
+  color: @font-purple-color !important;
+}
+
 // 弹窗自定义样式
 .ant-popover-title {
   height: 55px;
@@ -365,16 +388,19 @@ html, body, #root {
   div {
     display: inline-block;
   }
+
   .serial-num {
     flex: 1;
     color: @font-block-color;
     font-size: 1.125rem;
     text-align: center;
   }
+
   .company-box {
     flex: 4;
     text-align: left;
     padding-left: 10%;
+
     .company-name {
       color: @font-purple-color;
       font-weight: bold;
@@ -382,62 +408,77 @@ html, body, #root {
       margin-left: 15px;
     }
   }
+
   .contact-box {
     flex: 6;
     text-align: center;
+
     .contact-name {
       font-size: 1.125rem;
       width: 120px;
     }
+
     .contact-phone {
       font-size: 1.125rem;
       margin-left: 15px;
     }
   }
+
   .sales-box {
     flex: 8;
     display: flex;
     align-items: center;
     font-size: 1.125rem;
+
     & > div {
       flex: 1;
     }
+
     .sales-price {
       color: @primary-color;
       margin-left: 12px;
     }
+
     .sales-num {
       color: @primary-color;
       margin-left: 12px;
     }
   }
+
   .detail-box {
     flex: 16;
     display: flex;
     align-items: center;
     font-size: 1.125rem;
+
     & > div {
       flex: 1;
       text-align: center;
     }
+
     .result-num {
       color: @primary-color;
       margin-left: 12px;
     }
+
     .plan-num {
       color: @primary-color;
       margin-left: 12px;
     }
+
     .site-type {
       flex: 2;
+
       .site-color {
         margin-left: 12px;
         color: @primary-color;
       }
     }
+
     .address {
       margin-left: 12px;
     }
+
     .operating {
       margin-left: 12px;
     }
@@ -447,4 +488,15 @@ html, body, #root {
 .list-item:hover {
   box-shadow: 0 8px 20px 0 rgba(147, 164, 255, 0.50);
   border: 1px solid @primary-color;
+}
+
+.time-icon {
+  width: 15px !important;
+  height: 18px !important;
+  color: @font-gray-color !important;
+}
+
+.modal-line {
+  background-color: @primary-color;
+  height: 1px;
 }

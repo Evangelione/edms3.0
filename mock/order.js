@@ -14,7 +14,7 @@ export default {
       actual_buy_num: '20.000',
       take_time: '19-12-02 16:12',
     },
-    buyer: [ {
+    buyer: [{
       name: '奥德燃气',
       sell_num: '10.000',
       sell_price: '142345.00',
@@ -22,7 +22,7 @@ export default {
       actual_sell_num: '3.000',
       take_time: '19-12-02 6:12',
     }],
-  },{
+  }, {
     id: 2,
     order_status: '2',
     order_make_time: '19-09-04 14:00:22',
@@ -52,4 +52,23 @@ export default {
       take_time: '19-12-02 16:12',
     }],
   }],
+  'GET /api/site-select': {
+    site_name: '昆仑燃气有限公司山东分公司',
+    contact: '张三丰',
+    contact_phone: '13829292929',
+    balance: '32,300.00',
+    credit: '32,300.00',
+    site_type: '加气站',
+    province: '湖北省',
+    city: '黄冈市',
+    area: '黄州市',
+    address: '207省道（单家堑村支部委员会附近）',
+  },
+  'GET /api/client-select': {
+    site_name: '昆仑燃气有限公司山东分公司',
+    contact: '张三丰',
+    contact_phone: '13829292929',
+    balance: '32,300.00',
+    credit: '32,300.00',
+  },
 }

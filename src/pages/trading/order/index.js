@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import { order_type } from '@/common/constants'
 import OrderList from './OrderList'
 import OrderMap from './OrderMap'
-import CreatePlan from './components/Modals/CreatePlan'
+import JudgeModal from './components/JudgeModal'
 import { IP } from '@/common/constants'
 import styles from './index.less'
 
@@ -49,12 +49,10 @@ class Index extends Component {
     return (
       <div>
         <div className='toolbar'>
-          <CreatePlan>
-            <Button type='primary' style={{ marginRight: 10 }}>新增订单</Button>
-          </CreatePlan>
+          <JudgeModal />
           <Popover placement="bottomLeft" title={popTitle} content={popContent}
                    trigger="click">
-            <Button type='primary'>导入信息</Button>
+            <Button type='primary' style={{ marginLeft: 10 }}>导入信息</Button>
           </Popover>
         </div>
         <div style={{ padding: 24 }}>
