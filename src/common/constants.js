@@ -46,22 +46,22 @@ export const IconFont = Icon.createFromIconfontCN({
 })
 
 export const SiteImg = <img src={require('@/assets/image/site_order_48_37.png')}
-                            style={{ width: 48, height: 37, marginLeft: 10 }}
+                            style={{ width: 48, height: 37, marginLeft: 10, marginTop: 4 }}
                             alt="" />
 export const ClientImg = <img src={require('@/assets/image/client__order_48_37.png')}
-                              style={{ width: 48, height: 37, marginLeft: 10 }}
+                              style={{ width: 48, height: 37, marginLeft: 10, marginTop: 4 }}
                               alt="" />
 export const GasImg = <img src={require('@/assets/image/gas_order_48_37.png')}
-                           style={{ width: 48, height: 37, marginLeft: 10 }}
+                           style={{ width: 48, height: 37, marginLeft: 10, marginTop: 4 }}
                            alt="" />
 export const LogisticsImg = <img src={require('@/assets/image/Logistics_order_48_37.png')}
-                                 style={{ width: 48, height: 37, marginLeft: 10 }}
+                                 style={{ width: 48, height: 37, marginLeft: 10, marginTop: 4 }}
                                  alt="" />
 export const SuppImg = <img src={require('@/assets/image/supplier_order_48_37.png')}
-                            style={{ width: 48, height: 37, marginLeft: 10 }}
+                            style={{ width: 48, height: 37, marginLeft: 10, marginTop: 4 }}
                             alt="" />
 export const TransportImg = <img src={require('@/assets/image/transport_order_48_37.png')}
-                                 style={{ width: 48, height: 37, marginLeft: 10 }}
+                                 style={{ width: 48, height: 37, marginLeft: 10, marginTop: 4 }}
                                  alt="" />
 // export const getIcon = icon => {
 //   if (typeof icon === 'string' && icon.indexOf('http') === 0) {

@@ -3,10 +3,12 @@ import { Button } from 'antd'
 import CreatePlan from './Modals/CreatePlan'
 import SalesBilling from './Modals/SalesBilling'
 import LogisticsScheduling from './Modals/LogisticsScheduling'
+import OrderPurchase from './Modals/OrderPurchase'
+import OrderConfirm from './Modals/OrderConfirm'
 
 class JudgeModal extends Component {
   state = {
-    modal: 'SalesBilling',
+    modal: 'OrderConfirm',
   }
 
   render() {
@@ -20,8 +22,15 @@ class JudgeModal extends Component {
               <Button type='primary'>新增订单</Button>
             </SalesBilling> :
             modal === 'LogisticsScheduling' ? <LogisticsScheduling>
-              <Button type='primary'>新增订单</Button>
-            </LogisticsScheduling> : null}
+                <Button type='primary'>新增订单</Button>
+              </LogisticsScheduling> :
+              modal === 'OrderPurchase' ? <OrderPurchase>
+                  <Button type='primary'>新增订单</Button>
+                </OrderPurchase> :
+                modal === 'OrderConfirm' ? <OrderConfirm>
+                    <Button type='primary'>新增订单</Button>
+                  </OrderConfirm> :
+                  null}
       </div>
     )
   }

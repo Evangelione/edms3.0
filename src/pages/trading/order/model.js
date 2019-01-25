@@ -116,6 +116,13 @@ export default {
     clientSelectInfoBySalesBilling: {},
     siteSelectInfoBySalesBilling: {},
     siteInfoByLogisticsScheduling: {},
+    logisticsInfoByLogisticsScheduling: {},
+    siteInfoByOrderPurchase: {},
+    supplierSelectInfoByOrderPurchase: {},
+    gasSelectInfoByOrderPurchase: {},
+    orderInfoByOrderConfirm: {},
+    siteSelectInfoByOrderConfirm: {},
+    gasSelectInfoByOrderConfirm: {}
   },
 
   subscriptions: {
@@ -194,6 +201,71 @@ export default {
         },
       })
     },
+
+    * inquireLogisticsInfoByLogisticsScheduling({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireLogisticsInfoByLogisticsScheduling, file)
+      yield put({
+        type: 'save',
+        payload: {
+          logisticsInfoByLogisticsScheduling: data,
+        },
+      })
+    },
+    * inquireSiteInfoByOrderPurchase({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireSiteInfoByOrderPurchase, file)
+      yield put({
+        type: 'save',
+        payload: {
+          siteInfoByOrderPurchase: data,
+        },
+      })
+    },
+    * inquireSupplierSelectInfoByOrderPurchase({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireSupplierSelectInfoByOrderPurchase, file)
+      yield put({
+        type: 'save',
+        payload: {
+          supplierSelectInfoByOrderPurchase: data,
+        },
+      })
+    },
+    * inquireGasSelectInfoByOrderPurchase({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireGasSelectInfoByOrderPurchase, file)
+      yield put({
+        type: 'save',
+        payload: {
+          gasSelectInfoByOrderPurchase: data,
+        },
+      })
+    },
+    * inquireOrderInfoByOrderConfirm({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireOrderInfoByOrderConfirm, file)
+      yield put({
+        type: 'save',
+        payload: {
+          orderInfoByOrderConfirm: data,
+        },
+      })
+    },
+    * inquireSiteSelectInfoByOrderConfirm({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireSiteSelectInfoByOrderConfirm, file)
+      yield put({
+        type: 'save',
+        payload: {
+          siteSelectInfoByOrderConfirm: data,
+        },
+      })
+    },
+    * inquireGasSelectInfoByOrderConfirm({ payload: { file } }, { call, put }) {
+      const data = yield call(orderService.inquireGasSelectInfoByOrderConfirm, file)
+      yield put({
+        type: 'save',
+        payload: {
+          gasSelectInfoByOrderConfirm: data,
+        },
+      })
+    },
+
 
   },
 

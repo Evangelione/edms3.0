@@ -186,8 +186,6 @@ class SalesBilling extends Component {
               </Col>
             </Row>
             <div className='modal-line' style={{ width: 828, marginLeft: '-12px', marginBottom: 24 }} />
-
-
             {visibleSiteInfo ? <Row>
               <Col span={3}>
                 <div style={{ paddingLeft: 31 }}>
@@ -232,7 +230,7 @@ class SalesBilling extends Component {
                   )}
                 </Form.Item>
               </Col>
-              <Col span={10} style={{ width: '43.4%' }}>
+              <Col span={10} style={{ width: '46.2%' }}>
                 <Form.Item label='交货时间' {...itemLayout} style={{ marginLeft: 10 }}>
                   {getFieldDecorator('bal51ance1', {
                     rules: [{ required: true }],

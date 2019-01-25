@@ -48,3 +48,45 @@ export function inquireSiteInfoByLogisticsScheduling() {
     return data
   })
 }
+
+export function inquireLogisticsInfoByLogisticsScheduling() {
+  return fetch('/api/client-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireSiteInfoByOrderPurchase() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireSupplierSelectInfoByOrderPurchase() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireGasSelectInfoByOrderPurchase() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireOrderInfoByOrderConfirm() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireSiteSelectInfoByOrderConfirm() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
+
+export function inquireGasSelectInfoByOrderConfirm() {
+  return fetch('/api/site-select').then(response => response.json()).then(data => {
+    return data
+  })
+}
