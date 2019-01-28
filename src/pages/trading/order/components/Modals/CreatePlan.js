@@ -77,7 +77,7 @@ class CreatePlan extends Component {
       },
     }
     return (
-      <div onClick={this.showModal}>
+      <div onClick={this.showModal} style={{display: 'inline-block'}}>
         {children}
         <Modal
           title="创建订单"
@@ -85,6 +85,7 @@ class CreatePlan extends Component {
           onCancel={this.hideModal}
           footer={null}
           width={840}
+          maskClosable={false}
           bodyStyle={{ padding: 0 }}
         >
           <Form style={{ padding: '24px 24px 10px' }}>
@@ -167,7 +168,7 @@ class CreatePlan extends Component {
               <div style={{ marginLeft: 30 }}>采购总量 <span className={styles['red-font']}>20.000 吨</span></div>
               <div style={{ marginRight: 20 }}>
                 <Button type='primary' style={{ marginRight: 10 }} loading={loading}>确认创建</Button>
-                <Button className='red-btn'>取消</Button>
+                <Button className='red-btn' onClick={this.hideModal}>取消</Button>
               </div>
             </div>
           </div>

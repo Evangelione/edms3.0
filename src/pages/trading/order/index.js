@@ -4,9 +4,9 @@ import { connect } from 'dva'
 import { order_type } from '@/common/constants'
 import OrderList from './OrderList'
 import OrderMap from './OrderMap'
-import JudgeModal from './components/JudgeModal'
 import { IP } from '@/common/constants'
 import styles from './index.less'
+import CreatePlan from './components/Modals/CreatePlan'
 
 @connect(({ loading }) => ({
   loading: loading.models.order,
@@ -49,7 +49,9 @@ class Index extends Component {
     return (
       <div>
         <div className='toolbar'>
-          <JudgeModal />
+          <CreatePlan>
+            <Button type='primary'>新增订单</Button>
+          </CreatePlan>
           <Popover placement="bottomLeft" title={popTitle} content={popContent}
                    trigger="click">
             <Button type='primary' style={{ marginLeft: 10 }}>导入信息</Button>

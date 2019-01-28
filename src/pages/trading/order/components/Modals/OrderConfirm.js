@@ -99,7 +99,7 @@ class OrderConfirm extends Component {
       },
     }
     return (
-      <div onClick={this.showModal}>
+      <div onClick={this.showModal} style={{display: 'inline-block'}}>
         {children}
         <Modal
           title="确认订单"
@@ -267,7 +267,6 @@ class OrderConfirm extends Component {
                         )}
                       </Form.Item>
                     </Col>
-
                   </Row>
                 </> :
                 <Form.Item label={SiteImg} {...outLayout}>
@@ -292,7 +291,7 @@ class OrderConfirm extends Component {
               <div style={{ marginRight: 20 }}>
                 <Button type='primary' style={{ marginRight: 10 }} loading={loading}>确认接单</Button>
                 <Button type='primary' style={{ marginRight: 10 }} loading={loading}>下次再说</Button>
-                <Button className='red-btn'>取消</Button>
+                <Button className='red-btn' onClick={this.hideModal}>取消</Button>
               </div>
             </div>
           </div>

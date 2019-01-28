@@ -98,7 +98,7 @@ class OrderPurchase extends Component {
       },
     }
     return (
-      <div onClick={this.showModal}>
+      <div onClick={this.showModal} style={{display: 'inline-block'}}>
         {children}
         <Modal
           title="采购下单"
@@ -336,7 +336,7 @@ class OrderPurchase extends Component {
               </div>
               <div style={{ marginRight: 20 }}>
                 <Button type='primary' style={{ marginRight: 10 }} loading={loading}>确认调度</Button>
-                <Button className='red-btn'>取消</Button>
+                <Button className='red-btn' onClick={this.hideModal}>取消</Button>
               </div>
             </div>
           </div>

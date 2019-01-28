@@ -8,7 +8,7 @@ import OrderConfirm from './Modals/OrderConfirm'
 
 class JudgeModal extends Component {
   state = {
-    modal: 'OrderConfirm',
+    modal: 'SalesBilling',
   }
 
   render() {
