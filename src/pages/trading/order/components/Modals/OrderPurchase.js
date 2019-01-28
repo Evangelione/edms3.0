@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Row, Col, Button, Input, Select, Form } from 'antd'
+import { Modal, Row, Col, Button, Input, Select, Form,InputNumber } from 'antd'
 import { connect } from 'dva'
 import { SuppImg, SiteImg } from '@/common/constants'
 import styles from '../../index.less'
@@ -199,8 +199,9 @@ class OrderPurchase extends Component {
                     {getFieldDecorator('1balance3', {
                       rules: [{ required: true }],
                     })(
-                      <Input addonAfter='元/吨' placeholder='请输入价格' />,
+                      <InputNumber placeholder="请输入价格" min={0} precision={2} style={{ width: '100%' }} />,
                     )}
+                    <div className='addonAfter'>元/吨</div>
                   </Form.Item>
                 </Col>
                 <Col span={10} style={{ width: '46.2%' }}>
@@ -232,8 +233,9 @@ class OrderPurchase extends Component {
                 <Col span={10} style={{ width: '46.2%' }}>
                   <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
                     {getFieldDecorator('22balance1')(
-                      <Input addonAfter='元' placeholder='请输入费用' />,
+                      <InputNumber placeholder="请输入价格" min={0} precision={2} style={{ width: '100%' }} />,
                     )}
+                    <div className='addonAfter'>元</div>
                   </Form.Item>
                 </Col>
               </Row>
@@ -287,8 +289,9 @@ class OrderPurchase extends Component {
                     {getFieldDecorator('1balance3', {
                       rules: [{ required: true }],
                     })(
-                      <Input addonAfter='元/吨' placeholder='请输入价格' />,
+                      <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
                     )}
+                    <div className='addonAfter'>元/吨</div>
                   </Form.Item>
                 </Col>
                 <Col span={10} style={{ width: '46.2%' }}>
@@ -320,8 +323,9 @@ class OrderPurchase extends Component {
                 <Col span={10} style={{ width: '46.2%' }}>
                   <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
                     {getFieldDecorator('22balance1')(
-                      <Input addonAfter='元' placeholder='请输入费用' />,
+                      <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
                     )}
+                    <div className='addonAfter'>元/吨</div>
                   </Form.Item>
                 </Col>
               </Row>

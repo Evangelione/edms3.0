@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, Modal, Row, Select, Form, Input, Button, DatePicker, AutoComplete } from 'antd'
+import { Col, Modal, Row, Select, Form, Input, Button, DatePicker, AutoComplete, InputNumber } from 'antd'
 import { connect } from 'dva'
 import { IconFont, SiteImg } from '@/common/constants'
 import styles from '@/pages/trading/order/index.less'
@@ -131,7 +131,8 @@ class LogisticsScheduling extends Component {
                 </Col>
                 <Col span={15} style={{ marginLeft: 17 }}>
                   <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
-                              style={{ width: '100%' }} disabled value={siteInfoByLogisticsScheduling.plan_time} placeholder='暂无卸货时间'/>
+                              style={{ width: '100%' }} disabled value={siteInfoByLogisticsScheduling.plan_time}
+                              placeholder='暂无卸货时间' />
                 </Col>
               </Col>
             </Row>
@@ -206,8 +207,9 @@ class LogisticsScheduling extends Component {
                       {getFieldDecorator('balance14', {
                         rules: [{ required: true }],
                       })(
-                        <Input addonAfter='元/吨' placeholder='请输入金额' />,
+                        <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
                       )}
+                      <div className='addonAfter'>元/吨</div>
                     </Form.Item>
                   </Col>
                 </Row>
@@ -217,8 +219,9 @@ class LogisticsScheduling extends Component {
                       {getFieldDecorator('balanc2e32', {
                         rules: [{ required: true }],
                       })(
-                        <Input addonAfter='元' placeholder='请输入金额' />,
+                        <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
                       )}
+                      <div className='addonAfter'>元</div>
                     </Form.Item>
                   </Col>
                   <Col span={10} style={{ width: '46.2%' }}>

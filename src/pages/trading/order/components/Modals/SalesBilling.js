@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Form, Select, Button, Row, Col, Input, DatePicker } from 'antd'
+import { Modal, Form, Select, Button, Row, Col, DatePicker, InputNumber } from 'antd'
 import { connect } from 'dva'
 import { ClientImg, SiteImg, IconFont } from '@/common/constants'
 import styles from '@/pages/trading/order/index.less'
@@ -173,15 +173,17 @@ class SalesBilling extends Component {
                   {getFieldDecorator('balance2', {
                     rules: [{ required: true }],
                   })(
-                    <Input addonAfter='元/吨' placeholder='请输入金额' />,
+                    <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
                   )}
+                  <div className='addonAfter'>元/吨</div>
                 </Form.Item>
               </Col>
               <Col span={10} style={{ width: '43.4%' }}>
                 <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
                   {getFieldDecorator('balance15')(
-                    <Input addonAfter='元' placeholder='请输入金额' />,
+                    <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
                   )}
+                  <div className='addonAfter'>元</div>
                 </Form.Item>
               </Col>
             </Row>
@@ -226,8 +228,9 @@ class SalesBilling extends Component {
                   {getFieldDecorator('ba123lance3', {
                     initialValue: 1,
                   })(
-                    <Input addonAfter='吨' placeholder='请输入计划数量' />,
+                    <InputNumber placeholder="请输入计划数量" min={0} precision={3} style={{ width: '100%' }} />,
                   )}
+                  <div className='addonAfter'>吨</div>
                 </Form.Item>
               </Col>
               <Col span={10} style={{ width: '46.2%' }}>

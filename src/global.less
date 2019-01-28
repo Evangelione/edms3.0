@@ -170,6 +170,17 @@ html, body, #root {
   border: 1px solid @addon-border !important;
 }
 
+// inputNumber自定义样式
+.ant-input-number {
+  font-size: 1rem !important;
+  height: 2.5rem !important;
+  line-height: 2.5rem !important;
+}
+
+.ant-input-number-handler-wrap {
+  display: none;
+}
+
 // tabs自定义样式
 .ant-tabs-bar {
   border-bottom: 0 !important;
@@ -504,4 +515,16 @@ html, body, #root {
 .modal-line {
   background-color: @primary-color;
   height: 1px;
+}
+
+.addonAfter {
+  position: absolute;
+  border: 1px solid @addon-border;
+  background-color: @addon-background;
+  top: -10px;
+  right: 0;
+  padding: 0 11px;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border-radius: 0 3px 3px 0;
 }
