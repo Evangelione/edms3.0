@@ -33,6 +33,10 @@ class SalesBilling extends Component {
     e && e.stopPropagation()
     this.setState({
       visible: false,
+      clientSelectionStatus: false,
+      visibleClientInfo: false,
+      siteSelectionStatus: false,
+      visibleSiteInfo: false,
     })
   }
 
@@ -102,6 +106,8 @@ class SalesBilling extends Component {
           onCancel={this.hideModal}
           footer={null}
           width={840}
+          maskClosable={false}
+          destroyOnClose={true}
           bodyStyle={{ padding: 0 }}>
           <Form style={{ padding: '24px 24px 10px' }}>
             {visibleClientInfo ? <Row>
@@ -117,6 +123,11 @@ class SalesBilling extends Component {
                       <div className={styles['site-name']}>{clientSelectInfoBySalesBilling.site_name}
                         <span className={styles['blue-font']}
                               onClick={() => this.setState({ visibleClientInfo: false })}>更改</span>
+                        <span className={styles['delete-font']}
+                              onClick={() => this.setState({
+                                visibleClientInfo: false,
+                                clientSelectionStatus: false,
+                              })}>删除</span>
                       </div>
                       <div>{clientSelectInfoBySalesBilling.contact} {clientSelectInfoBySalesBilling.contact_phone}</div>
                     </div>
@@ -201,6 +212,11 @@ class SalesBilling extends Component {
                       <div className={styles['site-name']}>{siteSelectInfoBySalesBilling.site_name}
                         <span className={styles['blue-font']}
                               onClick={() => this.setState({ visibleSiteInfo: false })}>更改</span>
+                        <span className={styles['delete-font']}
+                              onClick={() => this.setState({
+                                visibleSiteInfo: false,
+                                siteSelectionStatus: false,
+                              })}>删除</span>
                       </div>
                       <div>{siteSelectInfoBySalesBilling.contact} {siteSelectInfoBySalesBilling.contact_phone}</div>
                     </div>

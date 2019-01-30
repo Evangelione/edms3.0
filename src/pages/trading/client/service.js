@@ -113,7 +113,7 @@ export function inquireSiteInfoById(id) {
 export function deleteSite(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/site/site-info`, {
+  return request(`${IP}/index/site/delete`, {
     method: 'POST',
     body: formData,
   })

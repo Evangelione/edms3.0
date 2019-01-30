@@ -154,11 +154,27 @@ html, body, #root {
   color: @font-purple-color !important;
 }
 
+// Upload自定义样式
+.ant-upload.ant-upload-drag {
+  border: 1px solid @primary-color !important;
+  background-color: #F9FBFF !important;
+}
+
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
+  color: @primary-color !important;
+}
+
+
+.ant-upload.ant-upload-drag .ant-upload {
+  padding: 106px 0 !important;
+}
+
 // input自定义样式
 .ant-input {
   font-size: 1rem !important;
   height: 2.5rem !important;
 }
+
 
 .ant-input-group-addon {
   background-color: @addon-background !important;
@@ -277,6 +293,7 @@ html, body, #root {
 // modal自定义样式
 .ant-modal-title {
   font-size: 1.125rem !important;
+  font-weight: bold !important;
 }
 
 .ant-modal-close-x {
@@ -286,6 +303,11 @@ html, body, #root {
 .ant-modal-header {
   margin-left: 12px;
   border-bottom: 1px solid @primary-color !important;
+  padding: 16px 24px 16px 16px !important;
+}
+
+.ant-modal-content {
+  box-shadow: 0 4px 20px 0 rgba(145, 165, 245, 0.70) !important;
 }
 
 // cascade自定义样式
@@ -437,6 +459,7 @@ html, body, #root {
     .contact-phone {
       font-size: 1.125rem;
       margin-left: 15px;
+      min-width: 120px;
     }
   }
 
@@ -527,4 +550,23 @@ html, body, #root {
   height: 2.5rem;
   line-height: 2.5rem;
   border-radius: 0 3px 3px 0;
+}
+
+.tabs-bottom-line {
+  width: 828px;
+  height: 1px;
+  background-color: @gray-line;
+  position: absolute;
+  top: 49px;
+
+}
+
+.blue-color {
+  font-size: 1.25rem;
+  color: @primary-color;
+}
+
+.purple-color {
+  font-size: 1rem;
+  color: @font-purple-color;
 }

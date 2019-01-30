@@ -6,6 +6,7 @@ import OrderConfirm from './components/Modals/OrderConfirm'
 import SalesBilling from './components/Modals/SalesBilling'
 import LogisticsScheduling from './components/Modals/LogisticsScheduling'
 import OrderPurchase from './components/Modals/OrderPurchase'
+import UpLoadPoundList from './components/Modals/UpLoadPoundList'
 import styles from './index.less'
 
 @connect(({ order, loading }) => ({
@@ -40,14 +41,14 @@ class OrderList extends Component {
           <Col span={span} style={{ position: 'relative' }}>
             <div className={styles['name']}>卖家：{value.seller.name}</div>
             <div
-              className={styles['detail']}>购{value.seller.buy_num}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value.seller.buy_price}元
+              className={styles['detail']}>{value.seller.buy_num}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value.seller.buy_price}元
             </div>
             <img src={require('@/assets/image/gas_blue.png')} className={styles['img']} alt="" />
             <div className={classnames(styles['gas'], styles['primary-color'])}>
               {value.seller.gas_name}&nbsp;&nbsp;({value.seller.actual_buy_num} 吨)
             </div>
             <div className={classnames(styles['take-time'], styles['primary-color'])}>
-              实装&nbsp;{value.seller.take_time}
+              实际装车时间&nbsp;{value.seller.take_time}
             </div>
             <div>
               <div className={styles['dashed-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
@@ -57,13 +58,13 @@ class OrderList extends Component {
           {value.buyer.map((value1, index1) => {
             return <Col span={span} key={index1} style={{ position: 'relative' }}>
               <div className={styles['name']}>卖家：{value1.name}</div>
-              <div className={styles['detail']}>购{value1.sell_num}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value1.sell_price}元</div>
+              <div className={styles['detail']}>{value1.sell_num}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value1.sell_price}元</div>
               <img src={require('@/assets/image/site_gray.png')} className={styles['img']} alt="" />
               <div className={classnames(styles['gas'])}>
                 {value1.gas_name}&nbsp;&nbsp;({value1.actual_sell_num} 吨)
               </div>
               <div className={classnames(styles['take-time'])}>
-                实装&nbsp;{value1.take_time}
+                实际卸车时间&nbsp;{value1.take_time}
               </div>
               {value.buyer.length - 1 !== index1 ?
                 <div className={styles['solid-line-gray']} style={{ width: lineWidth, right: -lineLeft }} /> : null}
@@ -90,18 +91,25 @@ class OrderList extends Component {
                 <Button className='line-primary'>取消订单</Button>
               </div> :
               value.status === '3' ? <div>
-                <LogisticsScheduling>
-                  <Button type='primary' style={{ marginRight: 10 }}>去调度</Button>
-                </LogisticsScheduling>
-                <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                <Button className='line-primary'>取消订单</Button>
-              </div> : <div>
-                <OrderPurchase>
-                  <Button type='primary' style={{ marginRight: 10 }}>去采购</Button>
-                </OrderPurchase>
-                <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                <Button className='line-primary'>取消订单</Button>
-              </div>}
+                  <LogisticsScheduling>
+                    <Button type='primary' style={{ marginRight: 10 }}>去调度</Button>
+                  </LogisticsScheduling>
+                  <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                  <Button className='line-primary'>取消订单</Button>
+                </div> :
+                value.status === '4' ? <div>
+                  <UpLoadPoundList>
+                    <Button type='primary' style={{ marginRight: 10 }}>上传装车磅单</Button>
+                  </UpLoadPoundList>
+                  <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                  <Button className='line-primary'>取消订单</Button>
+                </div> : <div>
+                  <OrderPurchase>
+                    <Button type='primary' style={{ marginRight: 10 }}>去采购</Button>
+                  </OrderPurchase>
+                  <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                  <Button className='line-primary'>取消订单</Button>
+                </div>}
         </div>
       </Card>
     }) : <Empty />

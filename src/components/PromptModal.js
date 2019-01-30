@@ -107,11 +107,37 @@ class PromptModal extends Component {
   }
 
   disablePartner = () => {
-    console.log('禁用')
+    this.props.dispatch({
+      type: 'partner/disabledPartner',
+      payload: {
+        id: this.props.id,
+      },
+    }).then(() => {
+      this.hideModel()
+      this.props.dispatch({
+        type: 'partner/fetchPartnerList',
+        payload: {
+          page:this.props.page
+        },
+      })
+    })
   }
 
   enablePartner = () => {
-    console.log('启用')
+    this.props.dispatch({
+      type: 'partner/disabledPartner',
+      payload: {
+        id: this.props.id,
+      },
+    }).then(() => {
+      this.hideModel()
+      this.props.dispatch({
+        type: 'partner/fetchPartnerList',
+        payload: {
+          page:this.props.page
+        },
+      })
+    })
   }
 
   deleteLogistics = (e) => {
@@ -129,25 +155,25 @@ class PromptModal extends Component {
   }
 
   render() {
-    const {children, state, okClass} = this.props
+    const { children, state } = this.props
     const modalState = this.state.modalState[state]
     return (
-      <div style={{display: 'inline-block'}} onClick={this.showModel}>
+      <div style={{ display: 'inline-block' }} onClick={this.showModel}>
         {children}
         <Modal
           title='提示'
           visible={this.state.visible}
           footer={null}
           onCancel={this.hideModel}
-          bodyStyle={{textAlign: 'center', fontSize: '1rem'}}
+          bodyStyle={{ textAlign: 'center', fontSize: '1rem' }}
           destroyOnClose={true}
           width={600}
         >
-          <img src={images[modalState.icon]} alt="" style={{marginTop: 10}} />
-          <div style={{marginTop: 10, marginLeft: 20}} className='font-purple-color'>{modalState.text}</div>
-          <div style={{margin: '55px 0 30px'}}>
-            <Button onClick={modalState.okHandler} style={{marginRight: 20}}
-                    className={okClass ? okClass : 'ant-btn-primary'}>{modalState.okText}</Button>
+          <img src={images[modalState.icon]} alt="" style={{ marginTop: 10 }} />
+          <div style={{ marginTop: 10, marginLeft: 20 }} className='font-purple-color'>{modalState.text}</div>
+          <div style={{ margin: '55px 0 30px' }}>
+            <Button onClick={modalState.okHandler} style={{ marginRight: 20 }}
+                    className='ant-btn-primary'>{modalState.okText}</Button>
             <Button
               onClick={modalState.cancelHandler ? modalState.cancelHandler : this.hideModel}>{modalState.cancelText}</Button>
           </div>

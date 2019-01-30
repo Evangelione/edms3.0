@@ -38,6 +38,10 @@ class OrderConfirm extends Component {
     e && e.stopPropagation()
     this.setState({
       visible: false,
+      visibleSiteInfo: false,
+      siteSelectionStatus: false,
+      visibleGasInfo: false,
+      gasSelectionStatus: false,
     })
   }
 
@@ -77,7 +81,7 @@ class OrderConfirm extends Component {
 
   render() {
     const { visible, visibleSiteInfo, siteSelectionStatus, visibleGasInfo, gasSelectionStatus } = this.state
-    const { children, order: { orderInfoByOrderConfirm, siteSelectInfoByOrderConfirm,gasSelectInfoByOrderConfirm }, form: { getFieldDecorator }, loading } = this.props
+    const { children, order: { orderInfoByOrderConfirm, siteSelectInfoByOrderConfirm, gasSelectInfoByOrderConfirm }, form: { getFieldDecorator }, loading } = this.props
     const outLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -99,7 +103,7 @@ class OrderConfirm extends Component {
       },
     }
     return (
-      <div onClick={this.showModal} style={{display: 'inline-block'}}>
+      <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
         <Modal
           title="确认订单"
@@ -107,6 +111,8 @@ class OrderConfirm extends Component {
           onCancel={this.hideModal}
           footer={null}
           width={840}
+          maskClosable={false}
+          destroyOnClose={true}
           bodyStyle={{ padding: 0 }}>
           <div style={{ padding: '24px 24px 10px' }}>
             <Row>
@@ -273,7 +279,7 @@ class OrderConfirm extends Component {
                   {getFieldDecorator('balanc123e', {
                     rules: [{ required: true }],
                   })(!gasSelectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
-                                                    onClick={this.changeGasSelectionStatus}>请选择气源</Button> :
+                                                   onClick={this.changeGasSelectionStatus}>请选择气源</Button> :
                     <Select placeholder='请选择气源' autoFocus={true} defaultOpen={true}
                             onBlur={this.changeGasSelectionStatus}
                             onSelect={this.inquireGasInfo}>

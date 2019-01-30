@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Row, Col, Button, Input, Select, Form,InputNumber } from 'antd'
+import { Modal, Row, Col, Button, Input, Select, Form, InputNumber } from 'antd'
 import { connect } from 'dva'
 import { SuppImg, SiteImg } from '@/common/constants'
 import styles from '../../index.less'
@@ -37,6 +37,10 @@ class OrderPurchase extends Component {
     e && e.stopPropagation()
     this.setState({
       visible: false,
+      supplierSelectionStatus: false,
+      visibleSupplierInfo: false,
+      gasSelectionStatus: false,
+      visibleGasInfo: false,
     })
   }
 
@@ -98,7 +102,7 @@ class OrderPurchase extends Component {
       },
     }
     return (
-      <div onClick={this.showModal} style={{display: 'inline-block'}}>
+      <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
         <Modal
           title="采购下单"
@@ -106,7 +110,10 @@ class OrderPurchase extends Component {
           onCancel={this.hideModal}
           footer={null}
           width={840}
-          bodyStyle={{ padding: 0 }}>
+          maskClosable={false}
+          destroyOnClose={true}
+          bodyStyle={{ padding: 0 }}
+          style={{ top: 50 }}>
           <div style={{ padding: '24px 24px 10px' }}>
             <Row>
               <Col span={3}>
@@ -167,6 +174,11 @@ class OrderPurchase extends Component {
                           <div className={styles['site-name']}>{supplierSelectInfoByOrderPurchase.site_name}
                             <span className={styles['blue-font']}
                                   onClick={() => this.setState({ visibleSupplierInfo: false })}>更改</span>
+                            <span className={styles['delete-font']}
+                                  onClick={() => this.setState({
+                                    visibleSupplierInfo: false,
+                                    supplierSelectionStatus: false,
+                                  })}>删除</span>
                           </div>
                           <div>{supplierSelectInfoByOrderPurchase.contact} {supplierSelectInfoByOrderPurchase.contact_phone}</div>
                         </div>
@@ -257,6 +269,11 @@ class OrderPurchase extends Component {
                           <div className={styles['site-name']}>{gasSelectInfoByOrderPurchase.site_name}
                             <span className={styles['blue-font']}
                                   onClick={() => this.setState({ visibleGasInfo: false })}>更改</span>
+                            <span className={styles['delete-font']}
+                                  onClick={() => this.setState({
+                                    visibleGasInfo: false,
+                                    gasSelectionStatus: false,
+                                  })}>删除</span>
                           </div>
                           <div>{gasSelectInfoByOrderPurchase.contact} {gasSelectInfoByOrderPurchase.contact_phone}</div>
                         </div>
@@ -336,10 +353,10 @@ class OrderPurchase extends Component {
             <div>
               <div>
                 <div style={{ marginLeft: 30 }}>采购总量 <span className={styles['red-font']}>20.000 吨</span></div>
-                <div style={{ marginLeft: 30 }}>采购总额 <span className={styles['red-font']}>20.000 吨</span></div>
+                <div style={{ marginLeft: 30 }}>采购总额 <span className={styles['red-font']}>20.000 元</span></div>
               </div>
               <div style={{ marginRight: 20 }}>
-                <Button type='primary' style={{ marginRight: 10 }} loading={loading}>确认调度</Button>
+                <Button type='primary' style={{ marginRight: 10 }} loading={loading}>确认下单</Button>
                 <Button className='red-btn' onClick={this.hideModal}>取消</Button>
               </div>
             </div>

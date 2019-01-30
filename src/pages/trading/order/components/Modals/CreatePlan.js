@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Modal, Form, Select, Button, Row, Col, DatePicker, InputNumber } from 'antd'
+import { Modal, Form, Select, Button, Row, Col, DatePicker, Input } from 'antd'
 import { connect } from 'dva'
 import styles from '../../index.less'
-import { IconFont, SiteImg } from '@/common/constants'
+import { IconFont, SiteImg, ClientImg } from '@/common/constants'
+import { toFixed } from '@/utils/Math'
 
 const Option = Select.Option
 
@@ -33,6 +34,10 @@ class CreatePlan extends Component {
     e && e.stopPropagation()
     this.setState({
       visible: false,
+      clientSelectionStatus: false,
+      visibleClientInfo: false,
+      siteSelectionStatus: false,
+      visibleSiteInfo: false,
     })
   }
 
@@ -74,9 +79,31 @@ class CreatePlan extends Component {
     })
   }
 
+  submit = () => {
+    this.hideModal()
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values)
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
+
+  parseNumber = (filed, precision, e) => {
+    let val = e.target.value
+    if (val === '') {
+      return false
+    }
+    isNaN(val) && (val = 0)
+    let num = toFixed(val, precision)
+    this.props.form.setFieldsValue({
+      [filed]: num,
+    })
+  }
+
   render() {
     const { clientSelectionStatus, visibleClientInfo, siteSelectionStatus, visibleSiteInfo } = this.state
-    const { form: { getFieldDecorator }, order: { siteSelectInfoByCreatePlan }, children, loading } = this.props
+    const { form: { getFieldDecorator, getFieldValue }, order: { siteSelectInfoByCreatePlan }, children, loading } = this.props
     const siteInfoLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -97,6 +124,7 @@ class CreatePlan extends Component {
         sm: { span: 15 },
       },
     }
+    console.log()
     return (
       <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
@@ -107,15 +135,16 @@ class CreatePlan extends Component {
           footer={null}
           width={840}
           maskClosable={false}
+          destroyOnClose={true}
           bodyStyle={{ padding: 0 }}
         >
           <Form style={{ padding: '24px 24px 10px' }}>
 
 
-            {visibleClientInfo ? <Row>
+            {visibleClientInfo ? <Row style={{ marginBottom: 25 }}>
               <Col span={3}>
                 <div style={{ paddingLeft: 31 }}>
-                  {SiteImg}
+                  {ClientImg}
                 </div>
               </Col>
               <Col span={15} style={{ marginLeft: 9 }}>
@@ -125,6 +154,11 @@ class CreatePlan extends Component {
                       <div className={styles['site-name']}>{siteSelectInfoByCreatePlan.site_name}
                         <span className={styles['blue-font']}
                               onClick={() => this.setState({ visibleClientInfo: false })}>更改</span>
+                        <span className={styles['delete-font']}
+                              onClick={() => this.setState({
+                                visibleClientInfo: false,
+                                clientSelectionStatus: false,
+                              })}>删除</span>
                       </div>
                       <div>{siteSelectInfoByCreatePlan.contact} {siteSelectInfoByCreatePlan.contact_phone}</div>
                     </div>
@@ -133,13 +167,9 @@ class CreatePlan extends Component {
                       <div>信用额度 <span className={styles['red-font']}>{siteSelectInfoByCreatePlan.credit}元</span></div>
                     </div>
                   </div>
-                  <div>
-                    <div className={styles['blue-background']}>{siteSelectInfoByCreatePlan.site_type}</div>
-                    <div>{siteSelectInfoByCreatePlan.province} {siteSelectInfoByCreatePlan.city} {siteSelectInfoByCreatePlan.area} {siteSelectInfoByCreatePlan.address}</div>
-                  </div>
                 </div>
               </Col>
-            </Row> : <Form.Item label={SiteImg} {...siteInfoLayout}>
+            </Row> : <Form.Item label={ClientImg} {...siteInfoLayout}>
               {getFieldDecorator('ba2lance', {
                 rules: [{ required: true }],
               })(!clientSelectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
@@ -183,9 +213,9 @@ class CreatePlan extends Component {
                   {getFieldDecorator('bal5ance22', {
                     rules: [{ required: true }],
                   })(
-                    <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
+                    <Input placeholder="请输入金额" onBlur={this.parseNumber.bind(null, 'bal5ance22', 2)}
+                           addonAfter='元/吨' />,
                   )}
-                  <div className='addonAfter'>元/吨</div>
                 </Form.Item>
               </Col>
               <Col span={10} style={{ width: '46.2%' }}>
@@ -193,9 +223,9 @@ class CreatePlan extends Component {
                   {getFieldDecorator('balan45111ce1', {
                     rules: [{ required: true }],
                   })(
-                    <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
+                    <Input placeholder="请输入金额" onBlur={this.parseNumber.bind(null, 'balan45111ce1', 2)}
+                           addonAfter='元' />,
                   )}
-                  <div className='addonAfter'>元</div>
                 </Form.Item>
               </Col>
             </Row>
@@ -217,6 +247,11 @@ class CreatePlan extends Component {
                       <div className={styles['site-name']}>{siteSelectInfoByCreatePlan.site_name}
                         <span className={styles['blue-font']}
                               onClick={() => this.setState({ visibleSiteInfo: false })}>更改</span>
+                        <span className={styles['delete-font']}
+                              onClick={() => this.setState({
+                                visibleSiteInfo: false,
+                                siteSelectionStatus: false,
+                              })}>删除</span>
                       </div>
                       <div>{siteSelectInfoByCreatePlan.contact} {siteSelectInfoByCreatePlan.contact_phone}</div>
                     </div>
@@ -247,9 +282,8 @@ class CreatePlan extends Component {
                   {getFieldDecorator('balance3', {
                     rules: [{ required: true }],
                   })(
-                    <InputNumber placeholder="请输入计划数量" min={0} precision={3} style={{ width: '100%' }} />,
+                    <Input placeholder="请输入数量" onBlur={this.parseNumber.bind(null, 'balance3', 3)} addonAfter='吨' />,
                   )}
-                  <div className='addonAfter'>元</div>
                 </Form.Item>
               </Col>
               <Col span={10} style={{ width: '46.2%' }}>
@@ -265,18 +299,20 @@ class CreatePlan extends Component {
           <div className={styles['create-plan-modal-footer']}>
             <div>
               <div>
-                <div style={{ marginLeft: 30 }}>销售总量 <span className={styles['red-font']}>20.000 吨</span></div>
-                <div style={{ marginLeft: 30 }}>销售总额 <span className={styles['red-font']}>20.000 吨</span></div>
+                <div style={{ marginLeft: 30 }}>销售总量 <span
+                  className={styles['red-font']}>{(getFieldValue('balance3') || '0.000')} 吨</span></div>
+                <div style={{ marginLeft: 30 }}>销售总额 <span className={styles['red-font']}>
+                  {toFixed(parseFloat(getFieldValue('bal5ance22') || 0) * parseFloat(getFieldValue('balance3') || 0) + parseFloat(getFieldValue('balan45111ce1') || 0), 2)} 元</span>
+                </div>
               </div>
               <div style={{ marginRight: 20 }}>
-                <Button type='primary' style={{ marginRight: 10 }} loading={loading}>确认创建</Button>
+                <Button type='primary' style={{ marginRight: 10 }} loading={loading} onClick={this.submit}>确认创建</Button>
                 <Button className='red-btn' onClick={this.hideModal}>取消</Button>
               </div>
             </div>
           </div>
         </Modal>
       </div>
-
     )
   }
 }

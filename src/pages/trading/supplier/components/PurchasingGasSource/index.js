@@ -136,7 +136,7 @@ class Index extends Component {
             value={goods_name}
             onChange={this.changeGasSourceName}
             onSearch={this.searchGasSourceList}
-            style={{ width: '25rem', height: '2.5rem', marginRight: 15 }}
+            style={{ width: '25rem', height: '2.5rem', marginRight: 15, display: 'inline-flex' }}
           />
           <HandleGasSourceModal>
             <Button type='primary' style={{ marginRight: 10 }}>新增气源</Button>

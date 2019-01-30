@@ -12,7 +12,7 @@ import PromptModal from '@/components/PromptModal'
 
 const Search = Input.Search
 
-@connect(({partner, loading}) => ({
+@connect(({ partner, loading }) => ({
   partner,
   loading: loading.models.partner,
 }))
@@ -26,6 +26,7 @@ class Index extends Component {
 
   componentWillMount() {
     this.fetchPartnerList()
+    this.fetchMenuList()
   }
 
   fetchPartnerList = () => {
@@ -35,11 +36,18 @@ class Index extends Component {
     })
   }
 
+  fetchMenuList = () => {
+    this.props.dispatch({
+      type: 'partner/fetchMenuList',
+      payload: {},
+    })
+  }
+
   searchPartnerList = (value) => {
     this.props.dispatch({
       type: 'partner/fetchPartnerList',
       payload: {
-        partner_name: value,
+        find_str: value,
       },
     })
   }
@@ -48,7 +56,7 @@ class Index extends Component {
     this.props.dispatch({
       type: 'partner/save',
       payload: {
-        partner_name: e.target.value,
+        find_str: e.target.value,
       },
     })
     if (e.target.value === '') {
@@ -61,14 +69,14 @@ class Index extends Component {
       type: 'partner/fetchPartnerList',
       payload: {
         page,
-        partner_name: this.props.partner.partner_name,
+        find_str: this.props.partner.find_str,
       },
     })
   }
 
   mapItem = () => {
-    const {managementStatus} = this.state
-    const {partnerList} = this.props.partner
+    const { managementStatus } = this.state
+    const { partnerList, partnerPage } = this.props.partner
     return partnerList.length ? partnerList.map((value, index) => (
       <div className='list-item' key={value.id}>
         <div className='serial-num'>{index + 1}</div>
@@ -76,28 +84,28 @@ class Index extends Component {
           <div>
             <img src={require('@/assets/image/Bitmap.png')} alt="" />
           </div>
-          <div className='company-name'>{value.company_name}</div>
+          <div className='company-name'>{value.role_name}</div>
         </div>
         <div className='contact-box'>
-          <div className='contact-name'>{value.user}</div>
-          <div className='contact-phone'>{value.phone}</div>
+          <div className='contact-name'>{value.name}</div>
+          <div className='contact-phone'>{value.mobile ? value.mobile : '--'}</div>
         </div>
         <div className='sales-box'>
-          <div style={{visibility: 'hidden'}}>
+          <div style={{ visibility: 'hidden' }}>
             <div>销售额</div>
             <div className='sales-price'>{value.xiaoshoue} 元</div>
           </div>
-          <div style={{visibility: 'hidden'}}>
+          <div style={{ visibility: 'hidden' }}>
             <div>销售量</div>
             <div className='sales-num'>{value.xiaoshouliang} 吨</div>
           </div>
           {managementStatus ?
-            value.enabled ?
-              <PromptModal state='enablePartner' okClass='green-btn'>
+            !(value.enable - 0) ?
+              <PromptModal state='enablePartner' id={value.id} page={partnerPage}>
                 <Button className='green-btn'>启用</Button>
               </PromptModal>
               :
-              <PromptModal state='disablePartner' okClass='red-btn'>
+              <PromptModal state='disablePartner' id={value.id} page={partnerPage}>
                 <Button className='red-btn'>禁用</Button>
               </PromptModal>
             :
@@ -123,8 +131,8 @@ class Index extends Component {
 
 
   render() {
-    const {managementStatus} = this.state
-    const {partnerPage, partnerTotal, partner_name} = this.props.partner
+    const { managementStatus } = this.state
+    const { partnerPage, partnerTotal, find_str } = this.props.partner
     // const popTitle = <div>
     //   导入信息
     // </div>
@@ -146,36 +154,36 @@ class Index extends Component {
             <Button type='primary'>新增伙伴</Button>
           </HandlePartnerModal>
           {/*<Popover placement="bottomLeft" title={popTitle} content={popContent}*/}
-                   {/*trigger="click">*/}
-            {/*<Upload*/}
-              {/*accept='.xls,.xlsx'*/}
-              {/*name='excel'*/}
-              {/*action={`${IP}/index/driver/driver-car-import`}*/}
-              {/*customRequest={this.upLoadExcel}*/}
-              {/*showUploadList={false}*/}
-            {/*>*/}
-              {/*<Button type='primary' style={{marginLeft: 10}}>批量导入伙伴</Button>*/}
-            {/*</Upload>*/}
+          {/*trigger="click">*/}
+          {/*<Upload*/}
+          {/*accept='.xls,.xlsx'*/}
+          {/*name='excel'*/}
+          {/*action={`${IP}/index/driver/driver-car-import`}*/}
+          {/*customRequest={this.upLoadExcel}*/}
+          {/*showUploadList={false}*/}
+          {/*>*/}
+          {/*<Button type='primary' style={{marginLeft: 10}}>批量导入伙伴</Button>*/}
+          {/*</Upload>*/}
           {/*</Popover>*/}
           {managementStatus ?
-            <Button className='yellow-btn' style={{marginLeft: 10}}
-                    onClick={() => this.setState({managementStatus: !managementStatus})}>完成</Button>
+            <Button className='yellow-btn' style={{ marginLeft: 10 }}
+                    onClick={() => this.setState({ managementStatus: !managementStatus })}>完成</Button>
             :
-            <Button type='primary' style={{marginLeft: 10}}
-                    onClick={() => this.setState({managementStatus: !managementStatus})}>伙伴管理</Button>}
+            <Button type='primary' style={{ marginLeft: 10 }}
+                    onClick={() => this.setState({ managementStatus: !managementStatus })}>伙伴管理</Button>}
           <Search
             placeholder="请输入伙伴名进行查找"
             enterButton="查找"
-            value={partner_name}
+            value={find_str}
             onChange={this.changePartnerName}
             onSearch={this.searchPartnerList}
-            style={{width: '25rem', height: '2.5rem', float: 'right', marginTop: 19}}
+            style={{ width: '25rem', height: '2.5rem', float: 'right', marginTop: 19 }}
           />
         </div>
-        <div style={{padding: 24}}>
+        <div style={{ padding: 24 }}>
           {this.mapItem()}
         </div>
-        <div style={{textAlign: 'center', marginBottom: 50}}>
+        <div style={{ textAlign: 'center', marginBottom: 50 }}>
           <Pagination current={partnerPage} total={partnerTotal} pageSize={PAGE_LIMIT} onChange={this.pageChange} />
         </div>
       </>

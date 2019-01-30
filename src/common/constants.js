@@ -42,7 +42,7 @@ export const LOGO = {
 
 // 阿里图库
 export const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1010333_4rbbh8828dd.js',
+  scriptUrl: '//at.alicdn.com/t/font_1010333_ox343z8os9.js',
 })
 
 export const SiteImg = <img src={require('@/assets/image/site_order_48_37.png')}

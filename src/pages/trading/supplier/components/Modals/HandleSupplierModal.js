@@ -28,6 +28,9 @@ class HandleSupplierModal extends Component {
   }
 
   openInsertModal = () => {
+    if (this.state.modalVisible) {
+      return false
+    }
     this.setState({
       modalVisible: true,
     })

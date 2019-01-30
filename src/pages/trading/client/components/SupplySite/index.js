@@ -55,7 +55,7 @@ class Index extends Component {
           <div className='address'>{value.province + value.city + value.area}</div>
           <div className='operating'>
             {managementStatus ?
-              <PromptModal state='deleteSite' okClass='red-btn'>
+              <PromptModal state='deleteSite' okClass='red-btn' id={value.id}>
                 <Button className='red-btn'>移除站点</Button>
               </PromptModal>
               :
@@ -133,7 +133,7 @@ class Index extends Component {
             value={site_name}
             onChange={this.changeSiteName}
             onSearch={this.searchSiteList}
-            style={{ width: '25rem', height: '2.5rem', marginRight: 15 }}
+            style={{ width: '25rem', height: '2.5rem', marginRight: 15, display: 'inline-flex' }}
           />
           {managementStatus ?
             <Button className='yellow-btn' style={{ marginRight: 10 }}

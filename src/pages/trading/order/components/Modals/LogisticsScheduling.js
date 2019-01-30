@@ -14,7 +14,7 @@ const Option = Select.Option
 class LogisticsScheduling extends Component {
   state = {
     visible: false,
-    selectionStatus: false,
+    logisticsSelectionStatus: false,
     visibleLogisticsInfo: false,
   }
 
@@ -35,12 +35,14 @@ class LogisticsScheduling extends Component {
     e && e.stopPropagation()
     this.setState({
       visible: false,
+      logisticsSelectionStatus: false,
+      visibleLogisticsInfo: false,
     })
   }
 
   changeSelectionStatus = () => {
     this.setState({
-      selectionStatus: !this.state.selectionStatus,
+      logisticsSelectionStatus: !this.state.logisticsSelectionStatus,
     })
   }
 
@@ -58,7 +60,7 @@ class LogisticsScheduling extends Component {
   }
 
   render() {
-    const { visible, selectionStatus, visibleLogisticsInfo } = this.state
+    const { visible, logisticsSelectionStatus, visibleLogisticsInfo } = this.state
     const { children, order: { siteInfoByLogisticsScheduling, logisticsInfoByLogisticsScheduling }, form: { getFieldDecorator }, loading } = this.props
     const siteInfoLayout = {
       labelCol: {
@@ -89,6 +91,8 @@ class LogisticsScheduling extends Component {
           onCancel={this.hideModal}
           footer={null}
           width={840}
+          maskClosable={false}
+          destroyOnClose={true}
           bodyStyle={{ padding: 0 }}>
           <div style={{ padding: '24px 24px 10px' }}>
             <Row>
@@ -152,6 +156,11 @@ class LogisticsScheduling extends Component {
                           <div className={styles['site-name']}>{logisticsInfoByLogisticsScheduling.site_name}
                             <span className={styles['blue-font']}
                                   onClick={() => this.setState({ visibleLogisticsInfo: false })}>更改</span>
+                            <span className={styles['delete-font']}
+                                  onClick={() => this.setState({
+                                    visibleLogisticsInfo: false,
+                                    logisticsSelectionStatus: false,
+                                  })}>删除</span>
                           </div>
                           <div>{logisticsInfoByLogisticsScheduling.contact} {logisticsInfoByLogisticsScheduling.contact_phone}</div>
                         </div>
@@ -216,9 +225,7 @@ class LogisticsScheduling extends Component {
                 <Row>
                   <Col span={9}>
                     <Form.Item label='额外费用' {...itemLayout}>
-                      {getFieldDecorator('balanc2e32', {
-                        rules: [{ required: true }],
-                      })(
+                      {getFieldDecorator('balanc2e32')(
                         <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
                       )}
                       <div className='addonAfter'>元</div>
@@ -274,8 +281,8 @@ class LogisticsScheduling extends Component {
               </> : <Form.Item label={SiteImg} {...siteInfoLayout}>
                 {getFieldDecorator('balance', {
                   rules: [{ required: true }],
-                })(!selectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
-                                              onClick={this.changeSelectionStatus}>请选择承运物流商</Button> :
+                })(!logisticsSelectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
+                                                       onClick={this.changeSelectionStatus}>请选择承运物流商</Button> :
                   <Select placeholder='请选择承运物流商' autoFocus={true} defaultOpen={true} onBlur={this.changeSelectionStatus}
                           onSelect={this.inquireLogisticsInfo}>
                     <Option value={1}>123</Option>
@@ -286,8 +293,8 @@ class LogisticsScheduling extends Component {
           <div className={styles['create-plan-modal-footer']}>
             <div>
               <div>
-                <div style={{ marginLeft: 30 }}>销售总量 <span className={styles['red-font']}>20.000 吨</span></div>
-                <div style={{ marginLeft: 30 }}>销售总额 <span className={styles['red-font']}>20.000 吨</span></div>
+                <div style={{ marginLeft: 30 }}>运输总量 <span className={styles['red-font']}>20.000 吨</span></div>
+                <div style={{ marginLeft: 30 }}>运输费用 <span className={styles['red-font']}>20.000 元</span></div>
               </div>
               <div style={{ marginRight: 20 }}>
                 <Button type='primary' style={{ marginRight: 10 }} loading={loading}>确认调度</Button>

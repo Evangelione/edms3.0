@@ -12,7 +12,8 @@ import { connect } from 'dva'
 import styles from '../../index.less'
 
 
-@connect(({loading}) => ({
+@connect(({ partner, loading }) => ({
+  partner,
   loading: loading.models.partner,
 }))
 @Form.create()
@@ -30,6 +31,8 @@ class HandlePartnerModal extends Component {
     }
     this.setState({
       modalVisible: true,
+    }, () => {
+      this.props.modify && this.inquire()
     })
   }
 
@@ -41,19 +44,24 @@ class HandlePartnerModal extends Component {
     this.props.form.resetFields()
   }
 
+  inquire = () => {
+    this.props.dispatch({
+      type: 'partner/inquirePartnerInfoById',
+      payload: {
+        id: this.props.modify,
+      },
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        let obj = {
-          province: values.area_arr[0],
-          city: values.area_arr[1],
-          area: values.area_arr[2] || '',
-        }
-        delete values.area_arr
-        Object.assign(values, obj)
+        let { modify } = this.props
+        let effect = modify ? 'updatePartnerInfoById' : 'inquirePartnerInfoById'
+        modify && (values.id = modify)
         this.props.dispatch({
-          type: 'partner/insertPartner',
+          type: `partner/${effect}`,
           payload: {
             form: values,
           },
@@ -69,17 +77,17 @@ class HandlePartnerModal extends Component {
   }
 
   render() {
-    const {modalVisible} = this.state
-    const {children, form, loading} = this.props
-    const {getFieldDecorator} = form
+    const { modalVisible } = this.state
+    const { children, form, loading, partner: { menu_list, currentPartnerInfo }, modify } = this.props
+    const { getFieldDecorator } = form
     const formItemLayout = {
       labelCol: {
-        xs: {span: 24},
-        sm: {span: 5},
+        xs: { span: 24 },
+        sm: { span: 5 },
       },
       wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 17},
+        xs: { span: 24 },
+        sm: { span: 18 },
       },
     }
     const tailFormItemLayout = {
@@ -94,10 +102,14 @@ class HandlePartnerModal extends Component {
         },
       },
     }
+    const checkBox = menu_list.map((value, index) => {
+      return <Col span={8} key={index}><Checkbox value={value.id}>{value.name}</Checkbox></Col>
+
+    })
     return (
-      <div style={{display: 'inline-block'}} onClick={this.openInsertModal}>
+      <div style={{ display: 'inline-block' }} onClick={this.openInsertModal}>
         {children}
-        <Modal visible={modalVisible} title='新增客户' width={600} bodyStyle={{padding: '24px 60px'}}
+        <Modal visible={modalVisible} title={modify ? '编辑伙伴' : '新增伙伴'} width={600} bodyStyle={{ padding: '24px 60px' }}
                footer={null} onCancel={this.closeInsertModal}
                maskClosable={false}>
           <Form onSubmit={this.handleSubmit}>
@@ -105,8 +117,9 @@ class HandlePartnerModal extends Component {
               {...formItemLayout}
               label="伙伴名称"
             >
-              {getFieldDecorator('company_name1', {
-                rules: [{required: true}],
+              {getFieldDecorator('name', {
+                rules: [{ required: true }],
+                initialValue: modify ? currentPartnerInfo.name : '',
               })(
                 <Input placeholder='请输入伙伴名称' />,
               )}
@@ -115,38 +128,31 @@ class HandlePartnerModal extends Component {
               {...formItemLayout}
               label="联系方式"
             >
-              {getFieldDecorator('company_nam2e', {
-                rules: [{required: true}],
+              {getFieldDecorator('mobile', {
+                rules: [{ required: true }],
+                initialValue: modify ? currentPartnerInfo.mobile : '',
               })(
                 <Input placeholder='请输入联系方式' />,
               )}
             </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="登录账号"
-            >
-              {getFieldDecorator('company3_name', {
-                rules: [{required: true}],
-              })(
-                <Input placeholder='请输入登录账号' />,
-              )}
-            </Form.Item>
-            <Form.Item
+            {!modify ? <Form.Item
               {...formItemLayout}
               label="登录密码"
             >
-              {getFieldDecorator('compan3y_name', {
-                rules: [{required: true}],
+              {getFieldDecorator('pwd', {
+                rules: [{ required: true }],
+                initialValue: modify ? currentPartnerInfo.pwd : '',
               })(
                 <Input placeholder='请输入登录密码' />,
               )}
-            </Form.Item>
+            </Form.Item> : null}
             <Form.Item
               {...formItemLayout}
               label="角色名称"
             >
-              {getFieldDecorator('c2ompany_name', {
-                rules: [{required: true}],
+              {getFieldDecorator('role_name', {
+                rules: [{ required: true }],
+                initialValue: modify ? currentPartnerInfo.role_name : '',
               })(
                 <Input placeholder='请输入角色名称' />,
               )}
@@ -155,23 +161,19 @@ class HandlePartnerModal extends Component {
               {...formItemLayout}
               label="角色权限"
             >
-              {getFieldDecorator('c23ompany_name', {})(
-                <Checkbox.Group style={{width: '100%'}}>
+              {getFieldDecorator('role_menu', {
+                initialValue: modify ? currentPartnerInfo.role_menu : [],
+              })(
+                <Checkbox.Group style={{ width: '100%' }}>
                   <Row className={styles.checkBox}>
-                    <Col span={8}><Checkbox value="A">我的订单</Checkbox></Col>
-                    <Col span={8}><Checkbox value="B">我的客户</Checkbox></Col>
-                    <Col span={8}><Checkbox value="C">我的供应商</Checkbox></Col>
-                    <Col span={8}><Checkbox value="D">我的物流</Checkbox></Col>
-                    <Col span={8}><Checkbox value="E">我的伙伴</Checkbox></Col>
-                    <Col span={8}><Checkbox value="F">我的公司</Checkbox></Col>
-                    <Col span={8}><Checkbox value="G">App数据</Checkbox></Col>
+                    {checkBox}
                   </Row>
                 </Checkbox.Group>,
               )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" htmlType="submit" loading={loading}>确定</Button>
-              <Button className='red-btn' style={{marginLeft: 20, marginTop: 20}}
+              <Button className='red-btn' style={{ marginLeft: 20, marginTop: 20 }}
                       onClick={this.closeInsertModal}>取消</Button>
             </Form.Item>
           </Form>
