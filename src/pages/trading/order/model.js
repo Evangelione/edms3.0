@@ -4,58 +4,7 @@ import * as orderService from './service'
 export default {
   namespace: 'order',
   state: {
-    orderList: [{
-      id: 1,
-      order_status: '待收货',
-      order_make_time: '19-09-04 14:00:22',
-      order_id: 'DD2029391029394123',
-      car_body_code: '京AB3412',
-      seller: {
-        name: '济南实华',
-        buy_num: '20.000',
-        buy_price: '186000.00',
-        gas_name: '董家口气',
-        actual_buy_num: '20.000',
-        take_time: '19-12-02 16:12',
-      },
-      buyer: [{
-        name: '奥德燃气',
-        sell_num: '10.000',
-        sell_price: '142345.00',
-        gas_name: '大同加气站',
-        actual_sell_num: '3.000',
-        take_time: '19-12-02 6:12',
-      }],
-    }, {
-      id: 2,
-      order_status: '2',
-      order_make_time: '19-09-04 14:00:22',
-      order_id: 'DD2029391029394122',
-      car_body_code: '京AB3413',
-      seller: {
-        name: '济南实华',
-        buy_num: '20.000',
-        buy_price: '186000.00',
-        gas_name: '董家口气',
-        actual_buy_num: '20.000',
-        take_time: '19-12-02 11:12',
-      },
-      buyer: [{
-        name: '奥德燃气',
-        sell_num: '10.000',
-        sell_price: '188900.00',
-        gas_name: '凯旋LNG加气站',
-        actual_sell_num: '9.000',
-        take_time: '19-12-02 12:12',
-      }, {
-        name: '奥德燃气',
-        sell_num: '10.000',
-        sell_price: '186000.00',
-        gas_name: '大同加气站',
-        actual_sell_num: '8.000',
-        take_time: '19-12-02 16:12',
-      }],
-    }],
+    orderList: [],
     orderPage: 1,
     orderTotal: 0,
     currentOrderNum: 0,
@@ -112,7 +61,6 @@ export default {
         type: '预付款',
       },
     },
-    siteSelectInfoByCreatePlan: {},
     clientSelectInfoBySalesBilling: {},
     siteSelectInfoBySalesBilling: {},
     siteInfoByLogisticsScheduling: {},
@@ -122,7 +70,9 @@ export default {
     gasSelectInfoByOrderPurchase: {},
     orderInfoByOrderConfirm: {},
     siteSelectInfoByOrderConfirm: {},
-    gasSelectInfoByOrderConfirm: {}
+    gasSelectInfoByOrderConfirm: {},
+    clientSelectByCreatePlan: [],
+    siteSelectByCreatePlan: [],
   },
 
   subscriptions: {
@@ -133,25 +83,25 @@ export default {
   },
 
   effects: {
-    * fetchOrderList({ payload: { page = 1 } }, { call, put }) {
-      const data = yield call(orderService.fetchOrderList, { page })
-      // parseInt(data.code, 10) === 1 ?
-      //   yield put({
-      //     type: 'save',
-      //     payload: {
-      //       orderList: data.data.list,
-      //       orderPage: parseInt(page, 10),
-      //       orderTotal: parseInt(data.data.total, 10),
-      //     },
-      //   })
-      //   :
-      //   message.error(data.msg)
-      yield put({
-        type: 'save',
-        payload: {
-          orderList: data,
-        },
-      })
+    * fetchOrderList({ payload: { page = 1, status = '' } }, { call, put }) {
+      const { data } = yield call(orderService.fetchOrderList, { page, status })
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            orderList: data.data.list,
+            orderPage: parseInt(page, 10),
+            orderTotal: parseInt(data.data.total, 10),
+          },
+        })
+        :
+        message.error(data.msg)
+      // yield put({
+      //   type: 'save',
+      //   payload: {
+      //     orderList: data,
+      //   },
+      // })
     },
     * upLoadExcel({ payload: { file } }, { call }) {
       const { data } = yield call(orderService.upLoadExcel, file)
@@ -164,15 +114,7 @@ export default {
         message.error(e)
       }
     },
-    * inquireSiteSelectInfoByCreatePlan({ payload: { file } }, { call, put }) {
-      const data = yield call(orderService.inquireSiteSelectInfoByCreatePlan, file)
-      yield put({
-        type: 'save',
-        payload: {
-          siteSelectInfoByCreatePlan: data,
-        },
-      })
-    },
+
     * inquireClientSelectInfoBySalesBilling({ payload: { file } }, { call, put }) {
       const data = yield call(orderService.inquireClientSelectInfoBySalesBilling, file)
       yield put({
@@ -265,8 +207,31 @@ export default {
         },
       })
     },
-
-
+    * fetchClientSelect({ payload }, { call, put }) {
+      const { data } = yield call(orderService.fetchClientSelect)
+      yield put({
+        type: 'save',
+        payload: {
+          clientSelectByCreatePlan: data.data.list,
+        },
+      })
+    },
+    * inquireSiteSelectInfoByCreatePlan({ payload: { id } }, { call, put }) {
+      const { data } = yield call(orderService.inquireSiteSelectInfoByCreatePlan, id)
+      yield put({
+        type: 'save',
+        payload: {
+          siteSelectByCreatePlan: data.data.list,
+        },
+      })
+    },
+    * submitCreatePlan({ payload: { form } }, { call, put }) {
+      const { data } = yield call(orderService.submitCreatePlan, form)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
   },
 
   reducers: {

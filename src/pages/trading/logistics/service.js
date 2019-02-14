@@ -7,7 +7,7 @@ export function fetchLogisticsList({page, logistics_name}) {
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
   formData.append('find_str', logistics_name)
-  return request(`${IP}/index/logistics/list`, {
+  return request(`${IP}/index/logistics/page`, {
     method: 'POST',
     body: formData,
   })

@@ -64,11 +64,11 @@ class MyHeader extends Component {
           </Popover>
         </div>
         <div className={styles['menu-link']}>
-          {menu === '/' ? null : menu.children.map(value => (
+          {menu && (menu === '/' ? null : menu.children.map(value => (
             <div onClick={this.changeLink.bind(null, value.path)}
                  className={linkPath === value.path ? styles['listItem-focus'] : styles['link-item']}
                  key={value.path}>{value.name}</div>
-          ))}
+          )))}
         </div>
       </Header>
     )

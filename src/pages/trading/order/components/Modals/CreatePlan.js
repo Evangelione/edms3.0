@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { Modal, Form, Select, Button, Row, Col, DatePicker, Input } from 'antd'
 import { connect } from 'dva'
 import styles from '../../index.less'
-import { IconFont, SiteImg, ClientImg } from '@/common/constants'
+import { IconFont, SiteImg, ClientImg, site_type } from '@/common/constants'
 import { toFixed } from '@/utils/Math'
+import CreatePlanField from '../CreatePlanField'
 
 const Option = Select.Option
 
@@ -19,6 +20,19 @@ class CreatePlan extends Component {
     visibleClientInfo: false,
     siteSelectionStatus: false,
     visibleSiteInfo: false,
+    siteSelectionStatus2: false,
+    visibleSiteInfo2: false,
+    siteSelectionStatus3: false,
+    visibleSiteInfo3: false,
+    flag: true,
+    currentClientInfo: {},
+    currentSiteInfo: {},
+    currentSiteInfo2: {},
+    currentSiteInfo3: {},
+    extraClient: 1,
+    extraSite: 1,
+    currentSiteNum: 1,
+    maxQuantity: 25,
   }
 
   showModal = () => {
@@ -28,6 +42,14 @@ class CreatePlan extends Component {
     this.setState({
       visible: true,
     })
+    this.props.dispatch({
+      type: 'order/fetchClientSelect',
+      payload: {},
+    })
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    if (userData.trade_type === 1) {
+
+    }
   }
 
   hideModal = (e) => {
@@ -38,6 +60,18 @@ class CreatePlan extends Component {
       visibleClientInfo: false,
       siteSelectionStatus: false,
       visibleSiteInfo: false,
+      siteSelectionStatus2: false,
+      visibleSiteInfo2: false,
+      siteSelectionStatus3: false,
+      visibleSiteInfo3: false,
+      flag: true,
+      currentClientInfo: {},
+      currentSiteInfo: {},
+      currentSiteInfo2: {},
+      currentSiteInfo3: {},
+      extraClient: 1,
+      extraSite: 1,
+      currentSiteNum: 1,
     })
   }
 
@@ -52,39 +86,85 @@ class CreatePlan extends Component {
       siteSelectionStatus: !this.state.siteSelectionStatus,
     })
   }
+  changeSiteSelectionStatus2 = () => {
+    this.setState({
+      siteSelectionStatus2: !this.state.siteSelectionStatus2,
+    })
+  }
+  changeSiteSelectionStatus3 = () => {
+    this.setState({
+      siteSelectionStatus3: !this.state.siteSelectionStatus3,
+    })
+  }
 
-  inquireClientInfo = (value) => {
-    console.log(value)
+  setClientInfo = (value, option) => {
+    this.setState({
+      currentClientInfo: { ...option.props },
+    })
     this.props.dispatch({
       type: 'order/inquireSiteSelectInfoByCreatePlan',
-      payload: {},
+      payload: {
+        id: value,
+      },
     }).then(() => {
       this.setState({
         visibleClientInfo: true,
       })
-      console.log(this.props.order.siteSelectInfoByCreatePlan)
     })
   }
 
-  inquireSiteInfo = (value) => {
-    console.log(value)
-    this.props.dispatch({
-      type: 'order/inquireSiteSelectInfoByCreatePlan',
-      payload: {},
-    }).then(() => {
-      this.setState({
-        visibleSiteInfo: true,
-      })
-      console.log(this.props.order.siteSelectInfoByCreatePlan)
+  setSiteInfo = (value, option) => {
+    this.setState({
+      currentSiteInfo: { ...option.props },
+    })
+    this.setState({
+      visibleSiteInfo: true,
+    })
+  }
+  setSiteInfo2 = (value, option) => {
+    this.setState({
+      currentSiteInfo2: { ...option.props },
+    })
+    this.setState({
+      visibleSiteInfo2: true,
+    })
+  }
+  setSiteInfo3 = (value, option) => {
+    this.setState({
+      currentSiteInfo3: { ...option.props },
+    })
+    this.setState({
+      visibleSiteInfo3: true,
     })
   }
 
   submit = () => {
-    this.hideModal()
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values)
-      if (!err) {
+      values.customer_id = this.state.currentClientInfo.id
+      values.site1_id = this.state.currentSiteInfo.id
+      this.state.currentSiteInfo2.id && (values.site2_id = this.state.currentSiteInfo2.id)
+      this.state.currentSiteInfo3.id && (values.site3_id = this.state.currentSiteInfo3.id)
+
+      let form2 = true
+      let form3 = true
+      this.state.extraClient > 1 && (form2 = this.formRef2.getItemsValue())
+      this.state.extraClient > 2 && (form3 = this.formRef3.getItemsValue())
+
+      if (!err && form2 && form3) {
         console.log(values)
+        values.site1_time = values.site1_time.format('YYYY-MM-DD')
+        this.state.currentSiteInfo2.id && (values.site2_time = values.site2_time.format('YYYY-MM-DD'))
+        this.state.currentSiteInfo3.id && (values.site3_time = values.site3_time.format('YYYY-MM-DD'))
+        let list = [values]
+        form2 !== true && list.push(form2)
+        form3 !== true && list.push(form3)
+        console.log(list)
+        this.props.dispatch({
+          type: 'order/submitCreatePlan',
+          payload: {
+            form: list,
+          },
+        }).then(() => this.hideModal())
       }
     })
   }
@@ -101,9 +181,102 @@ class CreatePlan extends Component {
     })
   }
 
+  changeType = (value) => {
+    if (value === '2') {
+      this.setState({
+        flag: false,
+      })
+    } else {
+      this.setState({
+        flag: true,
+      })
+    }
+  }
+
+  deleteClientSelect = () => {
+    this.setState({
+      visibleClientInfo: false,
+      clientSelectionStatus: false,
+      visibleSiteInfo: false,
+      siteSelectionStatus: false,
+      visibleSiteInfo2: false,
+      siteSelectionStatus2: false,
+      visibleSiteInfo3: false,
+      siteSelectionStatus3: false,
+      currentClientInfo: {},
+      currentSiteInfo: {},
+      currentSiteInfo2: {},
+      currentSiteInfo3: {},
+    })
+    this.props.dispatch({
+      type: 'order/save',
+      payload: {
+        siteSelectByCreatePlan: [],
+      },
+    })
+  }
+
+  addClientField = () => {
+    if (this.state.extraSite > 3) {
+      return false
+    }
+    this.setState({
+      extraClient: this.state.extraClient + 1,
+      extraSite: this.state.extraSite + 1,
+    })
+  }
+
+  removeClientField = () => {
+    if (this.state.extraSite < 0) {
+      return false
+    }
+    this.setState({
+      extraClient: this.state.extraClient - 1,
+      extraSite: this.state.extraSite - 1,
+    })
+  }
+
+  addSiteField = () => {
+    if (this.state.extraSite > 3) {
+      return false
+    }
+    this.setState({
+      extraSite: this.state.extraSite + 1,
+    })
+  }
+
+  _addSiteField = () => {
+    if (this.state.extraSite > 3) {
+      return false
+    }
+    this.setState({
+      currentSiteNum: this.state.currentSiteNum + 1,
+    })
+    this.addSiteField()
+  }
+
+  removeSiteField = () => {
+    if (this.state.extraSite < 0) {
+      return false
+    }
+    this.setState({
+      extraSite: this.state.extraSite - 1,
+    })
+  }
+
+  _removeSiteField = () => {
+    if (this.state.extraSite < 0) {
+      return false
+    }
+    this.setState({
+      currentSiteNum: this.state.currentSiteNum - 1,
+    })
+    this.removeSiteField()
+  }
+
   render() {
-    const { clientSelectionStatus, visibleClientInfo, siteSelectionStatus, visibleSiteInfo } = this.state
-    const { form: { getFieldDecorator, getFieldValue }, order: { siteSelectInfoByCreatePlan }, children, loading } = this.props
+    const { clientSelectionStatus, visibleClientInfo, siteSelectionStatus, siteSelectionStatus2, siteSelectionStatus3, visibleSiteInfo, visibleSiteInfo2, visibleSiteInfo3, flag, currentClientInfo, currentSiteInfo, currentSiteInfo2, currentSiteInfo3, extraClient, extraSite, currentSiteNum, maxQuantity } = this.state
+    const { form: { getFieldDecorator, getFieldValue }, order: { clientSelectByCreatePlan, siteSelectByCreatePlan }, children, loading } = this.props
     const siteInfoLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -124,7 +297,6 @@ class CreatePlan extends Component {
         sm: { span: 15 },
       },
     }
-    console.log()
     return (
       <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
@@ -139,170 +311,326 @@ class CreatePlan extends Component {
           bodyStyle={{ padding: 0 }}
         >
           <Form style={{ padding: '24px 24px 10px' }}>
-
-
-            {visibleClientInfo ? <Row style={{ marginBottom: 25 }}>
-              <Col span={3}>
-                <div style={{ paddingLeft: 31 }}>
-                  {ClientImg}
-                </div>
-              </Col>
-              <Col span={15} style={{ marginLeft: 9 }}>
-                <div className={styles['site-select-info']}>
-                  <div>
-                    <div>
-                      <div className={styles['site-name']}>{siteSelectInfoByCreatePlan.site_name}
-                        <span className={styles['blue-font']}
-                              onClick={() => this.setState({ visibleClientInfo: false })}>更改</span>
-                        <span className={styles['delete-font']}
-                              onClick={() => this.setState({
-                                visibleClientInfo: false,
-                                clientSelectionStatus: false,
-                              })}>删除</span>
+            <>
+              <Row style={{ position: 'relative' }}>
+                {extraSite < 3 ?
+                  <IconFont type='icon-icon-test110' className='add-icon' onClick={this.addClientField} />
+                  :
+                  null}
+                {visibleClientInfo ? <Row style={{ marginBottom: 25 }}>
+                  <Col span={3}>
+                    <div style={{ paddingLeft: 31 }}>
+                      {ClientImg}
+                    </div>
+                  </Col>
+                  <Col span={15} style={{ marginLeft: 9 }}>
+                    <div className={styles['site-select-info']}>
+                      <div>
+                        <div>
+                          <div className={styles['site-name']}>{currentClientInfo.company_name}
+                            <span className={styles['blue-font']}
+                                  onClick={() => this.setState({ visibleClientInfo: false })}>更改</span>
+                            <span className={styles['delete-font']} onClick={this.deleteClientSelect}>删除</span>
+                          </div>
+                          <div>{currentClientInfo.contact} {currentClientInfo.contact_phone}</div>
+                        </div>
+                        <div>
+                          <div>预付款额 <span className={styles['red-font']}>{currentClientInfo.balance}元</span></div>
+                          <div>信用额度 <span className={styles['red-font']}>{currentClientInfo.credit}元</span></div>
+                        </div>
                       </div>
-                      <div>{siteSelectInfoByCreatePlan.contact} {siteSelectInfoByCreatePlan.contact_phone}</div>
                     </div>
-                    <div>
-                      <div>预付款额 <span className={styles['red-font']}>{siteSelectInfoByCreatePlan.balance}元</span></div>
-                      <div>信用额度 <span className={styles['red-font']}>{siteSelectInfoByCreatePlan.credit}元</span></div>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row> : <Form.Item label={ClientImg} {...siteInfoLayout}>
-              {getFieldDecorator('ba2lance', {
-                rules: [{ required: true }],
-              })(!clientSelectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
-                                                  onClick={this.changeClientSelectionStatus}>请选择客户</Button> :
-                <Select placeholder='请选择客户' autoFocus={true} defaultOpen={true}
-                        onBlur={this.changeClientSelectionStatus}
-                        onSelect={this.inquireClientInfo}>
-                  <Option value={1}>123</Option>
-                </Select>)}
-            </Form.Item>}
-            <Row>
-              <Col span={9}>
-                <Form.Item label='收款方式' {...itemLayout}>
-                  {getFieldDecorator('ba1lance3', {
-                    initialValue: '1',
-                  })(
-                    <Select>
-                      <Option value='1'>预付款</Option>
-                      <Option value='2'>信用额</Option>
-                    </Select>,
-                  )}
-                </Form.Item>
-              </Col>
-              <Col span={10} style={{ width: '46.2%' }}>
-                <Form.Item label='配送方式' {...itemLayout} style={{ marginLeft: 10 }}>
-                  {getFieldDecorator('ba3lan22ce1', {
+                  </Col>
+                </Row> : <Form.Item label={ClientImg} {...siteInfoLayout}>
+                  {getFieldDecorator('customer_id', {
                     rules: [{ required: true }],
-                    initialValue: '1',
-                  })(
-                    <Select placeholder='请选择配送方式'>
-                      <Option value='1'>卖方配送</Option>
-                      <Option value='2'>买方自提</Option>
-                    </Select>,
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={9}>
-                <Form.Item label='销售价格' {...itemLayout}>
-                  {getFieldDecorator('bal5ance22', {
-                    rules: [{ required: true }],
-                  })(
-                    <Input placeholder="请输入金额" onBlur={this.parseNumber.bind(null, 'bal5ance22', 2)}
-                           addonAfter='元/吨' />,
-                  )}
-                </Form.Item>
-              </Col>
-              <Col span={10} style={{ width: '46.2%' }}>
-                <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
-                  {getFieldDecorator('balan45111ce1', {
-                    rules: [{ required: true }],
-                  })(
-                    <Input placeholder="请输入金额" onBlur={this.parseNumber.bind(null, 'balan45111ce1', 2)}
-                           addonAfter='元' />,
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-
-
-            <div className='modal-line' style={{ width: 828, marginLeft: '-12px', marginBottom: 24 }} />
-
-
-            {visibleSiteInfo ? <Row>
-              <Col span={3}>
-                <div style={{ paddingLeft: 31 }}>
-                  {SiteImg}
-                </div>
-              </Col>
-              <Col span={15} style={{ marginLeft: 9 }}>
-                <div className={styles['site-select-info']}>
-                  <div>
-                    <div>
-                      <div className={styles['site-name']}>{siteSelectInfoByCreatePlan.site_name}
-                        <span className={styles['blue-font']}
-                              onClick={() => this.setState({ visibleSiteInfo: false })}>更改</span>
-                        <span className={styles['delete-font']}
-                              onClick={() => this.setState({
-                                visibleSiteInfo: false,
-                                siteSelectionStatus: false,
-                              })}>删除</span>
+                  })(!clientSelectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
+                                                      onClick={this.changeClientSelectionStatus}>请选择客户</Button> :
+                    <Select placeholder='请选择客户' autoFocus={true} defaultOpen={true}
+                            onBlur={this.changeClientSelectionStatus}
+                            onSelect={this.setClientInfo}>
+                      {clientSelectByCreatePlan.map(item => {
+                        return <Option value={item.id} key={item.id} {...item}>{item.company_name}</Option>
+                      })}
+                    </Select>)}
+                </Form.Item>}
+              </Row>
+              <Row>
+                <Col span={9}>
+                  <Form.Item label='收款方式' {...itemLayout}>
+                    {getFieldDecorator('payment_type', {
+                      initialValue: '1',
+                    })(
+                      <Select>
+                        <Option value='1'>预付款</Option>
+                        <Option value='2'>信用额</Option>
+                      </Select>,
+                    )}
+                  </Form.Item>
+                </Col>
+                <Col span={10} style={{ width: '46.2%' }}>
+                  <Form.Item label='配送方式' {...itemLayout} style={{ marginLeft: 10 }}>
+                    {getFieldDecorator('delivery_type', {
+                      rules: [{ required: true }],
+                      initialValue: '1',
+                    })(
+                      <Select placeholder='请选择配送方式' onChange={this.changeType}>
+                        <Option value='1'>卖方配送</Option>
+                        <Option value='2'>买方自提</Option>
+                        <Option value='3'>我方配送</Option>
+                      </Select>,
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={9}>
+                  <Form.Item label='销售价格' {...itemLayout}>
+                    {getFieldDecorator('price', {
+                      rules: [{ required: true }],
+                    })(
+                      <Input placeholder="请输入金额" onBlur={this.parseNumber.bind(null, 'price', 2)}
+                             addonAfter='元/吨' />,
+                    )}
+                  </Form.Item>
+                </Col>
+                <Col span={10} style={{ width: '46.2%' }}>
+                  <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
+                    {getFieldDecorator('extra_fee', {
+                      rules: [{ required: true }],
+                    })(
+                      <Input placeholder="请输入金额" onBlur={this.parseNumber.bind(null, 'extra_fee', 2)}
+                             addonAfter='元' />,
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <div className='modal-line' style={{ width: 828, marginLeft: '-12px', marginBottom: 24 }} />
+              <>
+                <Row style={{ position: 'relative' }}>
+                  {extraSite < 3 ?
+                    <IconFont type='icon-icon-test110' className='add-icon' onClick={this._addSiteField} />
+                    :
+                    null}
+                  {visibleSiteInfo ? <Row>
+                    <Col span={3}>
+                      <div style={{ paddingLeft: 31 }}>
+                        {SiteImg}
                       </div>
-                      <div>{siteSelectInfoByCreatePlan.contact} {siteSelectInfoByCreatePlan.contact_phone}</div>
-                    </div>
-                    <div>
-                      <div>预付款额 <span className={styles['red-font']}>{siteSelectInfoByCreatePlan.balance}元</span></div>
-                      <div>信用额度 <span className={styles['red-font']}>{siteSelectInfoByCreatePlan.credit}元</span></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className={styles['blue-background']}>{siteSelectInfoByCreatePlan.site_type}</div>
-                    <div>{siteSelectInfoByCreatePlan.province} {siteSelectInfoByCreatePlan.city} {siteSelectInfoByCreatePlan.area} {siteSelectInfoByCreatePlan.address}</div>
-                  </div>
-                </div>
-              </Col>
-            </Row> : <Form.Item label={SiteImg} {...siteInfoLayout}>
-              {getFieldDecorator('balance', {
-                rules: [{ required: true }],
-              })(!siteSelectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
-                                                onClick={this.changeSiteSelectionStatus}>请选择站点</Button> :
-                <Select placeholder='请选择站点' autoFocus={true} defaultOpen={true} onBlur={this.changeSiteSelectionStatus}
-                        onSelect={this.inquireSiteInfo}>
-                  <Option value={1}>123</Option>
-                </Select>)}
-            </Form.Item>}
-            <Row>
-              <Col span={9}>
-                <Form.Item label='计划数量' {...itemLayout}>
-                  {getFieldDecorator('balance3', {
-                    rules: [{ required: true }],
-                  })(
-                    <Input placeholder="请输入数量" onBlur={this.parseNumber.bind(null, 'balance3', 3)} addonAfter='吨' />,
-                  )}
-                </Form.Item>
-              </Col>
-              <Col span={10} style={{ width: '46.2%' }}>
-                <Form.Item label='卸货时间' {...itemLayout} style={{ marginLeft: 10 }}>
-                  {getFieldDecorator('balance1')(
-                    <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
-                                style={{ width: '100%' }} />,
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
+                    </Col>
+                    <Col span={15} style={{ marginLeft: 9 }}>
+                      <div className={styles['site-select-info']}>
+                        <div>
+                          <div>
+                            <div className={styles['site-name']}>{currentSiteInfo.site_name}
+                              <span className={styles['blue-font']}
+                                    onClick={() => this.setState({ visibleSiteInfo: false })}>更改</span>
+                              <span className={styles['delete-font']}
+                                    onClick={() => this.setState({
+                                      visibleSiteInfo: false,
+                                      siteSelectionStatus: false,
+                                      currentSiteInfo: {},
+                                    })}>删除</span>
+                            </div>
+                            <div>{currentSiteInfo.contact} {currentSiteInfo.contact_phone}</div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className={styles['blue-background']}>{site_type[currentSiteInfo.site_type - 1]}</div>
+                          <div>{currentSiteInfo.province} {currentSiteInfo.city} {currentSiteInfo.area} {currentSiteInfo.site_address}</div>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row> : <Form.Item label={SiteImg} {...siteInfoLayout}>
+                    {getFieldDecorator('site1_id', {
+                      rules: [{ required: flag }],
+                    })(!siteSelectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
+                                                      onClick={this.changeSiteSelectionStatus}>请选择站点</Button> :
+                      <Select placeholder='请选择站点' autoFocus={true} defaultOpen={true}
+                              onBlur={this.changeSiteSelectionStatus}
+                              onSelect={this.setSiteInfo}>
+                        {siteSelectByCreatePlan.map(item => {
+                          return <Option value={item.id} key={item.id} {...item}>{item.site_name}</Option>
+                        })}
+                      </Select>)}
+                  </Form.Item>}
+                </Row>
+                <Row>
+                  <Col span={9}>
+                    <Form.Item label='计划数量' {...itemLayout}>
+                      {getFieldDecorator('site1_quantity', {
+                        rules: [{ required: flag }],
+                      })(
+                        <Input placeholder="请输入数量" onBlur={this.parseNumber.bind(null, 'site1_quantity', 3)}
+                               addonAfter='吨' />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col span={10} style={{ width: '46.2%' }}>
+                    <Form.Item label='卸货时间' {...itemLayout} style={{ marginLeft: 10 }}>
+                      {getFieldDecorator('site1_time')(
+                        <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
+                                    style={{ width: '100%' }} />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </>
+              {currentSiteNum > 1 ?
+                <>
+                  <Row style={{ position: 'relative' }}>
+                    <IconFont type='icon-icon-test109' className='delete-icon' onClick={this._removeSiteField} />
+                    {visibleSiteInfo2 ? <Row>
+                      <Col span={3}>
+                        <div style={{ paddingLeft: 31 }}>
+                          {SiteImg}
+                        </div>
+                      </Col>
+                      <Col span={15} style={{ marginLeft: 9 }}>
+                        <div className={styles['site-select-info']}>
+                          <div>
+                            <div>
+                              <div className={styles['site-name']}>{currentSiteInfo2.site_name}
+                                <span className={styles['blue-font']}
+                                      onClick={() => this.setState({ visibleSiteInfo2: false })}>更改</span>
+                                <span className={styles['delete-font']}
+                                      onClick={() => this.setState({
+                                        visibleSiteInfo2: false,
+                                        siteSelectionStatus2: false,
+                                        currentSiteInfo2: {},
+                                      })}>删除</span>
+                              </div>
+                              <div>{currentSiteInfo2.contact} {currentSiteInfo2.contact_phone}</div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className={styles['blue-background']}>{site_type[currentSiteInfo2.site_type - 1]}</div>
+                            <div>{currentSiteInfo2.province} {currentSiteInfo2.city} {currentSiteInfo2.area} {currentSiteInfo2.site_address}</div>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row> : <Form.Item label={SiteImg} {...siteInfoLayout}>
+                      {getFieldDecorator('site2_id', {
+                        rules: [{ required: flag }],
+                      })(!siteSelectionStatus2 ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
+                                                         onClick={this.changeSiteSelectionStatus2}>请选择站点</Button> :
+                        <Select placeholder='请选择站点' autoFocus={true} defaultOpen={true}
+                                onBlur={this.changeSiteSelectionStatus2}
+                                onSelect={this.setSiteInfo2}>
+                          {siteSelectByCreatePlan.map(item => {
+                            return <Option value={item.id} key={item.id} {...item}>{item.site_name}</Option>
+                          })}
+                        </Select>)}
+                    </Form.Item>}
+                  </Row>
+                  <Row>
+                    <Col span={9}>
+                      <Form.Item label='计划数量' {...itemLayout}>
+                        {getFieldDecorator('site2_quantity', {
+                          rules: [{ required: flag }],
+                        })(
+                          <Input placeholder="请输入数量" onBlur={this.parseNumber.bind(null, 'site2_quantity', 3)}
+                                 addonAfter='吨' />,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={10} style={{ width: '46.2%' }}>
+                      <Form.Item label='卸货时间' {...itemLayout} style={{ marginLeft: 10 }}>
+                        {getFieldDecorator('site2_time')(
+                          <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
+                                      style={{ width: '100%' }} />,
+                        )}
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </> : null}
+              {currentSiteNum > 2 ?
+                <>
+                  <Row style={{ position: 'relative' }}>
+                    <IconFont type='icon-icon-test109' className='delete-icon' onClick={this._removeSiteField} />
+                    {visibleSiteInfo3 ? <Row>
+                      <Col span={3}>
+                        <div style={{ paddingLeft: 31 }}>
+                          {SiteImg}
+                        </div>
+                      </Col>
+                      <Col span={15} style={{ marginLeft: 9 }}>
+                        <div className={styles['site-select-info']}>
+                          <div>
+                            <div>
+                              <div className={styles['site-name']}>{currentSiteInfo3.site_name}
+                                <span className={styles['blue-font']}
+                                      onClick={() => this.setState({ visibleSiteInfo3: false })}>更改</span>
+                                <span className={styles['delete-font']}
+                                      onClick={() => this.setState({
+                                        visibleSiteInfo3: false,
+                                        siteSelectionStatus3: false,
+                                        currentSiteInfo3: {},
+                                      })}>删除</span>
+                              </div>
+                              <div>{currentSiteInfo3.contact} {currentSiteInfo3.contact_phone}</div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className={styles['blue-background']}>{site_type[currentSiteInfo3.site_type - 1]}</div>
+                            <div>{currentSiteInfo3.province} {currentSiteInfo3.city} {currentSiteInfo3.area} {currentSiteInfo3.site_address}</div>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row> : <Form.Item label={SiteImg} {...siteInfoLayout}>
+                      {getFieldDecorator('site3_id', {
+                        rules: [{ required: flag }],
+                      })(!siteSelectionStatus3 ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
+                                                         onClick={this.changeSiteSelectionStatus3}>请选择站点</Button> :
+                        <Select placeholder='请选择站点' autoFocus={true} defaultOpen={true}
+                                onBlur={this.changeSiteSelectionStatus3}
+                                onSelect={this.setSiteInfo3}>
+                          {siteSelectByCreatePlan.map(item => {
+                            return <Option value={item.id} key={item.id} {...item}>{item.site_name}</Option>
+                          })}
+                        </Select>)}
+                    </Form.Item>}
+                  </Row>
+                  <Row>
+                    <Col span={9}>
+                      <Form.Item label='计划数量' {...itemLayout}>
+                        {getFieldDecorator('site3_quantity', {
+                          rules: [{ required: flag }],
+                        })(
+                          <Input placeholder="请输入数量" onBlur={this.parseNumber.bind(null, 'site3_quantity', 3)}
+                                 addonAfter='吨' />,
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col span={10} style={{ width: '46.2%' }}>
+                      <Form.Item label='卸货时间' {...itemLayout} style={{ marginLeft: 10 }}>
+                        {getFieldDecorator('site3_time')(
+                          <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
+                                      style={{ width: '100%' }} />,
+                        )}
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </> : null}
+            </>
+            {(extraClient > 1 && extraSite < 4) ? <CreatePlanField extraSite={extraSite}
+                                                                   removeClientField={this.removeClientField}
+                                                                   addSiteField={this.addSiteField}
+                                                                   removeSiteField={this.removeSiteField}
+                                                                   wrappedComponentRef={(form) => this.formRef2 = form} /> : null}
+            {(extraClient > 2 && extraSite < 4) ? <CreatePlanField extraSite={extraSite}
+                                                                   removeClientField={this.removeClientField}
+                                                                   addSiteField={this.addSiteField}
+                                                                   removeSiteField={this.removeSiteField}
+                                                                   wrappedComponentRef={(form) => this.formRef3 = form} /> : null}
           </Form>
           <div className={styles['create-plan-modal-footer']}>
             <div>
               <div>
                 <div style={{ marginLeft: 30 }}>销售总量 <span
-                  className={styles['red-font']}>{(getFieldValue('balance3') || '0.000')} 吨</span></div>
+                  className={styles['red-font']}>{(getFieldValue('quantity_1') || '0.000')} 吨</span></div>
                 <div style={{ marginLeft: 30 }}>销售总额 <span className={styles['red-font']}>
-                  {toFixed(parseFloat(getFieldValue('bal5ance22') || 0) * parseFloat(getFieldValue('balance3') || 0) + parseFloat(getFieldValue('balan45111ce1') || 0), 2)} 元</span>
+                  {toFixed(parseFloat(getFieldValue('price') || 0) * parseFloat(getFieldValue('quantity_1') || 0) + parseFloat(getFieldValue('extra_fee') || 0), 2)} 元</span>
                 </div>
               </div>
               <div style={{ marginRight: 20 }}>

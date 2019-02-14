@@ -68,12 +68,13 @@ export default {
       const { data } = yield call(globalServices.login, form)
       if (parseInt(data.code, 10) === 1) {
         message.success(data.msg)
-        localStorage.setItem('userData', JSON.stringify(data.user))
+        localStorage.setItem('userData', JSON.stringify(data.data.user))
         router.push({
           pathname: '/trading/order',
         })
       } else {
         message.error(data.msg)
+        localStorage.removeItem('userData')
       }
 
     },
@@ -87,12 +88,15 @@ export default {
     * checkLogin({ payload }, { call, put }) {
       const { data } = yield call(globalServices.checkLogin)
       if (parseInt(data.code, 10) === 1) {
+        console.log(data)
         message.success(data.msg)
+        localStorage.setItem('userData', JSON.stringify(data.data.user))
         router.push({
           pathname: '/trading/order',
         })
       } else {
         message.error(data.msg)
+        localStorage.removeItem('userData')
       }
     },
   },

@@ -7,7 +7,7 @@ export function fetchPartnerList({ page, find_str }) {
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
   formData.append('find_str', find_str)
-  return request(`${IP}/index/partner/list`, {
+  return request(`${IP}/index/partner/page`, {
     method: 'POST',
     body: formData,
   })

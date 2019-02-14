@@ -24,9 +24,9 @@ class OrderList extends Component {
   mapOrderList = () => {
     const { order: { orderList, currentOrderNum } } = this.props
     return orderList.length ? orderList.map((value, index) => {
-      let span = 24 / (value.buyer.length + 1)
+      let span = 24 / (value.sites.length + 1)
       let screenWidth = document.body.scrollWidth
-      let lineWidth = (screenWidth / 2 / (value.buyer.length + 1)) - (90 / (value.buyer.length + 1)) * (value.buyer.length + 1)
+      let lineWidth = (screenWidth / 2 / (value.sites.length + 1)) - (90 / (value.sites.length + 1)) * (value.sites.length + 1)
       let lineLeft = lineWidth / 2
       return <Card key={index} style={{ marginBottom: 18 }} bodyStyle={{ padding: 0 }}
                    className={classnames(currentOrderNum === index ? styles['order-card-active'] : '', styles['order-card'])}>
@@ -39,42 +39,61 @@ class OrderList extends Component {
         </div>
         <Row className={styles['order-card-body']}>
           <Col span={span} style={{ position: 'relative' }}>
-            <div className={styles['name']}>卖家：{value.seller.name}</div>
+            <div className={styles['name']}>卖家：{value.supp_name}</div>
             <div
-              className={styles['detail']}>{value.seller.buy_num}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value.seller.buy_price}元
+              className={styles['detail']}>{value.load_quantity}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value.supp_price}元
             </div>
             <img src={require('@/assets/image/gas_blue.png')} className={styles['img']} alt="" />
             <div className={classnames(styles['gas'], styles['primary-color'])}>
-              {value.seller.gas_name}&nbsp;&nbsp;({value.seller.actual_buy_num} 吨)
+              {value.supp_goods_name}&nbsp;&nbsp;({value.quantity} 吨)
             </div>
             <div className={classnames(styles['take-time'], styles['primary-color'])}>
-              实际装车时间&nbsp;{value.seller.take_time}
+              预计装车时间&nbsp;{value.load_time}
             </div>
-            <div>
-              <div className={styles['dashed-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
-              <div className={styles['logistics-car']} />
-            </div>
+            {value.current_site > 0 ? <div>
+                <div className={styles['solid-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
+              </div>
+              :
+              <div>
+                <div className={styles['dashed-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
+                <div className={styles['logistics-car']} />
+              </div>}
+
           </Col>
-          {value.buyer.map((value1, index1) => {
+          {value.sites.map((value1, index1) => {
             return <Col span={span} key={index1} style={{ position: 'relative' }}>
-              <div className={styles['name']}>卖家：{value1.name}</div>
-              <div className={styles['detail']}>{value1.sell_num}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value1.sell_price}元</div>
-              <img src={require('@/assets/image/site_gray.png')} className={styles['img']} alt="" />
+              <div className={styles['name']}>买家：{value1.site_name}</div>
+              <div className={styles['detail']}>{value1.unload_quantity}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value1.price}元</div>
+              {value.current_site > index1 ?
+                <img src={require('@/assets/image/site_blue.png')} className={styles['img']} alt="" />
+                :
+                <img src={require('@/assets/image/site_gray.png')} className={styles['img']} alt="" />
+              }
               <div className={classnames(styles['gas'])}>
-                {value1.gas_name}&nbsp;&nbsp;({value1.actual_sell_num} 吨)
+                {value1.site_full_name}&nbsp;&nbsp;({value1.quantity} 吨)
               </div>
               <div className={classnames(styles['take-time'])}>
-                实际卸车时间&nbsp;{value1.take_time}
+                预计卸车时间&nbsp;{value1.rece_time}
               </div>
-              {value.buyer.length - 1 !== index1 ?
-                <div className={styles['solid-line-gray']} style={{ width: lineWidth, right: -lineLeft }} /> : null}
+              {value.sites.length - 1 !== index1 ?
+                value.current_site > index1 ?
+                  value.current_site === index1 + 1 ?
+                    <div>
+                      <div className={styles['dashed-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
+                      <div className={styles['logistics-car']} />
+                    </div> :
+                    <div>
+                      <div className={styles['solid-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
+                    </div> :
+                  <div className={styles['solid-line-gray']} style={{ width: lineWidth, right: -lineLeft }} />
+                : null}
             </Col>
           })}
         </Row>
         <div className={styles['order-card-footer']}>
           <div>
-            <div>订单编号：{value.order_id}</div>
-            <div>创建时间：{value.order_make_time}</div>
+            <div>订单编号：{value.id}</div>
+            <div>创建时间：{value.create_time}</div>
           </div>
           {value.status === '1' ? <div>
               <OrderConfirm>
@@ -84,16 +103,16 @@ class OrderList extends Component {
               <Button className='line-primary'>取消订单</Button>
             </div> :
             value.status === '2' ? <div>
-                <SalesBilling>
-                  <Button type='primary' style={{ marginRight: 10 }}>销售开单</Button>
-                </SalesBilling>
+                <LogisticsScheduling>
+                  <Button type='primary' style={{ marginRight: 10 }}>去调度</Button>
+                </LogisticsScheduling>
                 <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                 <Button className='line-primary'>取消订单</Button>
               </div> :
               value.status === '3' ? <div>
-                  <LogisticsScheduling>
-                    <Button type='primary' style={{ marginRight: 10 }}>去调度</Button>
-                  </LogisticsScheduling>
+                  <OrderPurchase>
+                    <Button type='primary' style={{ marginRight: 10 }}>去采购</Button>
+                  </OrderPurchase>
                   <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                   <Button className='line-primary'>取消订单</Button>
                 </div> :
@@ -104,9 +123,9 @@ class OrderList extends Component {
                   <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                   <Button className='line-primary'>取消订单</Button>
                 </div> : <div>
-                  <OrderPurchase>
-                    <Button type='primary' style={{ marginRight: 10 }}>去采购</Button>
-                  </OrderPurchase>
+                  <SalesBilling>
+                    <Button type='primary' style={{ marginRight: 10 }}>销售开单</Button>
+                  </SalesBilling>
                   <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                   <Button className='line-primary'>取消订单</Button>
                 </div>}

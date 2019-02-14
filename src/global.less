@@ -217,6 +217,10 @@ html, body, #root {
   font-size: 1rem;
 }
 
+.ant-tabs-nav .ant-tabs-tab-disabled, .ant-tabs-nav .ant-tabs-tab-disabled:hover {
+  color: @tabs-disabled !important;
+}
+
 // 下拉选择自定义样式
 .ant-select {
   font-size: 1rem !important;
@@ -533,6 +537,26 @@ html, body, #root {
   width: 15px !important;
   height: 18px !important;
   color: @font-gray-color !important;
+}
+
+.add-icon {
+  color: @primary-color !important;
+  font-size: 30px;
+  position: absolute;
+  top: 6px;
+  right: 70px;
+  cursor: pointer;
+  z-index: 99;
+}
+
+.delete-icon {
+  color: @primary-color-red !important;
+  font-size: 30px;
+  position: absolute;
+  top: 6px;
+  right: 28px;
+  cursor: pointer;
+  z-index: 99;
 }
 
 .modal-line {

@@ -20,7 +20,7 @@ class Index extends Component {
   componentWillMount() {
     this.props.dispatch({
       type: 'global/checkLogin',
-      payload: {}
+      payload: {},
     })
   }
 

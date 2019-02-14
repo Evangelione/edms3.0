@@ -40,7 +40,7 @@ export function logout() {
 }
 
 export function checkLogin() {
-  return request(`${IP}/index/login/check-login`, {
+  return request(`${IP}/index/login/check-login?t=${new Date().getTime()}`, {
     method: 'GET',
   })
 }

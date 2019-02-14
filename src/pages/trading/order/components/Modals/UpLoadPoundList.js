@@ -65,7 +65,7 @@ class UpLoadPoundList extends Component {
           bodyStyle={{ padding: 0 }}>
           <div style={{ padding: '0 12px', position: 'relative' }}>
             <Tabs defaultActiveKey="1">
-              <TabPane tab="董家口气" key="1">
+              <TabPane tab="董家口气" key="1" style={{paddingTop: 10}}>
                 <Row>
                   <Col span={12} style={{ paddingBottom: 2 }}>
                     <Col span={5}>
@@ -125,7 +125,7 @@ class UpLoadPoundList extends Component {
               <TabPane tab="转塘第8加气站" key="4" disabled>Content of Tab Pane 3</TabPane>
             </Tabs>
             <div className='tabs-bottom-line' />
-            <div style={{ padding: 8, marginTop: 20 }}>
+            <div style={{ padding: 8, marginTop: 15 }}>
               <Dragger {...props}>
                 <p className="ant-upload-drag-icon">
                   <IconFont type="icon-icon-test110" />
