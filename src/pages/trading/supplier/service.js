@@ -7,7 +7,7 @@ export function fetchSupplierList({page, supp_name}) {
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
   formData.append('supp_name', supp_name)
-  return request(`${IP}/index/supp/supp-list`, {
+  return request(`${IP}/index/supp/page`, {
     method: 'POST',
     body: formData,
   })

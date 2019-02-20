@@ -73,7 +73,7 @@ export function fetchSiteList({page, customer_id, site_name}) {
   formData.append('limit', PAGE_LIMIT)
   formData.append('customer_id', customer_id)
   formData.append('site_name', site_name)
-  return request(`${IP}/index/site/site-list`, {
+  return request(`${IP}/index/site/list`, {
     method: 'POST',
     body: formData,
   })

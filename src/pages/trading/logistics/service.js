@@ -58,7 +58,7 @@ export function fetchFleetList({page, id}) {
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
   formData.append('id', id)
-  return request(`${IP}/index/driver/driver-car-list`, {
+  return request(`${IP}/index/driver/driver-car-page`, {
     method: 'POST',
     body: formData,
   })

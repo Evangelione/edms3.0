@@ -38,9 +38,53 @@ export function inquireSiteSelectInfoByCreatePlan(id) {
 
 export function submitCreatePlan(form) {
   let formData = new FormData()
-  debugger
   formData.append('sites', JSON.stringify(form))
   return request(`${IP}/index/order/customer-order-add`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function schedulingLogistics(form) {
+  let formData = new FormData()
+  Object.keys(form).forEach((key, i) => {
+    formData.append(key, form[key] || '')
+  })
+  return request(`${IP}/index/order/dispatch`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function inquireLogisticsSelectByLogisticsScheduling() {
+  return request(`${IP}/index/logistics/list`, {
+    method: 'GET',
+  })
+}
+
+
+export function inquireLogisticsInfoByLogisticsScheduling(ids) {
+  let formData = new FormData()
+  Object.keys(ids).forEach((key, i) => {
+    formData.append(key, ids[key] || '')
+  })
+  return request(`${IP}/index/driver/driver-car-ganged-list`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function inquireSuppInfoByOrderPurchase() {
+  return request(`${IP}/index/supp/list`, {
+    method: 'GET',
+  })
+}
+
+export function inquireGasInfoByOrderPurchase(id) {
+  let formData = new FormData()
+  formData.append('supp_id', id)
+  return request(`${IP}/index/goods/list`, {
     method: 'POST',
     body: formData,
   })
@@ -58,23 +102,6 @@ export function inquireSiteSelectInfoBySalesBilling() {
   })
 }
 
-export function inquireSiteInfoByLogisticsScheduling() {
-  return fetch('/api/site-select').then(response => response.json()).then(data => {
-    return data
-  })
-}
-
-export function inquireLogisticsInfoByLogisticsScheduling() {
-  return fetch('/api/client-select').then(response => response.json()).then(data => {
-    return data
-  })
-}
-
-export function inquireSiteInfoByOrderPurchase() {
-  return fetch('/api/site-select').then(response => response.json()).then(data => {
-    return data
-  })
-}
 
 export function inquireSupplierSelectInfoByOrderPurchase() {
   return fetch('/api/site-select').then(response => response.json()).then(data => {

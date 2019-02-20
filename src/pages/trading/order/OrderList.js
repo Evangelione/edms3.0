@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, Row, Col, Empty } from 'antd'
+import { Card, Button, Row, Col, Empty, Pagination } from 'antd'
 import { connect } from 'dva'
 import classnames from 'classnames'
 import OrderConfirm from './components/Modals/OrderConfirm'
@@ -50,25 +50,27 @@ class OrderList extends Component {
             <div className={classnames(styles['take-time'], styles['primary-color'])}>
               预计装车时间&nbsp;{value.load_time}
             </div>
-            {value.current_site > 0 ? <div>
-                <div className={styles['solid-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
+            {value.current_site === 0 ? <div>
+                <div className={styles['solid-line-gray']} style={{ width: lineWidth, right: -lineLeft }} />
               </div>
               :
-              <div>
-                <div className={styles['dashed-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
-                <div className={styles['logistics-car']} />
-              </div>}
-
+              value.current_site === 1 ? <div>
+                  <div className={styles['dashed-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
+                  <div className={styles['logistics-car']} />
+                </div>
+                :
+                <div>
+                  <div className={styles['solid-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
+                </div>}
           </Col>
           {value.sites.map((value1, index1) => {
             return <Col span={span} key={index1} style={{ position: 'relative' }}>
               <div className={styles['name']}>买家：{value1.site_name}</div>
               <div className={styles['detail']}>{value1.unload_quantity}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value1.price}元</div>
-              {value.current_site > index1 ?
+              {value.current_site > index1 + 1 ?
                 <img src={require('@/assets/image/site_blue.png')} className={styles['img']} alt="" />
                 :
-                <img src={require('@/assets/image/site_gray.png')} className={styles['img']} alt="" />
-              }
+                <img src={require('@/assets/image/site_gray.png')} className={styles['img']} alt="" />}
               <div className={classnames(styles['gas'])}>
                 {value1.site_full_name}&nbsp;&nbsp;({value1.quantity} 吨)
               </div>
@@ -76,8 +78,8 @@ class OrderList extends Component {
                 预计卸车时间&nbsp;{value1.rece_time}
               </div>
               {value.sites.length - 1 !== index1 ?
-                value.current_site > index1 ?
-                  value.current_site === index1 + 1 ?
+                value.current_site > index1 + 1 ?
+                  value.current_site === index1 + 2 ?
                     <div>
                       <div className={styles['dashed-line-blue']} style={{ width: lineWidth, right: -lineLeft }} />
                       <div className={styles['logistics-car']} />
@@ -97,20 +99,20 @@ class OrderList extends Component {
           </div>
           {value.status === '1' ? <div>
               <OrderConfirm>
-                <Button type='primary' style={{ marginRight: 10 }}>确认收货</Button>
+                <Button type='primary' style={{ marginRight: 10 }}>确认订单</Button>
               </OrderConfirm>
               <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
               <Button className='line-primary'>取消订单</Button>
             </div> :
             value.status === '2' ? <div>
-                <LogisticsScheduling>
+                <LogisticsScheduling sites={JSON.stringify(value.sites)} id={value.id}>
                   <Button type='primary' style={{ marginRight: 10 }}>去调度</Button>
                 </LogisticsScheduling>
                 <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                 <Button className='line-primary'>取消订单</Button>
               </div> :
               value.status === '3' ? <div>
-                  <OrderPurchase>
+                  <OrderPurchase sites={JSON.stringify(value.sites)}>
                     <Button type='primary' style={{ marginRight: 10 }}>去采购</Button>
                   </OrderPurchase>
                   <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
@@ -134,10 +136,24 @@ class OrderList extends Component {
     }) : <Empty />
   }
 
+  fetchOrderList = (page) => {
+    this.props.dispatch({
+      type: 'order/fetchOrderList',
+      payload: {
+        page,
+        orderStatus: this.props.order.orderStatus,
+      },
+    })
+  }
+
   render() {
+    const { orderPage, orderTotal } = this.props.order
     return (
       <div style={{ padding: '20px 0' }}>
         {this.mapOrderList()}
+        <div style={{ textAlign: 'center', marginTop: 30 }}>
+          <Pagination current={orderPage} total={orderTotal} onChange={this.fetchOrderList} />
+        </div>
       </div>
     )
   }

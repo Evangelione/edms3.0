@@ -7,6 +7,7 @@ export default {
     orderList: [],
     orderPage: 1,
     orderTotal: 0,
+    orderStatus: '',
     currentOrderNum: 0,
     orderMapDetail: {
       client: [{
@@ -63,9 +64,7 @@ export default {
     },
     clientSelectInfoBySalesBilling: {},
     siteSelectInfoBySalesBilling: {},
-    siteInfoByLogisticsScheduling: {},
-    logisticsInfoByLogisticsScheduling: {},
-    siteInfoByOrderPurchase: {},
+    logisticsSelectByLogisticsScheduling: {},
     supplierSelectInfoByOrderPurchase: {},
     gasSelectInfoByOrderPurchase: {},
     orderInfoByOrderConfirm: {},
@@ -73,6 +72,11 @@ export default {
     gasSelectInfoByOrderConfirm: {},
     clientSelectByCreatePlan: [],
     siteSelectByCreatePlan: [],
+    logisticsDriverList: [],
+    logisticsCarHeadList: [],
+    logisticsCarBodyList: [],
+    suppInfoByOrderPurchase: [],
+    gasInfoByOrderPurchase: [],
   },
 
   subscriptions: {
@@ -92,6 +96,7 @@ export default {
             orderList: data.data.list,
             orderPage: parseInt(page, 10),
             orderTotal: parseInt(data.data.total, 10),
+            orderStatus: status,
           },
         })
         :
@@ -134,34 +139,53 @@ export default {
       })
     },
 
-    * inquireSiteInfoByLogisticsScheduling({ payload: { file } }, { call, put }) {
-      const data = yield call(orderService.inquireSiteInfoByLogisticsScheduling, file)
+    * inquireLogisticsSelectByLogisticsScheduling({ payload }, { call, put }) {
+      const { data } = yield call(orderService.inquireLogisticsSelectByLogisticsScheduling)
       yield put({
         type: 'save',
         payload: {
-          siteInfoByLogisticsScheduling: data,
+          logisticsSelectByLogisticsScheduling: data.data.list,
         },
       })
     },
 
-    * inquireLogisticsInfoByLogisticsScheduling({ payload: { file } }, { call, put }) {
-      const data = yield call(orderService.inquireLogisticsInfoByLogisticsScheduling, file)
+    * inquireLogisticsInfoByLogisticsScheduling({ payload: ids }, { call, put }) {
+      const { data } = yield call(orderService.inquireLogisticsInfoByLogisticsScheduling, ids)
+      let field
+      if (ids.car_head_id) { // 请求body
+        field = 'logisticsCarBodyList'
+      } else if (ids.driver_id) { // 请求head
+        field = 'logisticsCarHeadList'
+      } else { // 请求driver
+        field = 'logisticsDriverList'
+      }
       yield put({
         type: 'save',
         payload: {
-          logisticsInfoByLogisticsScheduling: data,
+          [field]: data.data.list,
         },
       })
     },
-    * inquireSiteInfoByOrderPurchase({ payload: { file } }, { call, put }) {
-      const data = yield call(orderService.inquireSiteInfoByOrderPurchase, file)
+    * inquireSuppInfoByOrderPurchase({ payload }, { call, put }) {
+      const { data } = yield call(orderService.inquireSuppInfoByOrderPurchase)
       yield put({
         type: 'save',
         payload: {
-          siteInfoByOrderPurchase: data,
+          suppInfoByOrderPurchase: data.data.list,
         },
       })
     },
+    * inquireGasInfoByOrderPurchase({ payload: { id } }, { call, put }) {
+      const { data } = yield call(orderService.inquireGasInfoByOrderPurchase, id)
+      yield put({
+        type: 'save',
+        payload: {
+          gasInfoByOrderPurchase: data.data.list,
+        },
+      })
+    },
+
+
     * inquireSupplierSelectInfoByOrderPurchase({ payload: { file } }, { call, put }) {
       const data = yield call(orderService.inquireSupplierSelectInfoByOrderPurchase, file)
       yield put({
@@ -227,6 +251,13 @@ export default {
     },
     * submitCreatePlan({ payload: { form } }, { call, put }) {
       const { data } = yield call(orderService.submitCreatePlan, form)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * schedulingLogistics({ payload: { form } }, { call, put }) {
+      const { data } = yield call(orderService.schedulingLogistics, form)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
         :

@@ -129,7 +129,6 @@ class Index extends Component {
         //     form: values,
         //   },
         // })
-        debugger
         this.setState({
           insertFleet: {
             ...insertFleet,

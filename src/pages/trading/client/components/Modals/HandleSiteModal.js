@@ -35,7 +35,16 @@ class HandleSiteModal extends Component {
     this.setState({
       modalVisible: true,
     }, () => {
-      this.props.modify && this.inquire()
+      if (this.props.modify) {
+        this.inquire()
+      } else {
+        this.props.dispatch({
+          type: 'global/inquireCascadeOptions',
+          payload: {
+            module: 'site',
+          },
+        })
+      }
     })
   }
 

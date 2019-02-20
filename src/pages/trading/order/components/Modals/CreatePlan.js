@@ -33,6 +33,9 @@ class CreatePlan extends Component {
     extraSite: 1,
     currentSiteNum: 1,
     maxQuantity: 25,
+    site1_quantity: 0,
+    site2_quantity: 0,
+    site3_quantity: 0,
   }
 
   showModal = () => {
@@ -152,7 +155,7 @@ class CreatePlan extends Component {
 
       if (!err && form2 && form3) {
         console.log(values)
-        values.site1_time = values.site1_time.format('YYYY-MM-DD')
+        values.delivery_type !== '2' && (values.site1_time = values.site1_time.format('YYYY-MM-DD'))
         this.state.currentSiteInfo2.id && (values.site2_time = values.site2_time.format('YYYY-MM-DD'))
         this.state.currentSiteInfo3.id && (values.site3_time = values.site3_time.format('YYYY-MM-DD'))
         let list = [values]
@@ -164,7 +167,13 @@ class CreatePlan extends Component {
           payload: {
             form: list,
           },
-        }).then(() => this.hideModal())
+        }).then(() => {
+          this.hideModal()
+          this.props.dispatch({
+            type: 'order/fetchOrderList',
+            payload: {},
+          })
+        })
       }
     })
   }
@@ -176,6 +185,43 @@ class CreatePlan extends Component {
     }
     isNaN(val) && (val = 0)
     let num = toFixed(val, precision)
+    this.props.form.setFieldsValue({
+      [filed]: num,
+    })
+  }
+
+  parseNumberQuantity = (filed, precision, e) => {
+    // maxQuantity
+    let { maxQuantity, site1_quantity, site2_quantity, site3_quantity } = this.state
+    let val = e.target.value
+    if (val === '') {
+      return false
+    }
+    isNaN(val) && (val = 0)
+    let num
+    val = val - 0
+    if (filed === 'site1_quantity') {
+      if ((val + parseFloat(site2_quantity) + parseFloat(site3_quantity)) <= maxQuantity) {
+        num = toFixed(val, precision)
+      } else {
+        num = toFixed(maxQuantity - site2_quantity - site3_quantity, precision)
+      }
+    } else if (filed === 'site2_quantity') {
+      if ((parseFloat(site1_quantity) + val + parseFloat(site3_quantity)) <= maxQuantity) {
+        num = toFixed(val, precision)
+      } else {
+        num = toFixed(maxQuantity - site1_quantity - site3_quantity, precision)
+      }
+    } else {
+      if ((parseFloat(site1_quantity) + parseFloat(site2_quantity) + val) <= maxQuantity) {
+        num = toFixed(val, precision)
+      } else {
+        num = toFixed(maxQuantity - site1_quantity - site2_quantity, precision)
+      }
+    }
+    this.setState({
+      [filed]: num,
+    })
     this.props.form.setFieldsValue({
       [filed]: num,
     })
@@ -275,7 +321,7 @@ class CreatePlan extends Component {
   }
 
   render() {
-    const { clientSelectionStatus, visibleClientInfo, siteSelectionStatus, siteSelectionStatus2, siteSelectionStatus3, visibleSiteInfo, visibleSiteInfo2, visibleSiteInfo3, flag, currentClientInfo, currentSiteInfo, currentSiteInfo2, currentSiteInfo3, extraClient, extraSite, currentSiteNum, maxQuantity } = this.state
+    const { clientSelectionStatus, visibleClientInfo, siteSelectionStatus, siteSelectionStatus2, siteSelectionStatus3, visibleSiteInfo, visibleSiteInfo2, visibleSiteInfo3, flag, currentClientInfo, currentSiteInfo, currentSiteInfo2, currentSiteInfo3, extraClient, extraSite, currentSiteNum } = this.state
     const { form: { getFieldDecorator, getFieldValue }, order: { clientSelectByCreatePlan, siteSelectByCreatePlan }, children, loading } = this.props
     const siteInfoLayout = {
       labelCol: {
@@ -459,7 +505,7 @@ class CreatePlan extends Component {
                   <Col span={9}>
                     <Form.Item label='计划数量' {...itemLayout}>
                       {getFieldDecorator('site1_quantity', {
-                        rules: [{ required: flag }],
+                        rules: [{ required: true }],
                       })(
                         <Input placeholder="请输入数量" onBlur={this.parseNumber.bind(null, 'site1_quantity', 3)}
                                addonAfter='吨' />,
@@ -527,7 +573,7 @@ class CreatePlan extends Component {
                     <Col span={9}>
                       <Form.Item label='计划数量' {...itemLayout}>
                         {getFieldDecorator('site2_quantity', {
-                          rules: [{ required: flag }],
+                          rules: [{ required: true }],
                         })(
                           <Input placeholder="请输入数量" onBlur={this.parseNumber.bind(null, 'site2_quantity', 3)}
                                  addonAfter='吨' />,
@@ -595,7 +641,7 @@ class CreatePlan extends Component {
                     <Col span={9}>
                       <Form.Item label='计划数量' {...itemLayout}>
                         {getFieldDecorator('site3_quantity', {
-                          rules: [{ required: flag }],
+                          rules: [{ required: true }],
                         })(
                           <Input placeholder="请输入数量" onBlur={this.parseNumber.bind(null, 'site3_quantity', 3)}
                                  addonAfter='吨' />,
