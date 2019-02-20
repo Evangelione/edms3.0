@@ -14,6 +14,8 @@ const TabPane = Tabs.TabPane
   logistics,
   loading: loading.models.logistics,
 }))
+
+  // 动态路由页面，参考https://umijs.org/zh/guide/router.html#%E5%8F%AF%E9%80%89%E7%9A%84%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1
 class logisticsDetail extends Component {
   componentWillMount() {
     this.props.dispatch({
@@ -62,8 +64,10 @@ class logisticsDetail extends Component {
             :
             null}
         </div>
+        {/*antd组件->页签*/}
         <Tabs activeKey={logisticsInfoCurrentTabs} onChange={this.changeCurrentTabs}
               style={{padding: '12px 24px 60px'}}>
+          {/*单个页签*/}
           <TabPane tab="物流信息" key="1">
             <LogisticsInfo />
           </TabPane>

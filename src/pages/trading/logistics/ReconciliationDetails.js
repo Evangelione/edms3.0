@@ -6,10 +6,12 @@ import router from 'umi/router'
 
 const Option = Select.Option
 
-@connect(({logistics, loading}) => ({
+@connect(({ logistics, loading }) => ({
   logistics,
   loading: loading.models.logistics,
 }))
+
+  // 对账详情页
 class ReconciliationDetails extends Component {
   state = {
     startValue: null,
@@ -50,31 +52,32 @@ class ReconciliationDetails extends Component {
 
   handleStartOpenChange = (open) => {
     if (!open) {
-      this.setState({endOpen: true})
+      this.setState({ endOpen: true })
     }
   }
 
   handleEndOpenChange = (open) => {
-    this.setState({endOpen: open})
+    this.setState({ endOpen: open })
   }
 
   render() {
-    const {company} = this.props.location.query
-    const {startValue, endValue, endOpen} = this.state
-    const {logistics, loading} = this.props
-    const {logisticsHistoryList} = logistics
+    const { company } = this.props.location.query
+    const { startValue, endValue, endOpen } = this.state
+    const { logistics, loading } = this.props
+    const { logisticsHistoryList } = logistics
 
     return (
       <div>
         <div className='toolbar'>
           <Button type='primary' icon='rollback' onClick={() => router.goBack()}>返回</Button>
           <img src={require('@/assets/image/point.png')}
-               style={{margin: '0 20px 0 40px'}} alt="" />
-          <span className='font-purple-color' style={{fontWeight: 'bold'}}>{company}</span>
-          <span className='font-purple-color' style={{marginLeft: 40}}>销售对账明细&nbsp;&nbsp;&nbsp;&nbsp;{company} 至 {company}</span>
-          <div style={{float: 'right'}}>
-            <Button type='primary' style={{marginRight: 10}}>确认对账</Button>
-            <Button type='primary' style={{marginRight: 10}}>确认开票</Button>
+               style={{ margin: '0 20px 0 40px' }} alt="" />
+          <span className='font-purple-color' style={{ fontWeight: 'bold' }}>{company}</span>
+          <span className='font-purple-color'
+                style={{ marginLeft: 40 }}>销售对账明细&nbsp;&nbsp;&nbsp;&nbsp;{company} 至 {company}</span>
+          <div style={{ float: 'right' }}>
+            <Button type='primary' style={{ marginRight: 10 }}>确认对账</Button>
+            <Button type='primary' style={{ marginRight: 10 }}>确认开票</Button>
             <Button type='primary'>全部导出</Button>
 
           </div>
@@ -84,9 +87,9 @@ class ReconciliationDetails extends Component {
         {/**/}
         {/*</TabPane>*/}
         {/*</Tabs>*/}
-        <div style={{padding: '0px 24px 60px'}}>
-          <div style={{textAlign: 'right', margin: '20px 0px'}}>
-            <span style={{marginRight: 10}}>对账时间</span>
+        <div style={{ padding: '0px 24px 60px' }}>
+          <div style={{ textAlign: 'right', margin: '20px 0px' }}>
+            <span style={{ marginRight: 10 }}>对账时间</span>
             <DatePicker
               disabledDate={this.disabledStartDate}
               showTime
@@ -96,7 +99,7 @@ class ReconciliationDetails extends Component {
               onChange={this.onStartChange}
               onOpenChange={this.handleStartOpenChange}
             />
-            <span style={{margin: '0 10px'}}>-</span>
+            <span style={{ margin: '0 10px' }}>-</span>
             <DatePicker
               disabledDate={this.disabledEndDate}
               showTime
@@ -107,30 +110,30 @@ class ReconciliationDetails extends Component {
               open={endOpen}
               onOpenChange={this.handleEndOpenChange}
             />
-            <span style={{margin: '0 12px 0 20px'}}>车牌</span>
-            <Select defaultValue="jack" style={{width: '8.75rem'}}>
+            <span style={{ margin: '0 12px 0 20px' }}>车牌</span>
+            <Select defaultValue="jack" style={{ width: '8.75rem' }}>
               <Option value="jack">销售额</Option>
               <Option value="lucy">利润贡献</Option>
               <Option value="Yiminghe">贡献占比</Option>
             </Select>
-            <span style={{margin: '0 12px 0 20px'}}>气源</span>
-            <Select defaultValue="jack" style={{width: '8.75rem'}}>
+            <span style={{ margin: '0 12px 0 20px' }}>气源</span>
+            <Select defaultValue="jack" style={{ width: '8.75rem' }}>
               <Option value="jack">销售额</Option>
               <Option value="lucy">利润贡献</Option>
               <Option value="Yiminghe">贡献占比</Option>
             </Select>
-            <span style={{margin: '0 12px 0 20px'}}>站点</span>
-            <Select defaultValue="jack" style={{width: '8.75rem'}}>
+            <span style={{ margin: '0 12px 0 20px' }}>站点</span>
+            <Select defaultValue="jack" style={{ width: '8.75rem' }}>
               <Option value="jack">销售额</Option>
               <Option value="lucy">利润贡献</Option>
               <Option value="Yiminghe">贡献占比</Option>
             </Select>
-            <span style={{margin: '0 12px 0 20px'}}>状态</span>
-            <Select defaultValue="" style={{width: '8.75rem'}}>
-              <Option value="" style={{color: '#7B7B7B'}}>全部</Option>
-              <Option value="1" style={{color: '#FFAD4D'}}>对账中</Option>
-              <Option value="2" style={{color: '#8FCBFF'}}>已对账</Option>
-              <Option value="3" style={{color: '#91A5F5'}}>已开票</Option>
+            <span style={{ margin: '0 12px 0 20px' }}>状态</span>
+            <Select defaultValue="" style={{ width: '8.75rem' }}>
+              <Option value="" style={{ color: '#7B7B7B' }}>全部</Option>
+              <Option value="1" style={{ color: '#FFAD4D' }}>对账中</Option>
+              <Option value="2" style={{ color: '#8FCBFF' }}>已对账</Option>
+              <Option value="3" style={{ color: '#91A5F5' }}>已开票</Option>
             </Select>
           </div>
           <div className='table-container'>
@@ -146,7 +149,7 @@ class ReconciliationDetails extends Component {
               }}
             />
           </div>
-          <div style={{textAlign: 'center', marginTop: 40}}>
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
             <Pagination defaultCurrent={1} total={50} />
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { message } from 'antd'
 import * as logisticsService from './service'
 
+// 有些是假数据，未对接口
 export default {
   namespace: 'logistics',
   state: {
@@ -48,6 +49,7 @@ export default {
   },
 
   effects: {
+    // 获取物流列表
     * fetchLogisticsList({payload: {page = 1, logistics_name = ''}}, {call, put}) {
       const {data} = yield call(logisticsService.fetchLogisticsList, {page, logistics_name})
       parseInt(data.code, 10) === 1 ?
@@ -63,6 +65,7 @@ export default {
         :
         message.error(data.msg)
     },
+    // 新增物流
     * insertLogistics({payload: {form}}, {call}) {
       const {data} = yield call(logisticsService.insertLogistics, form)
       parseInt(data.code, 10) === 1 ?
@@ -70,6 +73,7 @@ export default {
         :
         message.error(data.msg)
     },
+    // 修改物流
     * updateLogisticsInfo({payload: {form}}, {call}) {
       const {data} = yield call(logisticsService.updateLogisticsInfo, form)
       parseInt(data.code, 10) === 1 ?
@@ -77,6 +81,7 @@ export default {
         :
         message.error(data.msg)
     },
+    // 根据id查询物流详情
     * inquireLogisticsInfoById({payload: {id}}, {call, put}) {
       const {data} = yield call(logisticsService.inquireLogisticsInfoById, id)
       parseInt(data.code, 10) === 1 ?
@@ -89,6 +94,7 @@ export default {
         :
         message.error(data.msg)
     },
+    // 删除物流
     * deleteLogistics({payload: {id}}, {call}) {
       const {data} = yield call(logisticsService.deleteLogistics, id)
       parseInt(data.code, 10) === 1 ?
@@ -96,6 +102,7 @@ export default {
         :
         message.error(data.msg)
     },
+    // 获取车队列表
     * fetchFleetList({payload: {page = 1, id}}, {call, put}) {
       const {data} = yield call(logisticsService.fetchFleetList, {page, id})
       parseInt(data.code, 10) === 1 ?
@@ -110,6 +117,7 @@ export default {
         :
         message.error(data.msg)
     },
+    // 新增车队
     * insertFleet({payload: {form}}, {call}) {
       const {data} = yield call(logisticsService.insertFleet, form)
       parseInt(data.code, 10) === 1 ?
@@ -117,6 +125,7 @@ export default {
         :
         message.error(data.msg)
     },
+    // 删除车队
     * deleteFleet({payload: {id}}, {call}) {
       const {data} = yield call(logisticsService.deleteFleet, id)
       parseInt(data.code, 10) === 1 ?
@@ -124,6 +133,7 @@ export default {
         :
         message.error(data.msg)
     },
+    // 上传excel
     * upLoadExcel({payload: {file}}, {call}) {
       const {data} = yield call(logisticsService.upLoadExcel, file)
       try {

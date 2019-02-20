@@ -5,11 +5,16 @@ import { IconFont, IP } from '@/common/constants'
 import withRouter from 'umi/withRouter'
 import styles from '../../index.less'
 
+
+// 车队列表页面
+// 链接model
 @connect(({ logistics, loading }) => ({
   logistics,
   loading: loading.models.logistics,
 }))
+// props注入form对象
 @Form.create()
+// props注入路由等参数以便后续使用
 @withRouter
 class Index extends Component {
   constructor(props) {
@@ -84,6 +89,7 @@ class Index extends Component {
     })
   }
 
+  // 新增车队
   insertFleet = () => {
     let form = this.state.insertFleet
     form.id = this.props.match.params.LogisticsDetail
@@ -100,6 +106,7 @@ class Index extends Component {
     })
   }
 
+  // 删除车队
   deleteFleet = (id) => {
     this.props.dispatch({
       type: 'logistics/deleteFleet',
@@ -117,6 +124,7 @@ class Index extends Component {
     })
   }
 
+  // 保存当前操作的  司机/车头/车挂信息到组件state， 方便后续统一提交
   handleSubmit = (e) => {
     e && e.preventDefault()
     this.props.form.validateFields((err, values) => {
@@ -141,6 +149,7 @@ class Index extends Component {
     })
   }
 
+  // 取消新增操作，重置参数
   cancelInsert = () => {
     this.setState({
       insertStatus: false,
@@ -155,6 +164,7 @@ class Index extends Component {
     })
   }
 
+  // 渲染新增车队item方法
   renderInsertItem = () => {
     const { labelList, insertFleet } = this.state
     return <Col span={24} xxl={12} style={{ position: 'relative' }}>
@@ -280,6 +290,7 @@ class Index extends Component {
     </Col>
   }
 
+  // 渲染车队列表方法
   mapItem = () => {
     const { managementStatus, labelList } = this.state
     return this.props.logistics.fleetList.map((value, index) => (
@@ -376,6 +387,7 @@ class Index extends Component {
     ))
   }
 
+  // 上传excel
   upLoadExcel = (file) => {
     this.props.dispatch({
       type: 'logistics/upLoadExcel',

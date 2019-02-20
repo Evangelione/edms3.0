@@ -16,6 +16,7 @@ class Index extends Component {
 
   render() {
     return (
+      // 分三个组件写的，都在./目录下
       <div style={{marginTop: 5}}>
         <Row gutter={36}>
           <Col span={8}>

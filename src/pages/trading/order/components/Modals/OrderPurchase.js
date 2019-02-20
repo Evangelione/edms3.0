@@ -186,7 +186,7 @@ class OrderPurchase extends Component {
                       </div>
                     </Col>
                     <Col span={15} style={{ marginLeft: 9 }}>
-                      <Input value={item.quantity} disabled />
+                      <Input value={item.quantity} disabled addonAfter='吨' />
                     </Col>
                   </Col>
                   <Col span={11} style={{ display: 'flex', alignItems: 'center' }}>
@@ -352,19 +352,16 @@ class OrderPurchase extends Component {
                     {getFieldDecorator('21balance3', {
                       initialValue: 1,
                     })(
-                      <Select>
-                        <Option value={1}>自提</Option>
-                        <Option value={2}>信用额</Option>
-                      </Select>,
+                      <Input disabled addonAfter='吨' />,
                     )}
                   </Form.Item>
                 </Col>
                 <Col span={10} style={{ width: '46.2%' }}>
                   <Form.Item label='装货时间' {...itemLayout} style={{ marginLeft: 10 }}>
                     {getFieldDecorator('22balance1')(
-                      <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
+                      <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
+                                  style={{ width: '100%' }} placeholder='暂无装货时间' />,
                     )}
-                    <div className='addonAfter'>元/吨</div>
                   </Form.Item>
                 </Col>
               </Row>

@@ -172,7 +172,7 @@ class LogisticsScheduling extends Component {
 
   render() {
     const { visible, logisticsSelectionStatus, visibleLogisticsInfo, sites, currentLogistics, driverOptions, carHeadOptions, carBodyOptions } = this.state
-    const { children, order: { suppInfoByOrderPurchase }, form: { getFieldDecorator }, loading } = this.props
+    const { children, order: { logisticsSelectByLogisticsScheduling }, form: { getFieldDecorator }, loading } = this.props
     const siteInfoLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -193,6 +193,7 @@ class LogisticsScheduling extends Component {
         sm: { span: 16 },
       },
     }
+    console.log(logisticsSelectByLogisticsScheduling)
     return (
       <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
@@ -416,7 +417,7 @@ class LogisticsScheduling extends Component {
                                                        onClick={this.changeSelectionStatus}>请选择承运物流商</Button> :
                   <Select placeholder='请选择承运物流商' autoFocus={true} defaultOpen={true} onBlur={this.changeSelectionStatus}
                           onSelect={this.inquireLogisticsInfo}>
-                    {suppInfoByOrderPurchase.map((item, index) => {
+                    {logisticsSelectByLogisticsScheduling.map((item, index) => {
                       return <Option value={item.id} {...item} key={index}>{item.company_name}</Option>
                     })}
                   </Select>)}
