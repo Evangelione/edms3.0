@@ -185,6 +185,13 @@ export default {
       })
     },
 
+    * purchase({ payload: { form } }, { call, put }) {
+      const { data } = yield call(orderService.purchase, form)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
 
     * inquireSupplierSelectInfoByOrderPurchase({ payload: { file } }, { call, put }) {
       const data = yield call(orderService.inquireSupplierSelectInfoByOrderPurchase, file)

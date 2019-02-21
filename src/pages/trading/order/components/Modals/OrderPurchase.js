@@ -4,6 +4,7 @@ import { connect } from 'dva'
 import { SuppImg, SiteImg, GasImg, site_type, IconFont } from '@/common/constants'
 import styles from '../../index.less'
 import moment from 'moment'
+import { toFixed } from '@/utils/Math'
 
 const Option = Select.Option
 
@@ -20,8 +21,11 @@ class OrderPurchase extends Component {
     gasSelectionStatus: false,
     visibleGasInfo: false,
     sites: [],
-    currentSupp: {},
+    currentSupp: {
+      is_active: '1',
+    },
     currentGas: {},
+    planNum: 0,
   }
 
   showModal = () => {
@@ -35,7 +39,15 @@ class OrderPurchase extends Component {
     this.setState({
       visible: true,
       sites: JSON.parse(this.props.sites),
+      planNum: this.getPlanNun(JSON.parse(this.props.sites)),
     })
+  }
+
+  getPlanNun = (arr) => {
+    let sum = 0
+    arr.map((item, index) => sum += item.quantity - 0)
+    sum = toFixed(sum, 3)
+    return sum
   }
 
   hideModal = (e) => {
@@ -72,11 +84,7 @@ class OrderPurchase extends Component {
         visibleSupplierInfo: true,
         currentSupp: {
           id: value,
-          company_name: option.props.company_name,
-          contact: option.props.contact,
-          contact_phone: option.props.contact_phone,
-          credit: option.props.credit,
-          balance: option.props.balance,
+          ...option.props,
         },
       })
     })
@@ -102,25 +110,29 @@ class OrderPurchase extends Component {
   purchase = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        values.load_time = values.load_time.format('YYYY-MM-DD')
+        values.id = this.props.id
+        values.supplier_id = this.state.currentSupp.id
+        values.supp_goods_id = this.state.currentGas.id
         console.log(values)
-        // this.props.dispatch({
-        //   type: 'order/purchase',
-        //   payload: {
-        //     form: values,
-        //   },
-        // }).then(() => {
-        //   this.props.dispatch({
-        //     type: 'order/fetchOrderList',
-        //     payload: {},
-        //   })
-        // })
+        this.props.dispatch({
+          type: 'order/purchase',
+          payload: {
+            form: values,
+          },
+        }).then(() => {
+          this.props.dispatch({
+            type: 'order/fetchOrderList',
+            payload: {},
+          })
+        })
       }
     })
   }
 
   render() {
-    const { visible, supplierSelectionStatus, visibleSupplierInfo, gasSelectionStatus, visibleGasInfo, sites, currentSupp, currentGas } = this.state
-    const { children, order: { suppInfoByOrderPurchase, gasInfoByOrderPurchase }, loading, form: { getFieldDecorator } } = this.props
+    const { visible, supplierSelectionStatus, visibleSupplierInfo, gasSelectionStatus, visibleGasInfo, sites, currentSupp, currentGas, planNum } = this.state
+    const { children, order: { suppInfoByOrderPurchase, gasInfoByOrderPurchase }, loading, form: { getFieldDecorator }, delivery_type } = this.props
     const supplierInfoLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -224,6 +236,9 @@ class OrderPurchase extends Component {
                                   onClick={() => this.setState({
                                     visibleSupplierInfo: false,
                                     supplierSelectionStatus: false,
+                                    currentSupp: {
+                                      is_active: '1',
+                                    },
                                   })}>删除</span>
                           </div>
                           <div>{currentSupp.contact} {currentSupp.contact_phone}</div>
@@ -267,6 +282,7 @@ class OrderPurchase extends Component {
                 <Col span={10} style={{ width: '46.2%' }}>
                   <Form.Item label='付款方式' {...itemLayout} style={{ marginLeft: 10 }}>
                     {getFieldDecorator('payment_type', {
+                      rules: [{ required: true }],
                       initialValue: 1,
                     })(
                       <Select>
@@ -281,11 +297,12 @@ class OrderPurchase extends Component {
                 <Col span={9}>
                   <Form.Item label='配送方式' {...itemLayout}>
                     {getFieldDecorator('delivery_type', {
-                      initialValue: 1,
+                      initialValue: delivery_type,
                     })(
-                      <Select>
-                        <Option value={1}>自提</Option>
-                        <Option value={2}>信用额</Option>
+                      <Select disabled>
+                        <Option value='1'>卖方配送</Option>
+                        <Option value='2'>买方自提</Option>
+                        <Option value='3'>我方配送</Option>
                       </Select>,
                     )}
                   </Form.Item>
@@ -335,7 +352,7 @@ class OrderPurchase extends Component {
                 </Row> :
                 <Form.Item label={GasImg} {...supplierInfoLayout}>
                   {getFieldDecorator('supp_goods_id', {
-                    rules: [{ required: true }],
+                    rules: [{ required: currentSupp.is_active === '1' }],
                   })(!gasSelectionStatus ? <Button className='btn-select' style={{ width: '100%', height: 41 }}
                                                    onClick={this.changeGasSelectionStatus}>请选择气源</Button> :
                     <Select placeholder='请选择气源' autoFocus={true} defaultOpen={true}
@@ -349,8 +366,8 @@ class OrderPurchase extends Component {
               <Row>
                 <Col span={9}>
                   <Form.Item label='计划数量' {...itemLayout}>
-                    {getFieldDecorator('21balance3', {
-                      initialValue: 1,
+                    {getFieldDecorator('quantity', {
+                      initialValue: planNum,
                     })(
                       <Input disabled addonAfter='吨' />,
                     )}
@@ -358,7 +375,9 @@ class OrderPurchase extends Component {
                 </Col>
                 <Col span={10} style={{ width: '46.2%' }}>
                   <Form.Item label='装货时间' {...itemLayout} style={{ marginLeft: 10 }}>
-                    {getFieldDecorator('22balance1')(
+                    {getFieldDecorator('load_time', {
+                      rules: [{ required: delivery_type !== '3' }],
+                    })(
                       <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
                                   style={{ width: '100%' }} placeholder='暂无装货时间' />,
                     )}

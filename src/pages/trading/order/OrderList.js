@@ -112,25 +112,52 @@ class OrderList extends Component {
                 <Button className='line-primary'>取消订单</Button>
               </div> :
               value.status === '3' ? <div>
-                  <OrderPurchase sites={JSON.stringify(value.sites)}>
+                  <OrderPurchase sites={JSON.stringify(value.sites)} delivery_type={value.delivery_type} id={value.id}>
                     <Button type='primary' style={{ marginRight: 10 }}>去采购</Button>
                   </OrderPurchase>
                   <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                   <Button className='line-primary'>取消订单</Button>
                 </div> :
                 value.status === '4' ? <div>
-                  <UpLoadPoundList>
-                    <Button type='primary' style={{ marginRight: 10 }}>上传装车磅单</Button>
-                  </UpLoadPoundList>
-                  <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                  <Button className='line-primary'>取消订单</Button>
-                </div> : <div>
-                  <SalesBilling>
-                    <Button type='primary' style={{ marginRight: 10 }}>销售开单</Button>
-                  </SalesBilling>
-                  <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                  <Button className='line-primary'>取消订单</Button>
-                </div>}
+                    <div>待供应商接单</div>
+                    {/*<UpLoadPoundList>*/}
+                    {/*<Button type='primary' style={{ marginRight: 10 }}>上传装车磅单</Button>*/}
+                    {/*</UpLoadPoundList>*/}
+                    {/*<Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>*/}
+                    {/*<Button className='line-primary'>取消订单</Button>*/}
+                  </div> :
+                  value.status === '5' ? <div>
+                      <UpLoadPoundList sites={JSON.stringify(value.sites)} current_site={value.current_site}
+                                       supp_goods_name={value.supp_goods_name} loading={true}>
+                        <Button type='primary' style={{ marginRight: 10 }}>上传装车磅单</Button>
+                      </UpLoadPoundList>
+                      <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                      <Button className='line-primary'>取消订单</Button>
+                    </div> :
+                    value.status === '6' ? <div>
+                        <UpLoadPoundList>
+                          <Button type='primary' style={{ marginRight: 10 }}>上传装车磅单</Button>
+                        </UpLoadPoundList>
+                        <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                        <Button className='line-primary'>取消订单</Button>
+                      </div> :
+                      value.status === '7' ? <div>
+                          <SalesBilling>
+                            <Button type='primary' style={{ marginRight: 10 }}>销售开单</Button>
+                          </SalesBilling>
+                          <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                          <Button className='line-primary'>取消订单</Button>
+                        </div> :
+                        value.status === '8' ? <div>
+                            <div>待对账</div>
+                          </div> :
+                          value.status === '9' ? <div>
+                              <div>已开票</div>
+                            </div> :
+                            value.status === '10' ? <div>
+                              <div>已取消</div>
+                            </div> : null
+          }
         </div>
       </Card>
     }) : <Empty />

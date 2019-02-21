@@ -156,14 +156,26 @@ html, body, #root {
 
 // Upload自定义样式
 .ant-upload.ant-upload-drag {
+  border: 1px dashed @tabs-disabled !important;
+  background-color: @white-color !important;
+}
+
+.ant-upload.ant-upload-drag:hover {
   border: 1px solid @primary-color !important;
   background-color: #F9FBFF !important;
+
+  p.ant-upload-drag-icon .anticon {
+    color: @primary-color !important;
+  }
+
+  .hover-primary {
+    color: @primary-color;
+  }
 }
 
 .ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
-  color: @primary-color !important;
+  color: @tabs-disabled !important;
 }
-
 
 .ant-upload.ant-upload-drag .ant-upload {
   padding: 106px 0 !important;
@@ -594,3 +606,9 @@ html, body, #root {
   font-size: 1rem;
   color: @font-purple-color;
 }
+
+.hover-primary {
+  color: @tabs-disabled;
+  font-size: 1.125rem;
+}
+

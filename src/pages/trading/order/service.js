@@ -90,6 +90,17 @@ export function inquireGasInfoByOrderPurchase(id) {
   })
 }
 
+export function purchase(form) {
+  let formData = new FormData()
+  Object.keys(form).forEach((key, i) => {
+    formData.append(key, form[key] || '')
+  })
+  return request(`${IP}/index/order/purchase`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
 export function inquireClientSelectInfoBySalesBilling() {
   return fetch('/api/client-select').then(response => response.json()).then(data => {
     return data

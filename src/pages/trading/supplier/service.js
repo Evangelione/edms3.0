@@ -73,7 +73,7 @@ export function fetchGasSourceList({page, supp_id, goods_name}) {
   formData.append('limit', PAGE_LIMIT)
   formData.append('supp_id', supp_id)
   formData.append('goods_name', goods_name)
-  return request(`${IP}/index/goods/goods-list`, {
+  return request(`${IP}/index/goods/page`, {
     method: 'POST',
     body: formData,
   })

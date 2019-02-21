@@ -193,7 +193,6 @@ class LogisticsScheduling extends Component {
         sm: { span: 16 },
       },
     }
-    console.log(logisticsSelectByLogisticsScheduling)
     return (
       <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
