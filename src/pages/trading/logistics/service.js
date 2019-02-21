@@ -2,7 +2,7 @@ import request from '@/common/request'
 import { IP, PAGE_LIMIT } from '@/common/constants'
 
 
-export function fetchLogisticsList({page, logistics_name}) {
+export function fetchLogisticsList({ page, logistics_name }) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
@@ -53,7 +53,7 @@ export function deleteLogistics(id) {
   })
 }
 
-export function fetchFleetList({page, id}) {
+export function fetchFleetList({ page, id }) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
@@ -75,6 +75,17 @@ export function insertFleet(form) {
   })
 }
 
+export function updateFleet(form) {
+  let formData = new FormData()
+  Object.keys(form).forEach((key, i) => {
+    formData.append(key, form[key] || '')
+  })
+  return request(`${IP}/index/driver/driver-car-update`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
 export function deleteFleet(id) {
   let formData = new FormData()
   formData.append('id', id)
@@ -88,6 +99,17 @@ export function upLoadExcel(file) {
   let formData = new FormData()
   formData.append(file.filename, file.file)
   return request(file.action, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function deleteFleetCarBody(id, car_body_id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  formData.append('car_body_id', car_body_id)
+  return request(`${IP}/index/driver/driver-car-remove`, {
     method: 'POST',
     body: formData,
   })

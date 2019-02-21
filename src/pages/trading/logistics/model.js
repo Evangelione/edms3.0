@@ -42,16 +42,16 @@ export default {
   },
 
   subscriptions: {
-    setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
       })
     },
   },
 
   effects: {
     // 获取物流列表
-    * fetchLogisticsList({payload: {page = 1, logistics_name = ''}}, {call, put}) {
-      const {data} = yield call(logisticsService.fetchLogisticsList, {page, logistics_name})
+    * fetchLogisticsList({ payload: { page = 1, logistics_name = '' } }, { call, put }) {
+      const { data } = yield call(logisticsService.fetchLogisticsList, { page, logistics_name })
       parseInt(data.code, 10) === 1 ?
         yield put({
           type: 'save',
@@ -66,24 +66,24 @@ export default {
         message.error(data.msg)
     },
     // 新增物流
-    * insertLogistics({payload: {form}}, {call}) {
-      const {data} = yield call(logisticsService.insertLogistics, form)
+    * insertLogistics({ payload: { form } }, { call }) {
+      const { data } = yield call(logisticsService.insertLogistics, form)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
         :
         message.error(data.msg)
     },
     // 修改物流
-    * updateLogisticsInfo({payload: {form}}, {call}) {
-      const {data} = yield call(logisticsService.updateLogisticsInfo, form)
+    * updateLogisticsInfo({ payload: { form } }, { call }) {
+      const { data } = yield call(logisticsService.updateLogisticsInfo, form)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
         :
         message.error(data.msg)
     },
     // 根据id查询物流详情
-    * inquireLogisticsInfoById({payload: {id}}, {call, put}) {
-      const {data} = yield call(logisticsService.inquireLogisticsInfoById, id)
+    * inquireLogisticsInfoById({ payload: { id } }, { call, put }) {
+      const { data } = yield call(logisticsService.inquireLogisticsInfoById, id)
       parseInt(data.code, 10) === 1 ?
         yield put({
           type: 'save',
@@ -95,16 +95,16 @@ export default {
         message.error(data.msg)
     },
     // 删除物流
-    * deleteLogistics({payload: {id}}, {call}) {
-      const {data} = yield call(logisticsService.deleteLogistics, id)
+    * deleteLogistics({ payload: { id } }, { call }) {
+      const { data } = yield call(logisticsService.deleteLogistics, id)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
         :
         message.error(data.msg)
     },
     // 获取车队列表
-    * fetchFleetList({payload: {page = 1, id}}, {call, put}) {
-      const {data} = yield call(logisticsService.fetchFleetList, {page, id})
+    * fetchFleetList({ payload: { page = 1, id } }, { call, put }) {
+      const { data } = yield call(logisticsService.fetchFleetList, { page, id })
       parseInt(data.code, 10) === 1 ?
         yield put({
           type: 'save',
@@ -118,24 +118,32 @@ export default {
         message.error(data.msg)
     },
     // 新增车队
-    * insertFleet({payload: {form}}, {call}) {
-      const {data} = yield call(logisticsService.insertFleet, form)
+    * insertFleet({ payload: { form } }, { call }) {
+      const { data } = yield call(logisticsService.insertFleet, form)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    // 更新车队
+    * updateFleet({ payload: { form } }, { call }) {
+      const { data } = yield call(logisticsService.updateFleet, form)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
         :
         message.error(data.msg)
     },
     // 删除车队
-    * deleteFleet({payload: {id}}, {call}) {
-      const {data} = yield call(logisticsService.deleteFleet, id)
+    * deleteFleet({ payload: { id } }, { call }) {
+      const { data } = yield call(logisticsService.deleteFleet, id)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
         :
         message.error(data.msg)
     },
     // 上传excel
-    * upLoadExcel({payload: {file}}, {call}) {
-      const {data} = yield call(logisticsService.upLoadExcel, file)
+    * upLoadExcel({ payload: { file } }, { call }) {
+      const { data } = yield call(logisticsService.upLoadExcel, file)
       try {
         parseInt(data.code, 10) === 1 ?
           message.success(`导入成功 ${data.num.success_num} 条`)
@@ -145,11 +153,19 @@ export default {
         message.error(e)
       }
     },
+    // 删除车队中的车挂
+    * deleteFleetCarBody({ payload: { id, car_body_id } }, { call }) {
+      const { data } = yield call(logisticsService.deleteFleetCarBody, id, car_body_id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
   },
 
   reducers: {
     save(state, action) {
-      return {...state, ...action.payload}
+      return { ...state, ...action.payload }
     },
   },
 }

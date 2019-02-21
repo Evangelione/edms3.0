@@ -129,33 +129,41 @@ class OrderList extends Component {
                   value.status === '5' ? <div>
                       <UpLoadPoundList sites={JSON.stringify(value.sites)} current_site={value.current_site}
                                        supp_goods_name={value.supp_goods_name} loading={true}>
-                        <Button type='primary' style={{ marginRight: 10 }}>上传装车磅单</Button>
+                        <Button type='primary' style={{ marginRight: 10 }}>确认装货</Button>
                       </UpLoadPoundList>
                       <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                       <Button className='line-primary'>取消订单</Button>
                     </div> :
                     value.status === '6' ? <div>
                         <UpLoadPoundList>
-                          <Button type='primary' style={{ marginRight: 10 }}>上传装车磅单</Button>
+                          <Button type='primary' style={{ marginRight: 10 }}>确认收货</Button>
                         </UpLoadPoundList>
                         <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                         <Button className='line-primary'>取消订单</Button>
                       </div> :
                       value.status === '7' ? <div>
+                          <Button className='yellow-btn' style={{ marginRight: 10 }}>采购对账</Button>
                           <SalesBilling>
-                            <Button type='primary' style={{ marginRight: 10 }}>销售开单</Button>
+                            <Button type='primary' style={{ marginRight: 10 }}>销售对账</Button>
                           </SalesBilling>
                           <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                          <Button className='line-primary'>取消订单</Button>
+                          <Button type='primary' style={{ marginRight: 10 }}>磅票信息</Button>
                         </div> :
                         value.status === '8' ? <div>
-                            <div>待对账</div>
+                            <Button className='yellow-btn' style={{ marginRight: 10 }}>采购开票</Button>
+                            <SalesBilling>
+                              <Button type='primary' style={{ marginRight: 10 }}>销售开票</Button>
+                            </SalesBilling>
+                            <Button type='primary' style={{ marginRight: 10 }}>再来一单</Button>
+                            <Button type='primary' style={{ marginRight: 10 }}>磅票信息</Button>
                           </div> :
                           value.status === '9' ? <div>
-                              <div>已开票</div>
+                              <Button type='primary' style={{ marginRight: 10 }}>再来一单</Button>
+                              <Button type='primary' style={{ marginRight: 10 }}>磅票信息</Button>
                             </div> :
                             value.status === '10' ? <div>
-                              <div>已取消</div>
+                              <Button type='primary' style={{ marginRight: 10 }}>恢复订单</Button>
+                              <Button className='red-btn' style={{ marginRight: 10 }}>删除订单</Button>
                             </div> : null
           }
         </div>

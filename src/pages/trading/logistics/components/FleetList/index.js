@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Row, Col, Button, Popconfirm, Modal, Form, Input, Pagination, Icon, Upload } from 'antd'
+import { Row, Col, Button, Popconfirm, Modal, Form, Input, Pagination, Icon, Upload, message } from 'antd'
 import { connect } from 'dva'
 import { IconFont, IP } from '@/common/constants'
 import withRouter from 'umi/withRouter'
 import styles from '../../index.less'
+import { toFixed } from '@/utils/Math'
 
 
 // 车队列表页面
@@ -22,12 +23,20 @@ class Index extends Component {
     this.state = {
       managementStatus: false,
       modalVisible: false,
+      modalVisible2: false,
+
+      modalTitle: '',
+      modalLabel1: '',
+      modalFiled1: 'name',
+      modalLabel2: '',
+      modalFiled2: 'mobile',
+
       labelList: [{
         modalTitle: '司机',
         modalLabel1: '司机名字',
-        modalFiled1: 'driver_name',
+        modalFiled1: 'name',
         modalLabel2: '联系方式',
-        modalFiled2: 'driver_mobile',
+        modalFiled2: 'mobile',
       }, {
         modalTitle: '车头',
         modalLabel1: '车牌号码',
@@ -41,20 +50,17 @@ class Index extends Component {
         modalLabel2: '载重数量',
         modalFiled2: 'car_load',
       }],
-      modalTitle: '',
-      modalLabel1: '',
-      modalFiled1: 'driver_name',
-      modalLabel2: '',
-      modalFiled2: 'driver_mobile',
+
       insertStatus: false,
       insertFleet: {
-        driver_name: '',
-        driver_mobile: '',
+        name: '',
+        mobile: '',
         car_head_code: '',
         imei: '',
         car_body_code: '',
         car_load: '',
       },
+      modifyId: null,
     }
   }
 
@@ -62,16 +68,17 @@ class Index extends Component {
     this.fetchFleetList()
   }
 
-  fetchFleetList = () => {
+  fetchFleetList = (page = 1) => {
     this.props.dispatch({
       type: 'logistics/fetchFleetList',
       payload: {
+        page,
         id: this.props.match.params.LogisticsDetail,
       },
     })
   }
 
-  openModal = (arr) => {
+  openModal = (arr, obj) => {
     this.setState({
       modalVisible: true,
       modalTitle: arr.type + arr.modalTitle,
@@ -79,6 +86,21 @@ class Index extends Component {
       modalFiled1: arr.modalFiled1,
       modalLabel2: arr.modalLabel2,
       modalFiled2: arr.modalFiled2,
+    }, () => {
+      if (obj) {
+        this.props.form.setFieldsValue({
+          [arr.modalFiled1]: obj[arr.modalFiled1],
+          [arr.modalFiled2]: obj[arr.modalFiled2],
+        })
+        this.setState({
+          modifyId: obj.id,
+        })
+      } else {
+        this.props.form.setFieldsValue({
+          [arr.modalFiled1]: this.state.insertFleet[arr.modalFiled1],
+          [arr.modalFiled2]: this.state.insertFleet[arr.modalFiled2],
+        })
+      }
     })
   }
 
@@ -92,6 +114,13 @@ class Index extends Component {
   // 新增车队
   insertFleet = () => {
     let form = this.state.insertFleet
+    if (form.name === '') {
+      message.error('司机不能为空')
+      return false
+    } else if (form.car_head_code === '') {
+      message.error('车头不能为空')
+      return false
+    }
     form.id = this.props.match.params.LogisticsDetail
     this.props.dispatch({
       type: 'logistics/insertFleet',
@@ -101,6 +130,14 @@ class Index extends Component {
     }).then(() => {
       this.setState({
         insertStatus: false,
+        insertFleet: {
+          name: '',
+          mobile: '',
+          car_head_code: '',
+          imei: '',
+          car_body_code: '',
+          car_load: '',
+        },
       })
       this.fetchFleetList()
     })
@@ -129,7 +166,7 @@ class Index extends Component {
     e && e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { insertFleet, modalFiled1, modalFiled2 } = this.state
+        const { insertFleet, modalFiled1, modalFiled2, insertStatus } = this.state
         // values.id = this.props.match.params.LogisticsDetail
         // this.props.dispatch({
         //   type: 'logistics/insertFleet',
@@ -137,15 +174,44 @@ class Index extends Component {
         //     form: values,
         //   },
         // })
-        this.setState({
-          insertFleet: {
-            ...insertFleet,
-            [modalFiled1]: values[modalFiled1],
-            [modalFiled2]: values[modalFiled2],
-          },
-        })
-        this.closeModal()
+        if (insertStatus) {
+          this.setState({
+            insertFleet: {
+              ...insertFleet,
+              [modalFiled1]: values[modalFiled1],
+              [modalFiled2]: values[modalFiled2],
+            },
+          })
+          this.closeModal()
+        } else {
+          values.id = this.state.modifyId
+          console.log(values)
+          this.props.dispatch({
+            type: 'logistics/updateFleet',
+            payload: {
+              form: values,
+            },
+          }).then(() => {
+            this.closeModal()
+            this.fetchFleetList(this.props.fleetPage)
+          })
+        }
       }
+    })
+  }
+
+  parseNumber = (filed, precision, e) => {
+    if (filed !== 'car_load') {
+      return false
+    }
+    let val = e.target.value
+    if (val === '') {
+      return false
+    }
+    isNaN(val) && (val = 0)
+    let num = toFixed(val, precision)
+    this.props.form.setFieldsValue({
+      [filed]: num,
     })
   }
 
@@ -154,13 +220,35 @@ class Index extends Component {
     this.setState({
       insertStatus: false,
       insertFleet: {
-        driver_name: '',
-        driver_mobile: '',
+        name: '',
+        mobile: '',
         car_head_code: '',
         imei: '',
         car_body_code: '',
         car_load: '',
       },
+    })
+  }
+
+  deleteInsertCarBody = () => {
+    this.setState({
+      insertFleet: {
+        ...this.state.insertFleet,
+        car_body_code: '',
+        car_load: '',
+      },
+    })
+  }
+
+  deleteFleetCarBody = (id, car_body_id) => {
+    this.props.dispatch({
+      type: 'logistics/deleteFleetCarBody',
+      payload: {
+        id,
+        car_body_id,
+      },
+    }).then(() => {
+      this.fetchFleetList(this.props.fleetPage)
     })
   }
 
@@ -175,26 +263,24 @@ class Index extends Component {
               <img src={require('@/assets/image/sj_70_55.png')} alt="" />
             </div>
             <div className={styles['box-right']}>
-              {insertFleet.driver_name === '' ?
-                <div style={{ cursor: 'pointer' }} onClick={this.openModal.bind(null, { type: '新增', ...labelList[0] })}>
+              {insertFleet.name === '' ?
+                <div style={{ cursor: 'pointer' }}
+                     onClick={this.openModal.bind(null, { type: '新增', ...labelList[0] }, false)}>
                   <IconFont type='icon-icon-test' />
                   <span style={{ marginLeft: 20 }} className='font-gray-color'>新增司机</span>
                 </div>
                 :
                 <>
-                  <div>{insertFleet.driver_name}</div>
-                  <div>{insertFleet.driver_mobile}</div>
+                  <div>{insertFleet.name}</div>
+                  <div>{insertFleet.mobile}</div>
                 </>}
             </div>
-            {insertFleet.driver_name === '' ?
+            {insertFleet.name === '' ?
               null
               :
               <div className={styles['hover-box']}>
-                <Button type='primary' onClick={this.openModal.bind(null, { type: '编辑', ...labelList[0] })}>编辑</Button>
-                <Popconfirm title='是否确认删除司机？' okType='danger'
-                            icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
-                  <Button className='red-btn'>删除</Button>
-                </Popconfirm>
+                <Button type='primary'
+                        onClick={this.openModal.bind(null, { type: '编辑', ...labelList[0] }, false)}>编辑</Button>
               </div>}
           </div>
         </Col>
@@ -210,7 +296,8 @@ class Index extends Component {
             </div>
             <div className={styles['box-right']}>
               {insertFleet.car_head_code === '' ?
-                <div style={{ cursor: 'pointer' }} onClick={this.openModal.bind(null, { type: '新增', ...labelList[1] })}>
+                <div style={{ cursor: 'pointer' }}
+                     onClick={this.openModal.bind(null, { type: '新增', ...labelList[1] }, false)}>
                   <IconFont type='icon-icon-test' />
                   <span style={{ marginLeft: 20 }} className='font-gray-color'>新增车头</span>
                 </div>
@@ -227,11 +314,8 @@ class Index extends Component {
               null
               :
               <div className={styles['hover-box']}>
-                <Button type='primary' onClick={this.openModal.bind(null, { type: '编辑', ...labelList[1] })}>编辑</Button>
-                <Popconfirm title='是否确认删除车头？' okType='danger'
-                            icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
-                  <Button className='red-btn'>删除</Button>
-                </Popconfirm>
+                <Button type='primary'
+                        onClick={this.openModal.bind(null, { type: '编辑', ...labelList[1] }, false)}>编辑</Button>
               </div>}
           </div>
         </Col>
@@ -247,7 +331,8 @@ class Index extends Component {
             </div>
             <div className={styles['box-right']}>
               {insertFleet.car_body_code === '' ?
-                <div style={{ cursor: 'pointer' }} onClick={this.openModal.bind(null, { type: '新增', ...labelList[2] })}>
+                <div style={{ cursor: 'pointer' }}
+                     onClick={this.openModal.bind(null, { type: '新增', ...labelList[2] }, false)}>
                   <IconFont type='icon-icon-test' />
                   <span style={{ marginLeft: 20 }} className='font-gray-color'>新增车挂</span>
                 </div>
@@ -264,8 +349,9 @@ class Index extends Component {
               null
               :
               <div className={styles['hover-box']}>
-                <Button type='primary' onClick={this.openModal.bind(null, { type: '编辑', ...labelList[2] })}>编辑</Button>
-                <Popconfirm title='是否确认删除车挂？' okType='danger'
+                <Button type='primary'
+                        onClick={this.openModal.bind(null, { type: '编辑', ...labelList[2] }, false)}>编辑</Button>
+                <Popconfirm title='是否确认删除车挂？' okType='danger' onConfirm={this.deleteInsertCarBody}
                             icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
                   <Button className='red-btn'>删除</Button>
                 </Popconfirm>
@@ -308,18 +394,14 @@ class Index extends Component {
               <div className={styles['box-left']}>
                 <img src={require('@/assets/image/sj_70_55.png')} alt="" />
               </div>
-              {value.remark ? <>
+              {value.name ? <>
                 <div className={styles['box-right']}>
-                  <div>{value.remark}</div>
+                  <div>{value.name}</div>
                   <div>{value.mobile}</div>
                 </div>
                 <div className={styles['hover-box']}>
                   <Button type='primary'
-                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[0] })}>编辑</Button>
-                  <Popconfirm title='是否确认删除司机？' okType='danger'
-                              icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
-                    <Button className='red-btn'>删除</Button>
-                  </Popconfirm>
+                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[0] }, { ...value })}>编辑</Button>
                 </div>
               </> : <div style={{ width: '100%', textAlign: 'center' }}>暂无</div>}
             </div>
@@ -339,16 +421,12 @@ class Index extends Component {
                   <div>{value.car_head_code}</div>
                   <div>
                     <span className={styles['box-right-title']}>串号</span>
-                    <span>{value.car_head_id}</span>
+                    <span>{value.imei}</span>
                   </div>
                 </div>
                 <div className={styles['hover-box']}>
                   <Button type='primary'
-                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[1] })}>编辑</Button>
-                  <Popconfirm title='是否确认删除车头？' okType='danger'
-                              icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
-                    <Button className='red-btn'>删除</Button>
-                  </Popconfirm>
+                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[1] }, { ...value })}>编辑</Button>
                 </div>
               </> : <div style={{ width: '100%', textAlign: 'center' }}>暂无</div>}
             </div>
@@ -373,13 +451,20 @@ class Index extends Component {
                 </div>
                 <div className={styles['hover-box']}>
                   <Button type='primary'
-                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[2] })}>编辑</Button>
+                          onClick={this.openModal.bind(null, { type: '编辑', ...labelList[2] }, { ...value })}>编辑</Button>
                   <Popconfirm title='是否确认删除车挂？' okType='danger'
+                              onConfirm={this.deleteFleetCarBody.bind(null, value.id, value.car_body_id)}
                               icon={<Icon style={{ color: 'red' }} type="exclamation-circle" />}>
                     <Button className='red-btn'>删除</Button>
                   </Popconfirm>
                 </div>
-              </> : <div style={{ width: '100%', textAlign: 'center' }}>暂无</div>}
+              </> : <div style={{ width: '100%', textAlign: 'center' }}>
+                暂无
+                <div className={styles['hover-box']}>
+                  <Button type='primary'
+                          onClick={() => this.child.openModal(value.id)}>添加</Button>
+                </div>
+              </div>}
             </div>
           </Col>
         </Col>
@@ -401,7 +486,7 @@ class Index extends Component {
 
   render() {
     const { managementStatus, modalTitle, modalLabel1, modalFiled1, modalLabel2, modalFiled2, insertStatus } = this.state
-    const { form, loading } = this.props
+    const { form, loading, logistics: { fleetPage, fleetTotal } } = this.props
     const { getFieldDecorator } = form
     const formItemLayout = {
       labelCol: {
@@ -482,7 +567,7 @@ class Index extends Component {
           {this.mapItem()}
         </Row>
         <div style={{ textAlign: 'center', marginTop: 15 }}>
-          <Pagination />
+          <Pagination current={fleetPage} total={fleetTotal} onChange={this.fetchFleetList} />
         </div>
         <Modal
           title={modalTitle}
@@ -491,8 +576,9 @@ class Index extends Component {
           width={600}
           destroyOnClose={true}
           onCancel={this.closeModal}
+          maskClosable={false}
         >
-          <Form onSubmit={this.handleSubmit}>
+          <Form>
             <Form.Item
               {...formItemLayout}
               label={modalLabel1}
@@ -510,17 +596,142 @@ class Index extends Component {
               {getFieldDecorator(`${modalFiled2}`, {
                 rules: [{ required: true }],
               })(
-                <Input placeholder={`请输入${modalLabel2}`} />,
+                <Input placeholder={`请输入${modalLabel2}`} onBlur={this.parseNumber.bind(null, `${modalFiled2}`, 3)} />,
               )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit" loading={loading}>确定</Button>
+              <Button type="primary" loading={loading} onClick={this.handleSubmit}>确定</Button>
               <Button className='red-btn' style={{ marginLeft: 20, marginTop: 20 }}
                       onClick={this.closeModal}>取消</Button>
             </Form.Item>
           </Form>
         </Modal>
+        <InsertCarBodyModal wrappedComponentRef={_ => this.child = _} fetchFleetList={this.fetchFleetList}
+                            fleetPage={fleetPage} />
       </div>
+    )
+  }
+}
+
+@connect()
+@Form.create()
+class InsertCarBodyModal extends Component {
+  state = {
+    modalVisible: false,
+    id: null,
+  }
+
+  openModal = (id) => {
+    this.setState({
+      modalVisible: true,
+      id,
+    })
+  }
+
+  closeModal = (e) => {
+    e && e.stopPropagation()
+    this.setState({
+      modalVisible: false,
+      id: null,
+    })
+  }
+
+  handleSubmit = (e) => {
+    e && e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.dispatch({
+          type: 'logistics/updateFleet',
+          payload: {
+            form: {
+              car_body_code: values.car_body_code,
+              car_load: values.car_load,
+              id: this.state.id,
+            },
+          },
+        }).then(() => {
+          this.closeModal()
+          this.props.fetchFleetList(this.props.fleetPage)
+        })
+      }
+    })
+  }
+
+  parseNumber = (filed, precision, e) => {
+    let val = e.target.value
+    if (val === '') {
+      return false
+    }
+    isNaN(val) && (val = 0)
+    let num = toFixed(val, precision)
+    this.props.form.setFieldsValue({
+      [filed]: num,
+    })
+  }
+
+  render() {
+    const { form, loading } = this.props
+    const { getFieldDecorator } = form
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 14 },
+      },
+    }
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 14,
+          offset: 6,
+        },
+      },
+    }
+    return (
+      <Modal
+        title='添加车挂'
+        visible={this.state.modalVisible}
+        footer={null}
+        width={600}
+        destroyOnClose={true}
+        onCancel={this.closeModal}
+        maskClosable={false}
+      >
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Item
+            {...formItemLayout}
+            label='车牌号码'
+          >
+            {getFieldDecorator('car_body_code', {
+              rules: [{ required: true }],
+            })(
+              <Input placeholder={`请输入车牌号码`} />,
+            )}
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label='载重数量'
+          >
+            {getFieldDecorator('car_load', {
+              rules: [{ required: true }],
+            })(
+              <Input placeholder={`请输入载重数量`} onBlur={this.parseNumber.bind(null, 'car_load', 3)} />,
+            )}
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit" loading={loading}>确定</Button>
+            <Button className='red-btn' style={{ marginLeft: 20, marginTop: 20 }}
+                    onClick={this.closeModal}>取消</Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     )
   }
 }
