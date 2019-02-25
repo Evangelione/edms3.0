@@ -155,30 +155,61 @@ html, body, #root {
 }
 
 // Upload自定义样式
-.ant-upload.ant-upload-drag {
+//.ant-upload.ant-upload-select-picture-card {
+//  width: 100% !important;
+//  height: 300px !important;
+//  border: 1px dashed @tabs-disabled !important;
+//  background-color: @white-color !important;
+//}
+//
+//.ant-upload.ant-upload-select-picture-card:hover {
+//  border: 1px solid @primary-color !important;
+//  background-color: #F9FBFF !important;
+//
+//  p.ant-upload-drag-icon .anticon {
+//    color: @primary-color !important;
+//  }
+//
+//  .hover-primary {
+//    color: @primary-color;
+//  }
+//}
+//
+//.ant-upload.ant-upload-select-picture-card p.ant-upload-drag-icon .anticon {
+//  color: @tabs-disabled !important;
+//}
+//
+//.ant-upload.ant-upload-select-picture-card .ant-upload {
+//  padding: 106px 0 !important;
+//}
+
+.ant-upload.ant-upload-select-picture-card {
+  width: 100% !important;
+  height: 300px !important;
   border: 1px dashed @tabs-disabled !important;
   background-color: @white-color !important;
 }
 
-.ant-upload.ant-upload-drag:hover {
+.ant-upload.ant-upload-select-picture-card:hover {
   border: 1px solid @primary-color !important;
   background-color: #F9FBFF !important;
 
-  p.ant-upload-drag-icon .anticon {
-    color: @primary-color !important;
-  }
-
-  .hover-primary {
+  .upload-icon {
     color: @primary-color;
   }
+
+  .ant-upload-text {
+    color: @primary-color !important;
+  }
 }
 
-.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
+.upload-icon {
+  font-size: 44px;
+  color: @tabs-disabled;
+}
+
+.ant-upload-text {
   color: @tabs-disabled !important;
-}
-
-.ant-upload.ant-upload-drag .ant-upload {
-  padding: 106px 0 !important;
 }
 
 // input自定义样式

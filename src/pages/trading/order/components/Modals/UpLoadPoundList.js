@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Tabs, Button, Row, Col, Upload, Input, message, DatePicker } from 'antd'
+import { Modal, Tabs, Button, Row, Col, Upload, Input, message, DatePicker, Icon } from 'antd'
 import { GasImg, IconFont } from '@/common/constants'
 import styles from '@/pages/trading/order/index.less'
 import { toFixed } from '@/utils/Math'
@@ -7,11 +7,9 @@ import { connect } from 'dva'
 import moment from 'moment'
 
 const TabPane = Tabs.TabPane
-const Dragger = Upload.Dragger
 
-@connect(({ order, loading }) => ({
+@connect(({ order }) => ({
   order,
-  loading: loading.models.order,
 }))
 class UpLoadPoundList extends Component {
   state = {
@@ -26,6 +24,7 @@ class UpLoadPoundList extends Component {
     carBody: '',
     time: null,
     num: '',
+    fileList: [],
   }
 
   showModal = () => {
@@ -79,14 +78,11 @@ class UpLoadPoundList extends Component {
     })
   }
 
-  handlePreview = (file) => {
-    this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
-    })
+  getBase64 = (img, callback) => {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => callback(reader.result))
+    reader.readAsDataURL(img)
   }
-
-  handleChange = ({ fileList }) => this.setState({ fileList })
 
   beforeUpload = (file) => {
     const isJPG = file.type === 'image/jpeg'
@@ -104,57 +100,27 @@ class UpLoadPoundList extends Component {
       file,
     })
     console.log(file)
-    return false
+    return (isJPG || isPNG) && isLt5M
   }
 
-  // customRequest = (id, type) => {
-  //   if (this.state.file === null) {
-  //     message.error('请上传磅单！')
-  //     return false
-  //   }
-  //   this.setState({
-  //     uploading: true,
-  //   })
-  //   let num = ''
-  //   type === 'load' ? num = this.state.load_num : num = this.state.unload_num
-  //   if (type === 'load') {
-  //     this.props.dispatch({
-  //       type: 'home/uploadPound',
-  //       payload: {
-  //         file: this.state.file,
-  //         id,
-  //         num: num,
-  //         load_type: type,
-  //         load_time: this.state.time.format('YYYY-MM-DD HH:mm:00'),
-  //       },
-  //     }).then(() => {
-  //       this.setState({
-  //         uploading: false,
-  //         visible: false,
-  //         fileList: [],
-  //         file: null,
-  //       })
-  //     })
-  //   } else {
-  //     this.props.dispatch({
-  //       type: 'home/uploadUnPound',
-  //       payload: {
-  //         file: this.state.file,
-  //         id,
-  //         num: num,
-  //         load_type: type,
-  //         unload_time: this.state.time.format('YYYY-MM-DD HH:mm:00'),
-  //       },
-  //     }).then(() => {
-  //       this.setState({
-  //         uploading: false,
-  //         visible: false,
-  //         fileList: [],
-  //         file: null,
-  //       })
-  //     })
-  //   }
-  // }
+  handleChange = (info) => {
+    // Get this url from response in real world.
+    this.getBase64(info.file.originFileObj, imageUrl => this.setState({
+      fileList: [{
+        uid: '-1',
+        name: 'file.png',
+        status: 'done',
+      }],
+      imageUrl,
+      loading: false,
+    }))
+  }
+
+  customRequest = (file) => {
+    console.log(file)
+    file.onProgress({ percent: 100 })
+    file.onSuccess()
+  }
 
   mapTabPane = () => {
     const sites = JSON.parse(this.props.sites)
@@ -263,8 +229,12 @@ class UpLoadPoundList extends Component {
   }
 
   render() {
-    const { visible, fileList } = this.state
+    const { visible, imageUrl, fileList } = this.state
     const { children } = this.props
+    const uploadButton = (<div>
+      {this.state.loading ? <Icon type='loading' /> : <IconFont type="icon-icon-test110" className='upload-icon' />}
+      <div className="ant-upload-text" style={{ marginTop: 10, fontSize: '1.125rem' }}>点击上传装车磅单</div>
+    </div>)
     return (
       <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
@@ -283,19 +253,34 @@ class UpLoadPoundList extends Component {
             </Tabs>
             <div className='tabs-bottom-line' />
             <div style={{ padding: 8, marginTop: 15 }}>
-              <Dragger
-                accept='.jpg,.png'
-                name='file'
+              <Upload
+                name="avatar"
                 listType="picture-card"
+                className="avatar-uploader"
                 fileList={fileList}
-                onPreview={this.handlePreview}
+                showUploadList={false}
+                beforeUpload={this.beforeUpload}
                 onChange={this.handleChange}
-                beforeUpload={this.beforeUpload}>
-                <p className="ant-upload-drag-icon">
-                  <IconFont type="icon-icon-test110" />
-                </p>
-                <div className="hover-primary">点击或拖拽上传磅单</div>
-              </Dragger>
+                customRequest={this.customRequest}
+              >
+                {imageUrl ? <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    background: '#000',
+                    display: 'flex',
+                    opacity: 0.5,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <div className={styles['modify-image']}>
+                    <IconFont type='icon-icon-test12' />
+                    <IconFont type='icon-icon-test11' style={{ marginLeft: 20 }} />
+                  </div>
+                  <img src={imageUrl} alt="avatar" style={{ opacity: 0.5 }} />
+                </div> : uploadButton}
+              </Upload>
             </div>
             <Row type='flex' justify='end'>
               <Col style={{ padding: '12px 8px 15px' }}>
