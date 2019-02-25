@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Button, Popconfirm, Modal, Form, Input, Pagination, Icon, Upload, message } from 'antd'
+import { Row, Col, Button, Popconfirm, Modal, Form, Input, Pagination, Icon, Upload, message, Empty } from 'antd'
 import { connect } from 'dva'
 import { IconFont, IP } from '@/common/constants'
 import withRouter from 'umi/withRouter'
@@ -379,7 +379,7 @@ class Index extends Component {
   // 渲染车队列表方法
   mapItem = () => {
     const { managementStatus, labelList } = this.state
-    return this.props.logistics.fleetList.map((value, index) => (
+    return this.props.logistics.fleetList.length ? this.props.logistics.fleetList.map((value, index) => (
       <Col span={24} xxl={12} key={index}>
         <Col span={22} className={styles['fleet-item']}>
           <Col span={24} style={managementStatus ? { display: 'flex' } : { display: 'none' }}
@@ -469,7 +469,7 @@ class Index extends Component {
           </Col>
         </Col>
       </Col>
-    ))
+    )) : <Empty />
   }
 
   // 上传excel
