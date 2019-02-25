@@ -11,10 +11,11 @@ import { connect } from 'dva'
 import HandleSupplierModal from './components/Modals/HandleSupplierModal'
 import router from 'umi/router'
 import { IP, PAGE_LIMIT } from '@/common/constants'
+import { downLoad } from '@/utils/downLoadStencil'
 
 const Search = Input.Search
 
-@connect(({supplier, loading}) => ({
+@connect(({ supplier, loading }) => ({
   supplier,
   loading: loading.models.supplier,
 }))
@@ -62,7 +63,7 @@ class Index extends Component {
   }
 
   mapItem = () => {
-    const {supplierList} = this.props.supplier
+    const { supplierList } = this.props.supplier
     return supplierList.length ? supplierList.map((value, index) => (
       <div className='list-item' key={value.id}
            onClick={this.goSupplierDetail.bind(null, value.id, value.company_name)}>
@@ -107,8 +108,8 @@ class Index extends Component {
   }
 
   render() {
-    const {loading} = this.props
-    const {supplierPage, supplierTotal, supp_name} = this.props.supplier
+    const { loading } = this.props
+    const { supplierPage, supplierTotal, supp_name } = this.props.supplier
     const popTitle = <div>
       导入信息
     </div>
@@ -118,26 +119,27 @@ class Index extends Component {
         <p>2. 信息文件内容，请严格按照模板样式填写，红色的字段必须填写， <br />其余字段若没有则可以不填；</p>
         <p>3. 导入信息时，如果和已有的信息相同，则导入后自动更新其信息；</p>
       </div>
-      <div style={{textAlign: 'center'}}>
-        <Button className='light-btn'>下载供应商模版</Button>
+      <div style={{ textAlign: 'center' }}>
+        <Button className='light-btn' onClick={downLoad.bind(null, 'supplier')}>下载供应商模版</Button>
         <Upload
           accept='.xls,.xlsx'
           name='excel'
-          action={`${IP}/index/supp/import`}
+          action={`${IP}/index/supp/supp-import`}
           customRequest={this.upLoadExcel}
           showUploadList={false}
         >
-          <Button className='light-btn' style={{marginLeft: 20}} loading={loading}>导入供应商</Button>
+          <Button className='light-btn' style={{ marginLeft: 20 }} loading={loading}>导入供应商</Button>
         </Upload>
-        <Button className='light-btn' style={{marginLeft: 20}}>下载气源模版</Button>
+        <Button className='light-btn' onClick={downLoad.bind(null, 'gas')}
+                style={{ marginLeft: 20 }}>下载气源模版</Button>
         <Upload
           accept='.xls,.xlsx'
           name='excel'
-          action={`${IP}/index/goods/import`}
+          action={`${IP}/index/goods/goods-import`}
           customRequest={this.upLoadExcel}
           showUploadList={false}
         >
-          <Button className='light-btn' style={{marginLeft: 20}} loading={loading}>导入气源</Button>
+          <Button className='light-btn' style={{ marginLeft: 20 }} loading={loading}>导入气源</Button>
         </Upload>
       </div>
     </>
@@ -149,7 +151,7 @@ class Index extends Component {
           </HandleSupplierModal>
           <Popover placement="bottomLeft" title={popTitle} content={popContent}
                    trigger="click">
-            <Button type='primary' style={{marginLeft: 10}}>导入信息</Button>
+            <Button type='primary' style={{ marginLeft: 10 }}>导入信息</Button>
           </Popover>
           <Search
             placeholder="请输入供应商名进行查找"
@@ -157,13 +159,13 @@ class Index extends Component {
             value={supp_name}
             onChange={this.changeSupplierName}
             onSearch={this.searchSupplierList}
-            style={{width: '25rem', height: '2.5rem', float: 'right', marginTop: 19}}
+            style={{ width: '25rem', height: '2.5rem', float: 'right', marginTop: 19 }}
           />
         </div>
-        <div style={{padding: 24}}>
+        <div style={{ padding: 24 }}>
           {this.mapItem()}
         </div>
-        <div style={{textAlign: 'center', marginBottom: 50}}>
+        <div style={{ textAlign: 'center', marginBottom: 50 }}>
           <Pagination current={supplierPage} total={supplierTotal} pageSize={PAGE_LIMIT} onChange={this.pageChange} />
         </div>
       </>

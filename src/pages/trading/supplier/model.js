@@ -14,6 +14,8 @@ export default {
     gasSourcePage: 1,
     gasSourceTotal: 0,
     currentGasSourceInfo: {},
+    report_url: '',
+    file_name: '',
     goods_name: '',
     salesHistoryList: [{
       id: '1',
@@ -174,6 +176,20 @@ export default {
           message.error(data.msg)
       } catch (e) {
         message.error(e)
+      }
+    },
+    * postReport({ payload: { file, id } }, { call, put }) {
+      const { data } = yield call(supplierService.postReport, { file, id })
+      if (data.code === 1) {
+        file.onProgress({ percent: 100 })
+        file.onSuccess()
+        yield put({
+          type: 'save',
+          payload: {
+            report_url: data.data.report_url,
+            file_name: data.data.filename,
+          },
+        })
       }
     },
   },

@@ -24,8 +24,8 @@ class HandleGasSourceModal extends Component {
     super(props)
     this.state = {
       modalVisible: false,
-      autoCompleteResult: [],
       fileList: [],
+      file: null,
     }
   }
 
@@ -64,26 +64,56 @@ class HandleGasSourceModal extends Component {
           city: currentGasSourceInfo.city,
         },
       })
+      this.setState({
+        fileList: [{
+          uid: '1',
+          name: currentGasSourceInfo.filename,
+          status: 'done',
+          response: 'Server Error 500', // custom error message to show
+          url: currentGasSourceInfo.goods_report_url,
+        }],
+      })
     })
   }
+
   customRequest = (file) => {
+    const { currentGasSourceInfo } = this.props.supplier
+    console.log(currentGasSourceInfo)
     this.props.dispatch({
-      type: 'maintain/postReport',
-      payload: file,
+      type: 'supplier/postReport',
+      payload: {
+        file,
+        id: currentGasSourceInfo.id,
+      },
+    }).then(() => {
+      this.setState({
+        fileList: [{
+          ...this.state.fileList,
+          uid: '1',
+          name: this.props.supplier.file_name,
+          url: this.props.supplier.report_url,
+        }],
+      })
     })
   }
+
   beforeUpload = (file) => {
-    const isPDF = file.type === 'application/pdf'
+    const isPDF = file.type === 'application/pdf' || 'image/jpeg' || 'image/png'
     if (!isPDF) {
-      message.error('You can only upload PDF file!')
-      file.status = 'error'
+      message.error('只支持pdf,jpg,png文件上传')
+      return false
     }
-    const isLt20M = file.size / 1024 / 1024 < 20
-    if (!isLt20M) {
-      message.error('PDF must smaller than 2MB!')
+    const isLt5M = file.size / 1024 / 1024 < 5
+    if (!isLt5M) {
+      message.error('文件只能小于5M')
+      return false
     }
-    return isPDF && isLt20M
+    this.setState({
+      file,
+    })
+    return false
   }
+
   onFileChange = ({ file, fileList }) => {
     // if (file.status !== 'uploading') {
     //   console.log(file, fileList)
@@ -126,6 +156,9 @@ class HandleGasSourceModal extends Component {
         let { modify } = this.props
         let effect = modify ? 'updateGasSourceInfo' : 'insertGasSource'
         modify && (values.id = modify)
+        values.file = this.state.file
+        console.log(values)
+        debugger
         this.props.dispatch({
           type: `supplier/${effect}`,
           payload: {
@@ -138,6 +171,10 @@ class HandleGasSourceModal extends Component {
             payload: {
               supp_id: this.props.match.params.SupplierDetail,
             },
+          })
+          this.setState({
+            fileList: [],
+            file: null,
           })
         })
       }
@@ -216,25 +253,18 @@ class HandleGasSourceModal extends Component {
               {...formItemLayout}
               label="气质报告"
             >
-              {getFieldDecorator('goods_report_url', {
+              {getFieldDecorator('file', {
                 rules: [{ required: true }],
-                initialValue: modify ? currentGasSourceInfo.goods_report_url : 'https',
               })(
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  {modify ?
-                    <div className='font-primary-color'
-                         style={{ marginRight: 20 }}>{currentGasSourceInfo.goods_report_url}</div>
-                    : ''
-                  }
                   <Upload
-                    accept='.pdf'
-                    name='SuppForm[pdf]'
-                    action={`${IP}/index/goods/add-report`}
+                    accept='.jpg,.png,.pdf'
+                    name='file'
+                    action={`${IP}/index/goods/report`}
                     fileList={fileList}
-                    customRequest={this.customRequest}
+                    // customRequest={this.customRequest}
                     beforeUpload={this.beforeUpload}
-                    onChange={this.onFileChange}
-                  >
+                    onChange={this.onFileChange}>
                     <Button type='primary'>选择文件</Button>
                   </Upload>
                 </div>,

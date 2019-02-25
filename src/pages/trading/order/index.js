@@ -60,7 +60,9 @@ class Index extends Component {
         <div style={{ padding: 24 }}>
           <div>
             {order_type.map((value, index) => {
-              return <div key={index} className={styles['order-type']}>{value.label}</div>
+              return <div key={index} className={styles['order-type']}>
+                <div>{value.label}</div>
+              </div>
             })}
           </div>
           <Row gutter={16}>

@@ -77,6 +77,7 @@ export default {
     logisticsCarBodyList: [],
     suppInfoByOrderPurchase: [],
     gasInfoByOrderPurchase: [],
+    poundInfoByUpload: {},
   },
 
   subscriptions: {
@@ -267,6 +268,18 @@ export default {
       const { data } = yield call(orderService.schedulingLogistics, form)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * fetchPoundInfo({ payload: { id } }, { call, put }) {
+      const { data } = yield call(orderService.fetchPoundInfo, id)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            poundInfoByUpload: data.data.info,
+          },
+        })
         :
         message.error(data.msg)
     },

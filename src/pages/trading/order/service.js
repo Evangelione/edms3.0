@@ -101,6 +101,26 @@ export function purchase(form) {
   })
 }
 
+
+export function fetchPoundInfo(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/order/pre-set-pic`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function fetchUploadSiteInfo(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/site/info`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
 export function inquireClientSelectInfoBySalesBilling() {
   return fetch('/api/client-select').then(response => response.json()).then(data => {
     return data

@@ -12,6 +12,7 @@ import { connect } from 'dva'
 import HandleLogisticsModal from './components/Modals/HandleLogisticsModal'
 import router from 'umi/router'
 import { IP, PAGE_LIMIT } from '@/common/constants'
+import { downLoad } from '@/utils/downLoadStencil'
 
 const Search = Input.Search
 
@@ -130,7 +131,7 @@ class Index extends Component {
         <p>3. 导入信息时，如果和已有的信息相同，则导入后自动更新其信息；</p>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Button className='light-btn'>下载物流模版</Button>
+        <Button className='light-btn' onClick={downLoad.bind(null, 'logistics')}>下载物流模版</Button>
         <Upload
           accept='.xls,.xlsx'
           name='excel'
@@ -140,7 +141,8 @@ class Index extends Component {
         >
           <Button className='light-btn' style={{ marginLeft: 20 }} loading={loading}>导入物流</Button>
         </Upload>
-        <Button className='light-btn' style={{ marginLeft: 20 }}>下载车队模版</Button>
+        <Button className='light-btn' onClick={downLoad.bind(null, 'driver_car')}
+                style={{ marginLeft: 20 }}>下载车队模版</Button>
         <Upload
           accept='.xls,.xlsx'
           name='excel'

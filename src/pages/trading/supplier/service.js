@@ -2,7 +2,7 @@ import request from '@/common/request'
 import { IP, PAGE_LIMIT } from '@/common/constants'
 
 
-export function fetchSupplierList({page, supp_name}) {
+export function fetchSupplierList({ page, supp_name }) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
@@ -67,7 +67,7 @@ export function setSupplierFinance(form) {
   })
 }
 
-export function fetchGasSourceList({page, supp_id, goods_name}) {
+export function fetchGasSourceList({ page, supp_id, goods_name }) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
@@ -122,6 +122,16 @@ export function deleteGasSource(id) {
 export function upLoadExcel(file) {
   let formData = new FormData()
   formData.append(file.filename, file.file)
+  return request(file.action, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function postReport({ file, id }) {
+  let formData = new FormData()
+  formData.append(file.filename, file.file)
+  formData.append('id', id)
   return request(file.action, {
     method: 'POST',
     body: formData,

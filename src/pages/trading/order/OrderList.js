@@ -21,6 +21,15 @@ class OrderList extends Component {
     })
   }
 
+  changeCurrentOrder = (index) => {
+    this.props.dispatch({
+      type: 'order/save',
+      payload: {
+        currentOrderNum: index,
+      },
+    })
+  }
+
   mapOrderList = () => {
     const { order: { orderList, currentOrderNum } } = this.props
     return orderList.length ? orderList.map((value, index) => {
@@ -29,7 +38,8 @@ class OrderList extends Component {
       let lineWidth = (screenWidth / 2 / (value.sites.length + 1)) - (90 / (value.sites.length + 1)) * (value.sites.length + 1)
       let lineLeft = lineWidth / 2
       return <Card key={index} style={{ marginBottom: 18 }} bodyStyle={{ padding: 0 }}
-                   className={classnames(currentOrderNum === index ? styles['order-card-active'] : '', styles['order-card'])}>
+                   className={classnames(currentOrderNum === index ? styles['order-card-active'] : '', styles['order-card'])}
+                   onClick={this.changeCurrentOrder.bind(null, index)}>
         <div className={styles['order-card-header']}>
           <div>
             <img src={require('../../../assets/image/car_head_36_36.png')} style={{ width: 32, height: 28 }} alt="" />
@@ -128,7 +138,7 @@ class OrderList extends Component {
                   </div> :
                   value.status === '5' ? <div>
                       <UpLoadPoundList sites={JSON.stringify(value.sites)} current_site={value.current_site}
-                                       supp_goods_name={value.supp_goods_name} loading={true}>
+                                       supp_goods_name={value.supp_goods_name} uploading={true} id={value.id}>
                         <Button type='primary' style={{ marginRight: 10 }}>确认装货</Button>
                       </UpLoadPoundList>
                       <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>

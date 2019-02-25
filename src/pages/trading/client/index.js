@@ -11,10 +11,11 @@ import { connect } from 'dva'
 import HandleClientModal from './components/Modals/HandleClientModal'
 import router from 'umi/router'
 import { IP, PAGE_LIMIT } from '@/common/constants'
+import { downLoad } from '@/utils/downLoadStencil'
 
 const Search = Input.Search
 
-@connect(({client, loading}) => ({
+@connect(({ client, loading }) => ({
   client,
   loading: loading.models.client,
 }))
@@ -73,7 +74,7 @@ class Index extends Component {
   }
 
   mapItem = () => {
-    const {clientList} = this.props.client
+    const { clientList } = this.props.client
     return clientList.length ? clientList.map((value, index) => (
       <div className='list-item' key={value.id}
            onClick={this.goClientDetail.bind(null, value.id, value.company_name)}>
@@ -107,8 +108,8 @@ class Index extends Component {
   }
 
   render() {
-    const {loading} = this.props
-    const {clientPage, clientTotal, customer_name} = this.props.client
+    const { loading } = this.props
+    const { clientPage, clientTotal, customer_name } = this.props.client
     const popTitle = <div>
       导入信息
     </div>
@@ -118,8 +119,8 @@ class Index extends Component {
         <p>2. 信息文件内容，请严格按照模板样式填写，红色的字段必须填写，其余字段若没有则可以不填；</p>
         <p>3. 导入信息时，如果和已有的信息相同，则导入后自动更新其信息；</p>
       </div>
-      <div style={{textAlign: 'center'}}>
-        <Button className='light-btn'>下载客户模版</Button>
+      <div style={{ textAlign: 'center' }}>
+        <Button className='light-btn' onClick={downLoad.bind(null, 'client')}>下载客户模版</Button>
         <Upload
           accept='.xls,.xlsx'
           name='excel'
@@ -127,9 +128,10 @@ class Index extends Component {
           customRequest={this.upLoadExcel}
           showUploadList={false}
         >
-          <Button className='light-btn' style={{marginLeft: 20}} loading={loading}>导入客户</Button>
+          <Button className='light-btn' style={{ marginLeft: 20 }} loading={loading}>导入客户</Button>
         </Upload>
-        <Button className='light-btn' style={{marginLeft: 20}}>下载站点模版</Button>
+        <Button className='light-btn' onClick={downLoad.bind(null, 'site')}
+                style={{ marginLeft: 20 }}>下载站点模版</Button>
         <Upload
           accept='.xls,.xlsx'
           name='excel'
@@ -137,7 +139,7 @@ class Index extends Component {
           customRequest={this.upLoadExcel}
           showUploadList={false}
         >
-          <Button className='light-btn' style={{marginLeft: 20}} loading={loading}>导入站点</Button>
+          <Button className='light-btn' style={{ marginLeft: 20 }} loading={loading}>导入站点</Button>
         </Upload>
       </div>
     </>
@@ -149,7 +151,7 @@ class Index extends Component {
           </HandleClientModal>
           <Popover placement="bottomLeft" title={popTitle} content={popContent}
                    trigger="click">
-            <Button type='primary' style={{marginLeft: 10}}>导入信息</Button>
+            <Button type='primary' style={{ marginLeft: 10 }}>导入信息</Button>
           </Popover>
           <Search
             placeholder="请输入客户名进行查找"
@@ -157,13 +159,13 @@ class Index extends Component {
             value={customer_name}
             onChange={this.changeCustomerName}
             onSearch={this.searchClientList}
-            style={{width: '25rem', height: '2.5rem', float: 'right', marginTop: 19}}
+            style={{ width: '25rem', height: '2.5rem', float: 'right', marginTop: 19 }}
           />
         </div>
-        <div style={{padding: 24}}>
+        <div style={{ padding: 24 }}>
           {this.mapItem()}
         </div>
-        <div style={{textAlign: 'center', marginBottom: 50}}>
+        <div style={{ textAlign: 'center', marginBottom: 50 }}>
           <Pagination current={clientPage} total={clientTotal} pageSize={PAGE_LIMIT} onChange={this.pageChange} />
         </div>
       </>
