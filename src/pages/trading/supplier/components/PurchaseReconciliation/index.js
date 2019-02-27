@@ -1,22 +1,33 @@
 import React, { Component } from 'react'
 import { Row, Col, Icon, DatePicker, Select, Button, Pagination, Table } from 'antd'
 import { connect } from 'dva'
+import withRouter from 'umi/withRouter'
 import { salesReconciliationBox } from '@/common/constants'
 import { salesHistoryColumns } from '@/common/tableColumns'
 import styles from '../../index.less'
 
 const Option = Select.Option
 
-@connect(({supplier, loading}) => ({
+@connect(({ supplier, loading }) => ({
   supplier,
   loading: loading.models.supplier,
 }))
+@withRouter
 class Index extends Component {
   state = {
     startValue: null,
     endValue: null,
     endOpen: false,
     selectedRowKeys: [],
+  }
+
+  componentWillMount() {
+    this.props.dispatch({
+      type: 'supplier/fetchSalesHistoryList',
+      payload: {
+        supplier_id: this.props.match.params.SupplierDetail,
+      },
+    })
   }
 
   disabledStartDate = (startValue) => {
@@ -51,16 +62,16 @@ class Index extends Component {
 
   handleStartOpenChange = (open) => {
     if (!open) {
-      this.setState({endOpen: true})
+      this.setState({ endOpen: true })
     }
   }
 
   handleEndOpenChange = (open) => {
-    this.setState({endOpen: open})
+    this.setState({ endOpen: open })
   }
 
   renderStatusBox = () => {
-    return <Row gutter={26} className={styles['status-box']} style={{margin: 0}}>
+    return <Row gutter={26} className={styles['status-box']} style={{ margin: 0 }}>
       {salesReconciliationBox.map((value, index) => (
         <Col span={3} key={index}>
           <div>
@@ -83,7 +94,7 @@ class Index extends Component {
   }
 
   onSelectedRowKeysChange = (selectedRowKeys, datasource) => {
-    this.setState({selectedRowKeys})
+    this.setState({ selectedRowKeys })
   }
 
   selectRow = (record) => {
@@ -96,13 +107,13 @@ class Index extends Component {
     // if (record.account_status !== '1') {
     //   return false
     // }
-    this.setState({selectedRowKeys})
+    this.setState({ selectedRowKeys })
   }
 
   render() {
-    const {startValue, endValue, endOpen, selectedRowKeys} = this.state
-    const {supplier, loading} = this.props
-    const {salesHistoryList, salesHistoryPage, salesHistoryTotal} = supplier
+    const { startValue, endValue, endOpen, selectedRowKeys } = this.state
+    const { supplier, loading } = this.props
+    const { salesHistoryList, salesHistoryPage, salesHistoryTotal } = supplier
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectedRowKeysChange,
@@ -114,8 +125,8 @@ class Index extends Component {
     return (
       <>
         {/*{this.renderStatusBox()}*/}
-        <div style={{textAlign: 'right', fontSize: '1rem', margin: '5px 0 20px'}}>
-          <span style={{marginRight: 10}}>装车时间</span>
+        <div style={{ textAlign: 'right', fontSize: '1rem', margin: '5px 0 20px' }}>
+          <span style={{ marginRight: 10 }}>装车时间</span>
           <DatePicker
             disabledDate={this.disabledStartDate}
             showTime
@@ -125,7 +136,7 @@ class Index extends Component {
             onChange={this.onStartChange}
             onOpenChange={this.handleStartOpenChange}
           />
-          <span style={{margin: '0 10px'}}>-</span>
+          <span style={{ margin: '0 10px' }}>-</span>
           <DatePicker
             disabledDate={this.disabledEndDate}
             showTime
@@ -136,31 +147,31 @@ class Index extends Component {
             open={endOpen}
             onOpenChange={this.handleEndOpenChange}
           />
-          <span style={{margin: '0 12px 0 20px'}}>车牌</span>
-          <Select defaultValue="jack" style={{width: '8.75rem'}}>
+          <span style={{ margin: '0 12px 0 20px' }}>车牌</span>
+          <Select defaultValue="jack" style={{ width: '8.75rem' }}>
             <Option value="jack">销售额</Option>
             <Option value="lucy">利润贡献</Option>
             <Option value="Yiminghe">贡献占比</Option>
           </Select>
-          <span style={{margin: '0 12px 0 20px'}}>气源</span>
-          <Select defaultValue="jack" style={{width: '8.75rem'}}>
+          <span style={{ margin: '0 12px 0 20px' }}>气源</span>
+          <Select defaultValue="jack" style={{ width: '8.75rem' }}>
             <Option value="jack">销售额</Option>
             <Option value="lucy">利润贡献</Option>
             <Option value="Yiminghe">贡献占比</Option>
           </Select>
-          <span style={{margin: '0 12px 0 20px'}}>站点</span>
-          <Select defaultValue="jack" style={{width: '8.75rem'}}>
+          <span style={{ margin: '0 12px 0 20px' }}>站点</span>
+          <Select defaultValue="jack" style={{ width: '8.75rem' }}>
             <Option value="jack">销售额</Option>
             <Option value="lucy">利润贡献</Option>
             <Option value="Yiminghe">贡献占比</Option>
           </Select>
-          <span style={{margin: '0 12px 0 20px'}}>状态</span>
-          <Select defaultValue="jack" style={{width: '8.75rem', marginRight: 20}}>
+          <span style={{ margin: '0 12px 0 20px' }}>状态</span>
+          <Select defaultValue="jack" style={{ width: '8.75rem', marginRight: 20 }}>
             <Option value="jack">销售额</Option>
             <Option value="lucy">利润贡献</Option>
             <Option value="Yiminghe">贡献占比</Option>
           </Select>
-          <Button className={!selectedRowKeys.length ? '' : 'ant-btn-primary'} style={{marginRight: 10}}
+          <Button className={!selectedRowKeys.length ? '' : 'ant-btn-primary'} style={{ marginRight: 10 }}
                   disabled={!selectedRowKeys.length}>对账</Button>
           <Button type='primary'>全部对账</Button>
         </div>
@@ -183,7 +194,7 @@ class Index extends Component {
             })}
           />
         </div>
-        <div style={{textAlign: 'center', marginTop: 40}}>
+        <div style={{ textAlign: 'center', marginTop: 40 }}>
           <Pagination current={salesHistoryPage} total={salesHistoryTotal} />
         </div>
       </>

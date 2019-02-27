@@ -137,3 +137,15 @@ export function postReport({ file, id }) {
     body: formData,
   })
 }
+
+
+export function fetchSalesHistoryList({ page, supplier_id }) {
+  let formData = new FormData()
+  formData.append('page', page)
+  formData.append('limit', PAGE_LIMIT)
+  formData.append('supplier_id', supplier_id)
+  return request(`${IP}/index/supp/order-page`, {
+    method: 'POST',
+    body: formData,
+  })
+}
