@@ -283,6 +283,20 @@ export default {
         :
         message.error(data.msg)
     },
+    * upLoadingPound({ payload: form }, { call }) {
+      const { data } = yield call(orderService.upLoadingPound, form)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * unLoadingPound({ payload: form }, { call }) {
+      const { data } = yield call(orderService.unLoadingPound, form)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
   },
 
   reducers: {

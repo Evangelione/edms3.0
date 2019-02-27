@@ -43,7 +43,7 @@ class OrderList extends Component {
         <div className={styles['order-card-header']}>
           <div>
             <img src={require('../../../assets/image/car_head_36_36.png')} style={{ width: 32, height: 28 }} alt="" />
-            <div style={{ marginLeft: 20 }}>{value.car_body_code}</div>
+            <div style={{ marginLeft: 20 }}>{value.car_head_code}</div>
           </div>
           <div style={{ color: '#FFAD4D', fontWeight: 400, fontSize: '1rem' }}>{value.order_status}</div>
         </div>
@@ -145,7 +145,8 @@ class OrderList extends Component {
                       <Button className='line-primary'>取消订单</Button>
                     </div> :
                     value.status === '6' ? <div>
-                        <UpLoadPoundList>
+                        <UpLoadPoundList sites={JSON.stringify(value.sites)} current_site={value.current_site}
+                                         supp_goods_name={value.supp_goods_name} unloading={true} id={value.id}>
                           <Button type='primary' style={{ marginRight: 10 }}>确认收货</Button>
                         </UpLoadPoundList>
                         <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>

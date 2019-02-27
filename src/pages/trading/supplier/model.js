@@ -17,17 +17,7 @@ export default {
     report_url: '',
     file_name: '',
     goods_name: '',
-    salesHistoryList: [{
-      id: '1',
-      cp: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    }, {
-      id: '2',
-      cp: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    }],
+    salesHistoryList: [],
     salesHistoryPage: 1,
     salesHistoryTotal: 0,
     reconciliationHistoryList: [{
@@ -191,6 +181,20 @@ export default {
           },
         })
       }
+    },
+    * fetchSalesHistoryList({ payload: { page = 1, supplier_id } }, { call, put }) {
+      const { data } = yield call(supplierService.fetchSalesHistoryList, { page, supplier_id })
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            salesHistoryList: data.data.list,
+            salesHistoryPage: parseInt(page, 10),
+            salesHistoryTotal: parseInt(data.data.total, 10),
+          },
+        })
+        :
+        message.error(data.msg)
     },
   },
 

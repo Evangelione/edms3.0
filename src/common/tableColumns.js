@@ -6,43 +6,43 @@ const ButtonGroup = Button.Group
 export const salesHistoryColumns = [{
   align: 'center',
   title: '装车时间',
-  dataIndex: 'zcsj',
-  key: 'zcsj',
+  dataIndex: 'real_load_time',
+  key: 'real_load_time',
 }, {
   align: 'center',
   title: '车牌',
-  dataIndex: 'cp',
-  key: 'cp',
+  dataIndex: 'car_head_code',
+  key: 'car_head_code',
 }, {
   align: 'center',
   title: '客户',
-  dataIndex: 'kh',
-  key: 'kh',
+  dataIndex: 'cust_name',
+  key: 'cust_name',
 }, {
   align: 'center',
   title: '气源',
-  dataIndex: 'qy',
-  key: 'qy',
+  dataIndex: 'goods_name',
+  key: 'goods_name',
 }, {
   align: 'center',
   title: '站点',
-  dataIndex: 'zd',
-  key: 'zd',
+  dataIndex: 'g_cust_id',
+  key: 'g_cust_id',
 }, {
   align: 'center',
   title: '装气量（吨）',
-  dataIndex: 'zql',
-  key: 'zql',
+  dataIndex: 'load_quantity',
+  key: 'load_quantity',
 }, {
   align: 'center',
   title: '结算量（吨）',
-  dataIndex: 'jsl',
-  key: 'jsl',
+  dataIndex: 'unload_quantity',
+  key: 'unload_quantity',
 }, {
   align: 'center',
   title: '销售价（元/吨）',
-  dataIndex: 'xsj',
-  key: 'xsj',
+  dataIndex: 'price',
+  key: 'price',
 }, {
   align: 'center',
   title: '销售额（元）',
@@ -51,8 +51,8 @@ export const salesHistoryColumns = [{
 }, {
   align: 'center',
   title: '额外费用（元）',
-  dataIndex: 'ewfy',
-  key: 'ewfy',
+  dataIndex: 'extra_fee',
+  key: 'extra_fee',
 }, {
   align: 'center',
   title: '合计金额（元）',
@@ -61,8 +61,8 @@ export const salesHistoryColumns = [{
 }, {
   align: 'center',
   title: '状态',
-  dataIndex: 'zt',
-  key: 'zt',
+  dataIndex: 'status',
+  key: 'status',
 }]
 
 export const clientReconciliationHistoryColumns = [{

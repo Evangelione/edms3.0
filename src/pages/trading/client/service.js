@@ -7,7 +7,7 @@ export function fetchClientList({page, customer_name}) {
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
   formData.append('customer_name', customer_name)
-  return request(`${IP}/index/cust/cust-list`, {
+  return request(`${IP}/index/cust/page`, {
     method: 'POST',
     body: formData,
   })

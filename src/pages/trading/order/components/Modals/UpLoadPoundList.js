@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Modal, Tabs, Button, Row, Col, Upload, Input, message, DatePicker, Icon } from 'antd'
+import { Modal, Tabs, Button, Row, Col, Upload, Input, message, DatePicker } from 'antd'
 import { GasImg, IconFont } from '@/common/constants'
 import styles from '@/pages/trading/order/index.less'
 import { toFixed } from '@/utils/Math'
 import { connect } from 'dva'
 import moment from 'moment'
+import ImagePreView from '@/components/ImagePreView'
 
 const TabPane = Tabs.TabPane
 
@@ -25,6 +26,7 @@ class UpLoadPoundList extends Component {
     time: null,
     num: '',
     fileList: [],
+    cust_site_id: '',
   }
 
   showModal = () => {
@@ -34,35 +36,46 @@ class UpLoadPoundList extends Component {
     this.setState({
       visible: true,
     })
-    if (this.props.uploading) {
-      this.props.dispatch({
-        type: 'order/fetchPoundInfo',
-        payload: {
-          id: this.props.id,
-        },
-      }).then(() => {
-        const { poundInfoByUpload } = this.props.order
-        this.setState({
-          mainName: poundInfoByUpload.goods.goods_name,
-          mainContact: poundInfoByUpload.goods.contact,
-          mainContactPhone: poundInfoByUpload.goods.contact_phone,
-          driver: poundInfoByUpload.delivery.driver,
-          driverPhone: poundInfoByUpload.delivery.driver_mobile,
-          carHead: poundInfoByUpload.delivery.car_head_code,
-          carBody: poundInfoByUpload.delivery.car_body_code,
-        })
+    this.props.dispatch({
+      type: 'order/fetchPoundInfo',
+      payload: {
+        id: this.props.id,
+      },
+    }).then(() => {
+      const { poundInfoByUpload } = this.props.order
+      this.setState({
+        mainName: poundInfoByUpload.goods.goods_name,
+        mainContact: poundInfoByUpload.goods.contact,
+        mainContactPhone: poundInfoByUpload.goods.contact_phone,
+        driver: poundInfoByUpload.delivery.driver,
+        driverPhone: poundInfoByUpload.delivery.driver_mobile,
+        carHead: poundInfoByUpload.delivery.car_head_code,
+        carBody: poundInfoByUpload.delivery.car_body_code,
       })
-    }
+      const sites = JSON.parse(this.props.sites)
+      sites.unshift({})
+      this.setState({
+        cust_site_id: sites[this.props.current_site] ? sites[this.props.current_site].cust_site_id : '0',
+      })
+    })
   }
 
   hideModal = (e) => {
     e && e.stopPropagation()
     this.setState({
       visible: false,
-      clientSelectionStatus: false,
-      visibleClientInfo: false,
-      siteSelectionStatus: false,
-      visibleSiteInfo: false,
+      file: null,
+      mainName: '',
+      mainContact: '',
+      mainContactPhone: '',
+      driver: '',
+      driverPhone: '',
+      carHead: '',
+      carBody: '',
+      time: null,
+      num: '',
+      fileList: [],
+      cust_site_id: '',
     })
   }
 
@@ -99,12 +112,11 @@ class UpLoadPoundList extends Component {
     this.setState({
       file,
     })
-    console.log(file)
     return (isJPG || isPNG) && isLt5M
   }
 
   handleChange = (info) => {
-    // Get this url from response in real world.
+    // 获取image的base64
     this.getBase64(info.file.originFileObj, imageUrl => this.setState({
       fileList: [{
         uid: '-1',
@@ -112,20 +124,27 @@ class UpLoadPoundList extends Component {
         status: 'done',
       }],
       imageUrl,
-      loading: false,
     }))
   }
 
-  customRequest = (file) => {
-    console.log(file)
-    file.onProgress({ percent: 100 })
-    file.onSuccess()
+  customRequest = () => {
+    // 覆盖默认上传
+    return false
+  }
+
+  removeImage = (e) => {
+    e && e.stopPropagation()
+    this.setState({
+      fileList: [],
+      imageUrl: '',
+    })
   }
 
   mapTabPane = () => {
     const sites = JSON.parse(this.props.sites)
     let cache = {
       site_name: this.props.supp_goods_name,
+      cust_site_id: '0',
     }
     sites.unshift(cache)
     const { mainName, mainContact, mainContactPhone, driver, driverPhone, carHead, carBody } = this.state
@@ -134,11 +153,11 @@ class UpLoadPoundList extends Component {
       if (this.props.uploading) {
         disabled = !(this.props.uploading && index === 0)
       } else if (this.props.unloading) {
-        disabled = !(this.props.current_site === index)
+        disabled = index === 0
       } else {
         disabled = false
       }
-      return <TabPane tab={item.site_name} key={index + 1 + ''} disabled={disabled} style={{ marginTop: 10 }}>
+      return <TabPane tab={item.site_name} key={item.cust_site_id} disabled={disabled} style={{ marginTop: 10 }}>
         <Row>
           <Col span={12} style={{ paddingBottom: 2 }}>
             <Col span={5}>
@@ -209,32 +228,88 @@ class UpLoadPoundList extends Component {
       message.error('请输入数量')
     } else if (!this.state.time) {
       message.error('请选择时间')
+    } else if (!this.state.file) {
+      message.error('请上传磅单')
     } else {
-      console.log({
-        id: this.props.id,
-        load_quantity: this.state.num,
-        real_load_time: this.state.time.format('YYYY-MM-DD'),
-        file: '',
+      if (this.props.uploading) {
+        this.props.dispatch({
+          type: 'order/upLoadingPound',
+          payload: {
+            id: this.props.id,
+            load_quantity: this.state.num,
+            real_load_time: this.state.time.format('YYYY-MM-DD'),
+            file: this.state.file,
+          },
+        }).then(() => {
+          this.hideModal()
+          this.props.dispatch({
+            type: 'order/fetchOrderList',
+            payload: {},
+          })
+        })
+      } else if (this.props.unloading) {
+        this.props.dispatch({
+          type: 'order/unLoadingPound',
+          payload: {
+            id: this.props.id,
+            cust_site_id: this.state.cust_site_id,
+            unload_quantity: this.state.num,
+            unload_time: this.state.time.format('YYYY-MM-DD'),
+            file: this.state.file,
+          },
+        }).then(() => {
+          this.hideModal()
+          this.props.dispatch({
+            type: 'order/fetchOrderList',
+            payload: {},
+          })
+        })
+      }
+    }
+  }
+
+  changePane = (key) => {
+    const sites = JSON.parse(this.props.sites)
+    let site = sites.find((item) => {
+      if (item.cust_site_id === key) {
+        return true
+      }
+      return false
+    })
+    if (key === '0') {
+      const { poundInfoByUpload } = this.props.order
+      this.setState({
+        cust_site_id: key,
+        num: '',
+        time: null,
+        file: null,
+        mainName: poundInfoByUpload.goods.goods_name,
+        mainContact: poundInfoByUpload.goods.contact,
+        mainContactPhone: poundInfoByUpload.goods.contact_phone,
       })
-      this.props.dispatch({
-        type: 'order/upLoadingPound',
-        payload: {
-          id: this.props.id,
-          load_quantity: this.state.num,
-          real_load_time: this.state.time.format('YYYY-MM-DD'),
-          file: '',
-        },
+    } else {
+      this.setState({
+        cust_site_id: key,
+        num: '',
+        time: null,
+        file: null,
+        mainName: site.site_name,
+        mainContact: site.contact,
+        mainContactPhone: site.contact_phone,
       })
     }
+
   }
 
   render() {
     const { visible, imageUrl, fileList } = this.state
     const { children } = this.props
     const uploadButton = (<div>
-      {this.state.loading ? <Icon type='loading' /> : <IconFont type="icon-icon-test110" className='upload-icon' />}
+      <IconFont type="icon-icon-test110" className='upload-icon' />
       <div className="ant-upload-text" style={{ marginTop: 10, fontSize: '1.125rem' }}>点击上传装车磅单</div>
     </div>)
+    const sites = JSON.parse(this.props.sites)
+    sites.unshift({})
     return (
       <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
@@ -248,7 +323,8 @@ class UpLoadPoundList extends Component {
           destroyOnClose={true}
           bodyStyle={{ padding: 0 }}>
           <div style={{ padding: '0 12px', position: 'relative' }}>
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey={sites[this.props.current_site] ? sites[this.props.current_site].cust_site_id : '0'}
+                  onChange={this.changePane}>
               {this.mapTabPane()}
             </Tabs>
             <div className='tabs-bottom-line' />
@@ -263,22 +339,14 @@ class UpLoadPoundList extends Component {
                 onChange={this.handleChange}
                 customRequest={this.customRequest}
               >
-                {imageUrl ? <div
-                  style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '100%',
-                    background: '#000',
-                    display: 'flex',
-                    opacity: 0.5,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
+                {imageUrl ? <div className={styles['modify-image-content']}>
                   <div className={styles['modify-image']}>
-                    <IconFont type='icon-icon-test12' />
-                    <IconFont type='icon-icon-test11' style={{ marginLeft: 20 }} />
+                    <ImagePreView imgUrl={imageUrl}>
+                      <IconFont type='icon-icon-test12' />
+                    </ImagePreView>
+                    <IconFont type='icon-icon-test11' style={{ marginLeft: 20 }} onClick={this.removeImage} />
                   </div>
-                  <img src={imageUrl} alt="avatar" style={{ opacity: 0.5 }} />
+                  <img src={imageUrl} alt="avatar" width='780' height='280' style={{ opacity: 0.5 }} />
                 </div> : uploadButton}
               </Upload>
             </div>
