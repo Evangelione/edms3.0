@@ -141,6 +141,9 @@ class UpLoadPoundList extends Component {
   }
 
   mapTabPane = () => {
+      if(!this.props.sites){
+          return
+      }
     const sites = JSON.parse(this.props.sites)
     let cache = {
       site_name: this.props.supp_goods_name,
