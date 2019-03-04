@@ -9,8 +9,9 @@ import ReconciliationHistory from './components/ReconciliationHistory/index'
 
 const TabPane = Tabs.TabPane
 
-@connect(({client, loading}) => ({
+@connect(({ client, global, loading }) => ({
   client,
+  global,
   loading: loading.models.client,
 }))
 class clientDetail extends Component {
@@ -25,7 +26,7 @@ class clientDetail extends Component {
 
   changeCurrentTabs = (activeKey) => {
     this.props.dispatch({
-      type: 'client/save',
+      type: 'global/save',
       payload: {
         clientInfoCurrentTabs: activeKey,
       },
@@ -33,21 +34,23 @@ class clientDetail extends Component {
   }
 
   render() {
-    const {clientInfoCurrentTabs, currentClientInfo} = this.props.client
-    const {company} = this.props.location.query
+    const { currentClientInfo } = this.props.client
+    console.log(currentClientInfo)
+    const { clientInfoCurrentTabs } = this.props.global
+    const { company } = this.props.location.query
     return (
       <>
         <div className='toolbar'>
           <Button type='primary' icon='rollback' onClick={() => router.goBack()}>返回</Button>
           <img src={require('@/assets/image/point.png')}
-               style={{margin: '0 20px 0 40px'}} alt="" />
-          <span className='font-purple-color' style={{fontWeight: 'bold'}}>{company}</span>
+               style={{ margin: '0 20px 0 40px' }} alt="" />
+          <span className='font-purple-color' style={{ fontWeight: 'bold' }}>{company}</span>
           {clientInfoCurrentTabs === '1' ?
-            <Button className='red-btn-line' style={{float: 'right', marginTop: 20}}>删除客户</Button>
+            <Button className='red-btn-line' style={{ float: 'right', marginTop: 20 }}>删除客户</Button>
             :
             null}
         </div>
-        <Tabs activeKey={clientInfoCurrentTabs} onChange={this.changeCurrentTabs} style={{padding: '12px 24px 60px'}}>
+        <Tabs activeKey={clientInfoCurrentTabs} onChange={this.changeCurrentTabs} style={{ padding: '12px 24px 60px' }}>
           <TabPane tab="客户信息" key="1">
             {currentClientInfo.id && <ClientInfo />}
           </TabPane>

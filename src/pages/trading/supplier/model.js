@@ -4,7 +4,6 @@ import * as supplierService from './service'
 export default {
   namespace: 'supplier',
   state: {
-    supplierInfoCurrentTabs: '1',
     supplierList: [],
     supplierPage: 1,
     supplierTotal: 0,

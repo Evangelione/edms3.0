@@ -40,7 +40,6 @@ class LogisticsScheduling extends Component {
       visible: true,
       sites: JSON.parse(this.props.sites),
     })
-    console.log(this.props.id)
   }
 
   hideModal = (e) => {

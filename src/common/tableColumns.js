@@ -26,17 +26,17 @@ export const salesHistoryColumns = [{
 }, {
   align: 'center',
   title: '站点',
-  dataIndex: 'g_cust_id',
-  key: 'g_cust_id',
+  dataIndex: 'g_cust_id2123',
+  key: 'g_cust_id2123',
 }, {
   align: 'center',
   title: '装货量（吨）',
-  dataIndex: 'g_cust_id',
-  key: 'g_cust_id',
+  dataIndex: 'g_cust_id3',
+  key: 'g_cust_id3',
 }, {
   align: 'center',
   title: '卸货量（吨）',
-  dataIndex: 'g_cust_id',
+  dataIndex: 'g_cust_id4',
   key: 'g_cust_id',
 }, {
   align: 'center',
@@ -165,13 +165,13 @@ export const logisticsHistoryColumns = [{
 }, {
   align: 'center',
   title: '装货量（吨）',
-  dataIndex: 'zql',
-  key: 'zql',
+  dataIndex: 'zql123',
+  key: 'zq34l',
 }, {
   align: 'center',
   title: '卸货量（吨）',
-  dataIndex: 'zql',
-  key: 'zql',
+  dataIndex: 'zq23l',
+  key: 'z11ql',
 }, {
   align: 'center',
   title: '结算量（吨）',

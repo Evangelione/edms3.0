@@ -4,7 +4,6 @@ import * as clientService from './service'
 export default {
   namespace: 'client',
   state: {
-    clientInfoCurrentTabs: '1',
     clientList: [],
     clientPage: 1,
     clientTotal: 0,

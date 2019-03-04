@@ -8,6 +8,8 @@ export default {
     menuPath: '/trading',
     linkPath: '/report',
     cascadeOptions: [],
+    clientInfoCurrentTabs: '1',
+    supplierInfoCurrentTabs: '1'
   },
 
   subscriptions: {

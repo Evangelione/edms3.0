@@ -9,8 +9,9 @@ import ReconciliationHistory from './components/ReconciliationHistory/index'
 
 const TabPane = Tabs.TabPane
 
-@connect(({supplier, loading}) => ({
+@connect(({ supplier, global, loading }) => ({
   supplier,
+  global,
   loading: loading.models.supplier,
 }))
 class supplierDetail extends Component {
@@ -25,7 +26,7 @@ class supplierDetail extends Component {
 
   changeCurrentTabs = (activeKey) => {
     this.props.dispatch({
-      type: 'supplier/save',
+      type: 'global/save',
       payload: {
         supplierInfoCurrentTabs: activeKey,
       },
@@ -33,21 +34,23 @@ class supplierDetail extends Component {
   }
 
   render() {
-    const {supplierInfoCurrentTabs, currentSupplierInfo} = this.props.supplier
-    const {company} = this.props.location.query
+    const { currentSupplierInfo } = this.props.supplier
+    const { supplierInfoCurrentTabs } = this.props.global
+    const { company } = this.props.location.query
     return (
       <>
         <div className='toolbar'>
           <Button type='primary' icon='rollback' onClick={() => router.goBack()}>返回</Button>
           <img src={require('@/assets/image/point.png')}
-               style={{margin: '0 20px 0 40px'}} alt="" />
-          <span className='font-purple-color' style={{fontWeight: 'bold'}}>{company}</span>
+               style={{ margin: '0 20px 0 40px' }} alt="" />
+          <span className='font-purple-color' style={{ fontWeight: 'bold' }}>{company}</span>
           {supplierInfoCurrentTabs === '1' ?
-            <Button className='red-btn-line' style={{float: 'right', marginTop: 20}}>删除供应商</Button>
+            <Button className='red-btn-line' style={{ float: 'right', marginTop: 20 }}>删除供应商</Button>
             :
             null}
         </div>
-        <Tabs activeKey={supplierInfoCurrentTabs} onChange={this.changeCurrentTabs} style={{padding: '12px 24px 60px'}}>
+        <Tabs activeKey={supplierInfoCurrentTabs} onChange={this.changeCurrentTabs}
+              style={{ padding: '12px 24px 60px' }}>
           <TabPane tab="供应商信息" key="1">
             {currentSupplierInfo.id && <SupplierInfo />}
           </TabPane>
