@@ -27,6 +27,7 @@ class UpLoadPoundList extends Component {
     num: '',
     fileList: [],
     cust_site_id: '',
+    imageUrl: '',
   }
 
   showModal = () => {
@@ -54,9 +55,17 @@ class UpLoadPoundList extends Component {
       })
       const sites = JSON.parse(this.props.sites)
       sites.unshift({})
+      console.log(sites)
       this.setState({
         cust_site_id: sites[this.props.current_site] ? sites[this.props.current_site].cust_site_id : '0',
       })
+      if (this.props.current_site === 0) {
+        this.setState({
+          imageUrl: poundInfoByUpload.goods.load_pic_url,
+          num: poundInfoByUpload.goods.load_quantity,
+          time: poundInfoByUpload.goods.real_load_time ? moment(poundInfoByUpload.goods.real_load_time) : '',
+        })
+      }
     })
   }
 
@@ -75,6 +84,7 @@ class UpLoadPoundList extends Component {
       time: null,
       num: '',
       fileList: [],
+      imageUrl: '',
       cust_site_id: '',
     })
   }
@@ -137,13 +147,14 @@ class UpLoadPoundList extends Component {
     this.setState({
       fileList: [],
       imageUrl: '',
+      file: null,
     })
   }
 
   mapTabPane = () => {
-      if(!this.props.sites){
-          return
-      }
+    if (!this.props.sites) {
+      return
+    }
     const sites = JSON.parse(this.props.sites)
     let cache = {
       site_name: this.props.supp_goods_name,
@@ -151,6 +162,7 @@ class UpLoadPoundList extends Component {
     }
     sites.unshift(cache)
     const { mainName, mainContact, mainContactPhone, driver, driverPhone, carHead, carBody } = this.state
+    const { readOnly } = this.props
     return sites.map((item, index) => {
       let disabled
       if (this.props.uploading) {
@@ -184,7 +196,7 @@ class UpLoadPoundList extends Component {
               </div>
             </Col>
             <Col span={12} style={{ marginTop: 20 }}>
-              <Input addonAfter='吨' style={{ marginLeft: 8 }} placeholder='请填写数量'
+              <Input addonAfter='吨' style={{ marginLeft: 8 }} placeholder='请填写数量' disabled={readOnly}
                      onBlur={this.parseNumber.bind(null, 'num', 2)} value={this.state.num} onChange={this.changeNum} />
             </Col>
           </Col>
@@ -209,7 +221,7 @@ class UpLoadPoundList extends Component {
             <Col span={12} style={{ marginTop: 20 }}>
               <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
                           style={{ width: '100%', marginLeft: 8 }} placeholder='暂无卸货时间' value={this.state.time}
-                          onChange={this.changeTime} allowClear={false} />
+                          onChange={this.changeTime} allowClear={false} disabled={readOnly} />
             </Col>
           </Col>
         </Row>
@@ -231,7 +243,7 @@ class UpLoadPoundList extends Component {
       message.error('请输入数量')
     } else if (!this.state.time) {
       message.error('请选择时间')
-    } else if (!this.state.file) {
+    } else if (this.state.file === null) {
       message.error('请上传磅单')
     } else {
       if (this.props.uploading) {
@@ -280,25 +292,29 @@ class UpLoadPoundList extends Component {
       return false
     })
     if (key === '0') {
+      // 判断是不是装车磅单
       const { poundInfoByUpload } = this.props.order
       this.setState({
         cust_site_id: key,
-        num: '',
-        time: null,
+        num: poundInfoByUpload.goods.load_quantity,
+        time: poundInfoByUpload.goods.real_load_time ? moment(poundInfoByUpload.goods.real_load_time) : '',
         file: null,
         mainName: poundInfoByUpload.goods.goods_name,
         mainContact: poundInfoByUpload.goods.contact,
         mainContactPhone: poundInfoByUpload.goods.contact_phone,
+        imageUrl: poundInfoByUpload.goods.load_pic_url,
       })
     } else {
+      // 卸车磅单
       this.setState({
         cust_site_id: key,
-        num: '',
-        time: null,
-        file: null,
+        num: site.unload_quantity,
+        time: site.unload_time ? moment(site.unload_time) : null,
+        file: site.unload_pic_url ? '' : null,
         mainName: site.site_name,
         mainContact: site.contact,
         mainContactPhone: site.contact_phone,
+        imageUrl: site.unload_pic_url,
       })
     }
 
@@ -306,7 +322,7 @@ class UpLoadPoundList extends Component {
 
   render() {
     const { visible, imageUrl, fileList } = this.state
-    const { children } = this.props
+    const { children, readOnly } = this.props
     const uploadButton = (<div>
       <IconFont type="icon-icon-test110" className='upload-icon' />
       <div className="ant-upload-text" style={{ marginTop: 10, fontSize: '1.125rem' }}>点击上传装车磅单</div>
@@ -336,6 +352,7 @@ class UpLoadPoundList extends Component {
                 name="avatar"
                 listType="picture-card"
                 className="avatar-uploader"
+                disabled={readOnly}
                 fileList={fileList}
                 showUploadList={false}
                 beforeUpload={this.beforeUpload}
@@ -343,11 +360,12 @@ class UpLoadPoundList extends Component {
                 customRequest={this.customRequest}
               >
                 {imageUrl ? <div className={styles['modify-image-content']}>
-                  <div className={styles['modify-image']}>
+                  <div className={styles['modify-image']} style={{ marginLeft: readOnly ? 0 : '-34px' }}>
                     <ImagePreView imgUrl={imageUrl}>
                       <IconFont type='icon-icon-test12' />
                     </ImagePreView>
-                    <IconFont type='icon-icon-test11' style={{ marginLeft: 20 }} onClick={this.removeImage} />
+                    {readOnly ? null :
+                      <IconFont type='icon-icon-test11' style={{ marginLeft: 20 }} onClick={this.removeImage} />}
                   </div>
                   <img src={imageUrl} alt="avatar" width='780' height='280' style={{ opacity: 0.5 }} />
                 </div> : uploadButton}
@@ -355,8 +373,12 @@ class UpLoadPoundList extends Component {
             </div>
             <Row type='flex' justify='end'>
               <Col style={{ padding: '12px 8px 15px' }}>
-                <Button type='primary' style={{ marginRight: 20 }} onClick={this.submit}>确认</Button>
-                <Button className='red-btn' onClick={this.hideModal}>取消</Button>
+                {readOnly ? <>
+                    <Button type='primary' style={{ marginRight: 20 }} onClick={this.hideModal}>关闭</Button></> :
+                  <>
+                    <Button type='primary' style={{ marginRight: 20 }} onClick={this.submit}>确认</Button>
+                    <Button className='red-btn' onClick={this.hideModal}>取消</Button>
+                  </>}
               </Col>
             </Row>
           </div>

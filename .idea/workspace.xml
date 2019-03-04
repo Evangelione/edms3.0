@@ -4,18 +4,16 @@
     <list default="true" id="c75e10f3-1b6e-4b8c-8abf-8858e848f1ff" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/tableColumns.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/tableColumns.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/client/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/client/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/client/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/client/service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/company/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/company/service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/global.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/trading/client/$ClientDetail$.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/client/$ClientDetail$.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/trading/client/components/SalesReconciliation/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/client/components/SalesReconciliation/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/trading/client/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/client/model.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/trading/order/OrderList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/order/OrderList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/trading/order/components/Modals/CreatePlan.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/order/components/Modals/CreatePlan.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/trading/order/components/Modals/LogisticsScheduling.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/order/components/Modals/LogisticsScheduling.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/partner/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/partner/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/supplier/ReconciliationDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/supplier/ReconciliationDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/supplier/components/Modals/HandleGasSourceModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/Modals/HandleGasSourceModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/supplier/components/PurchasingGasSource/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/supplier/components/PurchasingGasSource/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/supplier/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/supplier/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/trading/supplier/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/supplier/service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/trading/order/components/Modals/UpLoadPoundList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/order/components/Modals/UpLoadPoundList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/trading/supplier/$SupplierDetail$.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/supplier/$SupplierDetail$.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/trading/supplier/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/trading/supplier/model.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,8 +29,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/trading/order/OrderList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="63" column="50" selection-start-line="63" selection-start-column="50" selection-end-line="63" selection-end-column="50" />
+            <state relative-caret-position="294">
+              <caret line="65" column="27" selection-start-line="65" selection-start-column="27" selection-end-line="65" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/trading/client/$ClientDetail$.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3">
+              <caret line="19" column="41" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="41" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -41,10 +51,70 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/Modals/LogisticsScheduling.js">
+        <entry file="file://$PROJECT_DIR$/src/pages/trading/client/model.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="203" column="25" selection-start-line="203" selection-start-column="25" selection-end-line="203" selection-end-column="25" />
+            <state relative-caret-position="151">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/model.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/Modals/UpLoadPoundList.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-837">
+              <caret line="72" column="28" lean-forward="true" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="77">
+              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/ReconciliationDetails.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="458">
+              <caret line="139" column="33" lean-forward="true" selection-start-line="139" selection-start-column="33" selection-end-line="139" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/trading/client/components/SalesReconciliation/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3061">
+              <caret line="181" column="50" selection-start-line="181" selection-start-column="50" selection-end-line="181" selection-end-column="50" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -63,36 +133,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>logistics/import</find>
-      <find>logistics/page</find>
-      <find>卖家</find>
-      <find>customer</find>
-      <find>确认创建</find>
-      <find>吨</find>
-      <find>supp/su</find>
-      <find>quantity</find>
-      <find>新增气源</find>
-      <find>inquireGasSourceInfoById</find>
-      <find>Popover</find>
-      <find>新增站点</find>
-      <find>inquireCascadeOptions</find>
-      <find>index/</find>
-      <find>supp/list</find>
-      <find>logistics/list</find>
-      <find>driver-car</find>
-      <find>driver-car-</find>
-      <find>司机选择</find>
-      <find>cust/add</find>
-      <find>supp/add</find>
-      <find>partner/</find>
-      <find>partner/add</find>
-      <find>logisticsDriverList</find>
-      <find>driverOptions</find>
-      <find>确认对账</find>
-      <find>order</find>
-      <find>物流调度</find>
-      <find>暂无气源信息</find>
       <find>&lt;Modal</find>
+      <find>g_cust_id</find>
+      <find>this.props.</find>
+      <find>this.props.location</find>
+      <find>userData.tra</find>
+      <find>this.props.match.params</find>
+      <find>装车磅单</find>
+      <find>暂无气源信息</find>
+      <find>uploadButton</find>
+      <find>imageUrl</find>
+      <find>tabpane</find>
+      <find>file</find>
+      <find>moment(</find>
+      <find>num</find>
+      <find>unload_quantity</find>
+      <find>采购对账</find>
+      <find>change</find>
+      <find>input</find>
+      <find>remove</find>
+      <find>SalesBilling</find>
+      <find>router.push</find>
+      <find>supplierInfoCurrentTabs</find>
+      <find>goSupplierHistory</find>
+      <find>mapMenu</find>
+      <find>overlay</find>
+      <find>current</find>
+      <find>currentSupplierInfo</find>
+      <find>currentClientInfo</find>
+      <find>inquireClientInfoById</find>
+      <find>销售对账</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -101,10 +171,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/UploadLoadingPound.js" />
-        <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/UnLoadingPound.js" />
-        <option value="$PROJECT_DIR$/mock/order.js" />
-        <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/LoadingPound.js" />
         <option value="$PROJECT_DIR$/src/app.js" />
         <option value="$PROJECT_DIR$/src/common/constants.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/partner/service.js" />
@@ -126,12 +192,9 @@
         <option value="$PROJECT_DIR$/src/components/ImagePreView.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/order/model.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/order/service.js" />
-        <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/UpLoadPoundList.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/logistics/components/LogisticsInfo/InfoCard.js" />
         <option value="$PROJECT_DIR$/src/services/global.js" />
-        <option value="$PROJECT_DIR$/src/models/global.js" />
         <option value="$PROJECT_DIR$/src/pages/.umi/TitleWrapper.jsx" />
-        <option value="$PROJECT_DIR$/src/pages/trading/supplier/model.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/logistics/components/LogisticsInfo/FinanceCard.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/supplier/components/PurchaseReconciliation/index.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/OrderModify.js" />
@@ -142,7 +205,6 @@
         <option value="$PROJECT_DIR$/src/pages/trading/supplier/components/PurchasingGasSource/index.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/client/index.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/logistics/index.js" />
-        <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/CreatePlan.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/supplier/components/Modals/HandleGasSourceModal.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/logistics/service.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/client/service.js" />
@@ -150,8 +212,16 @@
         <option value="$PROJECT_DIR$/src/pages/trading/logistics/ReconciliationDetails.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/supplier/ReconciliationDetails.js" />
         <option value="$PROJECT_DIR$/src/common/tableColumns.js" />
-        <option value="$PROJECT_DIR$/src/pages/trading/order/OrderList.js" />
+        <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/CreatePlan.js" />
         <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/LogisticsScheduling.js" />
+        <option value="$PROJECT_DIR$/src/pages/trading/client/components/SalesReconciliation/index.js" />
+        <option value="$PROJECT_DIR$/src/pages/trading/order/components/Modals/UpLoadPoundList.js" />
+        <option value="$PROJECT_DIR$/src/pages/trading/supplier/model.js" />
+        <option value="$PROJECT_DIR$/src/models/global.js" />
+        <option value="$PROJECT_DIR$/src/pages/trading/client/$ClientDetail$.js" />
+        <option value="$PROJECT_DIR$/src/pages/trading/supplier/$SupplierDetail$.js" />
+        <option value="$PROJECT_DIR$/src/pages/trading/order/OrderList.js" />
+        <option value="$PROJECT_DIR$/src/pages/trading/client/model.js" />
       </list>
     </option>
   </component>
@@ -182,6 +252,12 @@
               <item name="edms-web3.0" type="b2602c69:ProjectViewProjectNode" />
               <item name="edms-web3.0" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="edms-web3.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="edms-web3.0" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -197,7 +273,15 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="trading" type="462c0819:PsiDirectoryNode" />
-              <item name="order" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="edms-web3.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="edms-web3.0" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="trading" type="462c0819:PsiDirectoryNode" />
+              <item name="supplier" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -281,7 +365,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="289015000" />
+    <option name="totallyTimeSpent" value="299876000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1177" extended-state="0" />
@@ -306,26 +390,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17377567" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3299539" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32953367" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32534564" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="TypeScript" order="11" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -336,57 +400,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/theme.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="17" selection-start-line="12" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/global.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="641" column="24" lean-forward="true" selection-start-line="641" selection-start-column="24" selection-end-line="641" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ImagePreView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="48" column="29" lean-forward="true" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/logistics/components/LogisticsInfo/InfoCard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="59" column="30" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/Modals/UpLoadPoundList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2975">
-          <caret line="182" column="53" selection-start-line="182" selection-start-column="53" selection-end-line="182" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/components/ReconciliationHistory/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
@@ -394,13 +407,6 @@
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/client/$ClientDetail$.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -494,36 +500,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="131" column="17" lean-forward="true" selection-start-line="131" selection-start-column="17" selection-end-line="131" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/client/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="150" column="30" lean-forward="true" selection-start-line="150" selection-start-column="30" selection-end-line="150" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/Modals/CreatePlan.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="187" column="19" lean-forward="true" selection-start-line="187" selection-start-column="19" selection-end-line="187" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/trading/logistics/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2074">
@@ -535,32 +511,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/global.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="54" column="58" selection-start-line="54" selection-start-column="58" selection-end-line="54" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/services/global.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2380">
-          <caret line="141" column="59" lean-forward="true" selection-start-line="141" selection-start-column="59" selection-end-line="141" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -687,26 +643,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/$SupplierDetail$.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="57" column="23" selection-start-line="57" selection-start-column="23" selection-end-line="57" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/ReconciliationDetails.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="139" column="33" lean-forward="true" selection-start-line="139" selection-start-column="33" selection-end-line="139" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/trading/logistics/ReconciliationDetails.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
@@ -743,15 +679,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/common/tableColumns.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="39">
-          <caret line="240" column="19" lean-forward="true" selection-start-line="240" selection-start-column="19" selection-end-line="240" selection-end-column="19" />
+        <state relative-caret-position="-10">
+          <caret line="195" column="18" lean-forward="true" selection-start-line="195" selection-start-column="18" selection-end-line="195" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/OrderList.js">
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/Modals/CreatePlan.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="63" column="50" selection-start-line="63" selection-start-column="50" selection-end-line="63" selection-end-column="50" />
+        <state relative-caret-position="252">
+          <caret line="53" column="6" lean-forward="true" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
@@ -760,10 +696,148 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/Modals/LogisticsScheduling.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="203" column="25" selection-start-line="203" selection-start-column="25" selection-end-line="203" selection-end-column="25" />
+        <state relative-caret-position="334">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/CreatePlanField.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-344">
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/JudgeModal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/client/components/SalesReconciliation/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3061">
+          <caret line="181" column="50" selection-start-line="181" selection-start-column="50" selection-end-line="181" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/ReconciliationDetails.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="458">
+          <caret line="139" column="33" lean-forward="true" selection-start-line="139" selection-start-column="33" selection-end-line="139" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/client/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="77" column="21" selection-start-line="77" selection-start-column="11" selection-end-line="77" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/supplier/$SupplierDetail$.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/components/Modals/UpLoadPoundList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-837">
+          <caret line="72" column="28" lean-forward="true" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/client/$ClientDetail$.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3">
+          <caret line="19" column="41" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/order/OrderList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="65" column="27" selection-start-line="65" selection-start-column="27" selection-end-line="65" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/trading/client/model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>

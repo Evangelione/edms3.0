@@ -50,9 +50,9 @@ class CreatePlan extends Component {
       payload: {},
     })
     const userData = JSON.parse(localStorage.getItem('userData'))
-    if (userData.trade_type === 1) {
-
-    }
+    // if (userData.trade_type === 1) {
+    //
+    // }
   }
 
   hideModal = (e) => {

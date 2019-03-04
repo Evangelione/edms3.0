@@ -4,6 +4,7 @@ import { connect } from 'dva'
 import { salesReconciliationBox } from '@/common/constants'
 import { salesHistoryColumns } from '@/common/tableColumns'
 import styles from '../../index.less'
+import widthRouter from 'umi/withRouter'
 
 const Option = Select.Option
 
@@ -17,6 +18,10 @@ class Index extends Component {
     endValue: null,
     endOpen: false,
     selectedRowKeys: [],
+  }
+
+  componentDidMount() {
+    console.log(this.props)
   }
 
   disabledStartDate = (startValue) => {
@@ -191,4 +196,4 @@ class Index extends Component {
   }
 }
 
-export default Index
+export default widthRouter(Index)
