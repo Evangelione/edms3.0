@@ -30,9 +30,14 @@ export const salesHistoryColumns = [{
   key: 'g_cust_id',
 }, {
   align: 'center',
-  title: '装气量（吨）',
-  dataIndex: 'load_quantity',
-  key: 'load_quantity',
+  title: '装货量（吨）',
+  dataIndex: 'g_cust_id',
+  key: 'g_cust_id',
+}, {
+  align: 'center',
+  title: '卸货量（吨）',
+  dataIndex: 'g_cust_id',
+  key: 'g_cust_id',
 }, {
   align: 'center',
   title: '结算量（吨）',
@@ -124,6 +129,7 @@ export const clientReconciliationHistoryColumns = [{
       }}>明细</Button>
       <Button className='line-primary'>导出</Button>
       <Button className='line-primary'>确认对账</Button>
+      <Button className='line-primary'>确认结款</Button>
       <Button className='line-primary'>确认开票</Button>
       <Button className='line-red'>删除</Button>
     </ButtonGroup>
@@ -158,7 +164,12 @@ export const logisticsHistoryColumns = [{
   key: 'zd',
 }, {
   align: 'center',
-  title: '装气量（吨）',
+  title: '装货量（吨）',
+  dataIndex: 'zql',
+  key: 'zql',
+}, {
+  align: 'center',
+  title: '卸货量（吨）',
   dataIndex: 'zql',
   key: 'zql',
 }, {
@@ -173,12 +184,17 @@ export const logisticsHistoryColumns = [{
   key: 'xsj',
 }, {
   align: 'center',
-  title: '运输距离（公里）',
+  title: '运输总额（元）',
   dataIndex: 'xse',
   key: 'xse',
 }, {
   align: 'center',
-  title: '运输费（元）',
+  title: '额外费用（元）',
+  dataIndex: 'ewfy',
+  key: 'ewfy',
+}, {
+  align: 'center',
+  title: '合计金额（元）',
   dataIndex: 'ewfy',
   key: 'ewfy',
 }, {
@@ -194,6 +210,11 @@ export const logisticsReconciliationHistoryColumns = [{
   title: '操作时间',
   dataIndex: 'czsj',
   key: 'czsj',
+},{
+  align: 'center',
+  title: '操作人',
+  dataIndex: 'czr',
+  key: 'czr',
 }, {
   align: 'center',
   title: '物流',
@@ -243,6 +264,7 @@ export const logisticsReconciliationHistoryColumns = [{
       }}>明细</Button>
       <Button className='line-primary'>导出</Button>
       <Button className='line-primary'>确认对账</Button>
+      <Button className='line-primary'>确认结款</Button>
       <Button className='line-primary'>确认开票</Button>
       <Button className='line-red'>删除</Button>
     </ButtonGroup>

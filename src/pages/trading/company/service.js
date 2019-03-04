@@ -13,7 +13,7 @@ export function updateCompanyInfo(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/my-company/update-company`, {
+  return request(`${IP}/index/my-company/update`, {
     method: 'POST',
     body: formData,
   })

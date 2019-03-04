@@ -18,7 +18,7 @@ export function insertSupplier(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/supp/add-supp`, {
+  return request(`${IP}/index/supp/add`, {
     method: 'POST',
     body: formData,
   })
@@ -29,7 +29,7 @@ export function updateSupplierInfo(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/supp/update-supp`, {
+  return request(`${IP}/index/supp/update`, {
     method: 'POST',
     body: formData,
   })
@@ -50,7 +50,7 @@ export function updateSupplierContact(form) {
 export function getSupplierInfoById(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/supp/supp-info`, {
+  return request(`${IP}/index/supp/info`, {
     method: 'POST',
     body: formData,
   })
@@ -84,7 +84,7 @@ export function insertGasSource(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/goods/add-goods`, {
+  return request(`${IP}/index/goods/add`, {
     method: 'POST',
     body: formData,
   })
@@ -95,7 +95,7 @@ export function updateGasSourceInfo(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/goods/update-goods`, {
+  return request(`${IP}/index/goods/update`, {
     method: 'POST',
     body: formData,
   })
@@ -104,7 +104,7 @@ export function updateGasSourceInfo(form) {
 export function inquireGasSourceInfoById(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/goods/goods-info`, {
+  return request(`${IP}/index/goods/info`, {
     method: 'POST',
     body: formData,
   })
@@ -113,7 +113,7 @@ export function inquireGasSourceInfoById(id) {
 export function deleteGasSource(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/goods/goods-info`, {
+  return request(`${IP}/index/goods/delete`, {
     method: 'POST',
     body: formData,
   })

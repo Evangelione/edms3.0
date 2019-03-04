@@ -77,7 +77,7 @@ class LogisticsScheduling extends Component {
           balance: option.props.balance,
         },
         driverOptions: this.props.order.logisticsDriverList.map((option, index) => {
-          return <Option key={index} value={option.driver_id} select='true'>{option.remark}</Option>
+          return <Option key={index} value={option.driver_id} select='true'>{option.name}</Option>
         }),
       })
     })
@@ -201,6 +201,7 @@ class LogisticsScheduling extends Component {
           visible={visible}
           onCancel={this.hideModal}
           footer={null}
+          style={{ top: 50 }}
           width={840}
           maskClosable={false}
           destroyOnClose={true}
