@@ -112,27 +112,28 @@ class OrderList extends Component {
               <OrderConfirm>
                 <Button type='primary' style={{ marginRight: 10 }}>确认订单</Button>
               </OrderConfirm>
-              <OrderModify id={value.id} status={1} >
-                <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-              </OrderModify>
+                <Button type='primary' style={{ marginRight: 10 }} >修改订单</Button>
               <Button className='line-primary'>取消订单</Button>
             </div> :
             value.status === '2' ? <div>
                 <LogisticsScheduling sites={JSON.stringify(value.sites)} id={value.id}>
                   <Button type='primary' style={{ marginRight: 10 }}>去调度</Button>
                 </LogisticsScheduling>
-                <OrderModify id={value.id} status={1} >
                   <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                </OrderModify>
                 <Button className='line-primary'>取消订单</Button>
               </div> :
               value.status === '3' ? <div>
                   <OrderPurchase sites={JSON.stringify(value.sites)} delivery_type={value.delivery_type} id={value.id}>
-                    <Button type='primary' style={{ marginRight: 10 }}>去采购</Button>
+                    <Button type='primary' style={{ marginRight: 10 }} >去采购</Button>
                   </OrderPurchase>
-                  <OrderModify id={value.id} status={1} >
-                    <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                  </OrderModify>
+                    <Button type='primary' style={{ marginRight: 10 }} onClick={()=>{this.props.dispatch({
+                        type: 'order/orderModifyOpen',
+                        payload: {
+                          id:value.id,
+                          type:1,
+                          visible:true,
+                        },
+                    })}} >修改订单</Button>
                   <Button className='line-primary'>取消订单</Button>
                 </div> :
                 value.status === '4' ? <div>
@@ -148,9 +149,7 @@ class OrderList extends Component {
                                        supp_goods_name={value.supp_goods_name} uploading={true} id={value.id}>
                         <Button type='primary' style={{ marginRight: 10 }}>确认装货</Button>
                       </UpLoadPoundList>
-                      <OrderModify id={value.id} status={3} >
                         <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                      </OrderModify>
                       <Button className='line-primary'>取消订单</Button>
                     </div> :
                     value.status === '6' ? <div>
@@ -158,9 +157,7 @@ class OrderList extends Component {
                                          supp_goods_name={value.supp_goods_name} unloading={true} id={value.id}>
                           <Button type='primary' style={{ marginRight: 10 }}>确认收货</Button>
                         </UpLoadPoundList>
-                        <OrderModify id={value.id} status={4} >
                           <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                        </OrderModify>
                         <Button className='line-primary'>取消订单</Button>
                       </div> :
                       value.status === '7' ? <div>
@@ -168,9 +165,7 @@ class OrderList extends Component {
                           <SalesBilling>
                             <Button type='primary' style={{ marginRight: 10 }}>销售对账</Button>
                           </SalesBilling>
-                          <OrderModify id={value.id} status={5} >
                             <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
-                          </OrderModify>
                           <Button type='primary' style={{ marginRight: 10 }}>磅票信息</Button>
                         </div> :
                         value.status === '8' ? <div>
@@ -207,9 +202,12 @@ class OrderList extends Component {
 
   render() {
     const { orderPage, orderTotal } = this.props.order
+    const { order_modify_id, order_modify_type, order_modify_visible } = this.props.order
+
     return (
       <div style={{ padding: '20px 0' }}>
         {this.mapOrderList()}
+        <OrderModify visible={order_modify_visible} />
         <div style={{ textAlign: 'center', marginTop: 30 }}>
           <Pagination current={orderPage} total={orderTotal} onChange={this.fetchOrderList} />
         </div>

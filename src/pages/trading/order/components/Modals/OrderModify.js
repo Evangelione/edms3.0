@@ -46,10 +46,22 @@ const Option = Select.Option;
         };
         this.showModal = ()=>{
             if(this.state.visible){return}
+            console.log(this.props.loading);
+            this.props.dispatch({
+                type: 'order/fetchOrderList',
+                payload: {},
+            });
             this.setState({visible:true});
         };
         this.hideModal = ()=>{
-            this.setState({visible:false});
+            this.props.dispatch({
+                type: 'order/orderModifyOpen',
+                payload: {
+                  id:'',
+                  type:'',
+                  visible:false,
+                },
+            });
         };
         this.handleSubmit = (e) => {
             e.preventDefault();
@@ -91,11 +103,10 @@ const Option = Select.Option;
     render(){
         const {getFieldDecorator} = this.props.form;
         return (
-            <div onClick={this.showModal} style={{display:'inline-block'}} className={styles['OrderModify']} >
-                {this.props.children}
-                <Modal
+            <div style={{display:'inline-block'}} className={styles['OrderModify']} >
+                {<Modal
                     title="订单修改"
-                    visible={this.state.visible}
+                    visible={this.props.visible}
                     footer={null}
                     onOk={()=>{}}
                     onCancel={this.hideModal}
@@ -756,7 +767,7 @@ const Option = Select.Option;
                     </div>
                 </div>
                 </Form>
-                </Modal>
+                </Modal>}
             </div>
         )
     }
