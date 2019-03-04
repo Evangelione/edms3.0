@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Modal,Select,Form, DatePicker,} from 'antd';
+import { Input, Button, Modal,Select,Form, DatePicker,message,} from 'antd';
 import { connect } from 'dva';
 import styles from '@/pages/trading/order/index.less';
 import { IconFont, SiteImg, LogisticsImg, site_type } from '@/common/constants'
@@ -11,6 +11,7 @@ const Option = Select.Option;
   loading: loading.models.order,
 }))
 @Form.create()
+
 
  class OrderModify extends Component{
 
@@ -25,15 +26,22 @@ const Option = Select.Option;
             companyChangeList:[],
             companyAdd:false,
             companySelect:false,
+            companySelectBlur:false,
             //第二级加汽站
             fillingList:[],
             fillingChangeList:[],
             fillingAdd:false,
             fillingSelect:false,
+            fillingSelectBlur:false,
             //第三级调度
             logisticsStatus:false,
-            //第三级采购
+            //第四级采购
             purchaseStatus:false,
+            //第五级供应商
+            supplierStatus:false,
+            //装卸货
+            Handling:'',
+
 
         };
         this.showModal = ()=>{
@@ -43,6 +51,17 @@ const Option = Select.Option;
         this.hideModal = ()=>{
             this.setState({visible:false});
         };
+        this.handleSubmit = (e) => {
+            e.preventDefault();
+            this.props.form.validateFields((err, values) => {
+                if(err){
+                    message.error('必填项不能为空');
+                    return
+                }
+
+            });
+        };
+
 
     }
 
@@ -65,9 +84,12 @@ const Option = Select.Option;
 
     }
 
-    render(){
-        const { getFieldDecorator } = this.props.form;
+    componentDidMount() {
 
+    }
+
+    render(){
+        const {getFieldDecorator} = this.props.form;
         return (
             <div onClick={this.showModal} style={{display:'inline-block'}} className={styles['OrderModify']} >
                 {this.props.children}
@@ -82,7 +104,7 @@ const Option = Select.Option;
                     destroyOnClose={true}
                     bodyStyle={{ padding:0}}
                 >
-                <Form onSubmit={()=>{}}>
+                <Form onSubmit={this.handleSubmit}>
                 <div style={{width:'100%',maxHeight:700,overflow:'auto'}} >
                     {/*第一级公司*/}
                     <div className={styles['order_modify']} >
@@ -134,51 +156,80 @@ const Option = Select.Option;
                                         <span style={{opacity:0}} className={styles['span']} >*</span>
                                         <p className={styles['p']} >收款方式</p>
                                         <Form.Item>
-                                            <Select defaultValue="lucy" style={{width:200}} onChange={()=>{}}>
-                                                 <Option value="jack">Jack</Option>
+                                            <div id='area' >
+                                            <Select
+                                                getPopupContainer={() => document.getElementById('area')}
+                                                defaultValue="" style={{width:200}} onChange={(val,obj)=>{
+
+                                            }}>
+                                                 <Option value="jack" key={123} >Jack</Option>
                                             </Select>
+                                            </div>
                                         </Form.Item>
                                     </div>
                                     <div className={styles['div']} style={{marginLeft:100}} >
                                         <span className={styles['span']} >*</span>
                                         <p className={styles['p']} >配送方式</p>
                                         <Form.Item>
-                                            <Select defaultValue="lucy" style={{width:200}} onChange={()=>{}}>
-                                                 <Option value="jack">Jack</Option>
-                                            </Select>
+                                        {getFieldDecorator('selectName', {
+                                            rules: [{ required: true}],
+                                            initialValue:'',
+                                        })(
+                                            <Select style={{width:200}} onChange={(val,obj)=>{
+
+                                            }}>
+                                                  <Option value="jack" key={123} >Jack</Option>
+                                             </Select>
+                                        )}
                                         </Form.Item>
                                     </div>
                                     <div className={styles['div']} >
                                         <span className={styles['span']} >*</span>
                                         <p className={styles['p']} >销售价格</p>
                                         <Form.Item>
-                                            <Input style={{width:200}} addonAfter={'元/吨'} />
+                                            {getFieldDecorator('selectName', {
+                                                rules: [{ required: true}],
+                                                initialValue:'',
+                                            })(
+                                                <Input style={{width:200}} addonAfter={'元/吨'} />
+                                            )}
                                         </Form.Item>
                                     </div>
                                     <div className={styles['div']} style={{marginLeft:100}} >
                                         <span className={styles['span']} >*</span>
                                         <p className={styles['p']} >额外费用</p>
                                         <Form.Item>
-                                            <Input style={{width:200}} addonAfter={'元'} />
+                                            {getFieldDecorator('selectName', {
+                                                rules: [{ required: true}],
+                                                initialValue:'',
+                                            })(
+                                                <Input style={{width:200}} addonAfter={'元'} />
+                                            )}
                                         </Form.Item>
                                     </div>
                                 </div>
-                                </div> :
-                                <div className={styles['order_modify_modal_logistics']} style={{
-                                    marginBottom:10                                }} >
+                                </div> : <div className={styles['order_modify_modal_logistics']} style={{
+                                    marginBottom:10}} >
                                     <span className={styles['span']} >*</span>
                                     <img className={styles['img']} src={require('@/assets/image/client__order_48_37.png')} />
-                                    <Select
-                                        autoFocus={true}
-                                        defaultOpen={true}
-                                        style={{width:756,marginLeft:28}}
-                                        onChange={(value)=>{
-                                            let companyChangeList = this.state.companyChangeList;
-                                            companyChangeList[index] = 1;
-                                            this.setState({companyChangeList:companyChangeList});
-                                    }}>
-                                        <Option value="jack">Jack</Option>
-                                    </Select>
+                                    {this.state.companySelectBlur ? <p className={styles['p']} onClick={()=>{
+                                        this.setState({companySelectBlur:false});
+                                    }} >请选择承运物流商</p> :
+                                        <Select
+                                            autoFocus={true}
+                                            defaultOpen={true}
+                                            style={{marginLeft:28}}
+                                            onSelect={(value)=>{
+                                                let companyChangeList = this.state.companyChangeList;
+                                                companyChangeList[index] = 1;
+                                                this.setState({companyChangeList:companyChangeList});
+                                            }}
+                                            onBlur = {()=>{
+                                                this.setState({companySelectBlur:true});
+                                            }}
+                                            >
+                                            <Option value="jack">Jack</Option>
+                                        </Select>}
                                 </div>}
                                 </div>
                             )
@@ -194,19 +245,21 @@ const Option = Select.Option;
 
                                 });
                             }} >请选择承运物流商</p> :
-                            <Select
-                                autoFocus={true}
-                                defaultOpen={true}
-                                style={{width:756,marginLeft:28}}
-                                onChange={(value)=>{
-                                    let companyList = this.state.companyList;
-                                    companyList.push(1);
-                                    let companyChangeList = this.state.companyChangeList;
-                                    companyChangeList.push(1);
-                                    this.setState({campanyList:companyList,companyChangeList:companyChangeList,companyAdd:false,companySelect:false,});
-                            }}>
-                                <Option value="jack">Jack</Option>
-                            </Select>}
+                                <Select
+                                    autoFocus={true}
+                                    defaultOpen={true}
+                                    style={{marginLeft:28}}
+                                    onSelect={(value)=>{
+                                        let companyList = this.state.companyList;
+                                        companyList.push(1);
+                                        let companyChangeList = this.state.companyChangeList;
+                                        companyChangeList.push(1);
+                                        this.setState({campanyList:companyList,companyChangeList:companyChangeList,companyAdd:false,companySelect:false,});
+                                    }}
+                                    onBlur={()=>{this.setState({companySelect:false})}}
+                                    >
+                                    <Option value="jack">Jack</Option>
+                                </Select>}
                         </div>
                     </div>
                     {/*第二级加气站*/}
@@ -259,7 +312,12 @@ const Option = Select.Option;
                                         <span className={styles['span']} >*</span>
                                         <p className={styles['p']} >计划数量</p>
                                         <Form.Item>
-                                            <Input style={{width:200}} addonAfter={'吨'} />
+                                            {getFieldDecorator('selectName', {
+                                                rules: [{ required: true}],
+                                                initialValue:'',
+                                            })(
+                                                <Input style={{width:200}} addonAfter={'吨'} />
+                                            )}
                                         </Form.Item>
                                     </div>
                                     <div className={styles['div']} style={{marginLeft:100}} >
@@ -279,17 +337,24 @@ const Option = Select.Option;
                                     marginBottom:10}} >
                                     <span className={styles['span']} >*</span>
                                     <img className={styles['img']} src={require('@/assets/image/site_order_48_37.png')} />
-                                    <Select
-                                        autoFocus={true}
-                                        defaultOpen={true}
-                                        style={{width:756,marginLeft:28}}
-                                        onChange={(value)=>{
-                                            let fillingChangeList = this.state.fillingChangeList;
-                                            fillingChangeList[index] = 1;
-                                            this.setState({fillingChangeList:fillingChangeList});
-                                    }}>
-                                        <Option value="jack">Jack</Option>
-                                    </Select>
+                                        {this.state.fillingSelectBlur ? <p className={styles['p']} onClick={()=>{
+                                            this.setState({fillingSelectBlur:false});
+                                        }} >请选择承运物流商</p> :
+                                            <Select
+                                                autoFocus={true}
+                                                defaultOpen={true}
+                                                style={{marginLeft:28}}
+                                                onSelect={(value)=>{
+                                                    let fillingChangeList = this.state.fillingChangeList;
+                                                    fillingChangeList[index] = 1;
+                                                    this.setState({fillingChangeList:fillingChangeList});
+                                                }}
+                                                onBlur = {()=>{
+                                                    this.setState({fillingSelectBlur:true});
+                                                }}
+                                                >
+                                                <Option value="jack">Jack</Option>
+                                            </Select>}
                                 </div>}
                                 </div>
                             )
@@ -305,56 +370,70 @@ const Option = Select.Option;
 
                                 });
                             }} >请选择承运物流商</p> :
-                            <Select
-                                autoFocus={true}
-                                defaultOpen={true}
-                                style={{width:756,marginLeft:28}}
-                                onChange={(value)=>{
-                                    let fillingList = this.state.fillingList;
-                                    fillingList.push(1);
-                                    let fillingChangeList = this.state.fillingChangeList;
-                                    fillingChangeList.push(1);
-                                    this.setState({campanyList:fillingList,fillingChangeList:fillingChangeList,fillingAdd:false,fillingSelect:false,});
-                            }}>
-                                <Option value="jack">Jack</Option>
-                            </Select>}
+                                <Select
+                                    autoFocus={true}
+                                    defaultOpen={true}
+                                    style={{marginLeft:28}}
+                                    onChange={(value)=>{
+                                        let fillingList = this.state.fillingList;
+                                        fillingList.push(1);
+                                        let fillingChangeList = this.state.fillingChangeList;
+                                        fillingChangeList.push(1);
+                                        this.setState({campanyList:fillingList,fillingChangeList:fillingChangeList,fillingAdd:false,fillingSelect:false,});
+                                    }}
+                                    onBlur={()=>{this.setState({fillingSelect:false})}}
+                                    >
+                                    <Option value="jack">Jack</Option>
+                                </Select>}
                         </div>
                     </div>
                     {/*第三级调度*/}
                     <div className={styles['order_modify']} >
-                        <div className={styles['order_modify_modal_logistics']} >
+                        <div className={styles['order_modify_modal_logistics']} style={{
+                            display:this.state.logisticsStatus ? 'flex' : 'none',
+                            marginBottom:10}} >
                             <span className={styles['span']} >*</span>
-                            <img className={styles['img']} src={require('@/assets/image/Logistics_order_48_37.png')} />
-                            {!this.state.logisticsStatus ?
-                                <p className={styles['p']} onClick={()=>{
-                                    this.setState({logisticsStatus:true});
-                                }} >承运物流商：阿瓦达所</p> :
-                                <Select
-                                    style={{width:756,marginLeft:28}}
-                                    autoFocus={true}
-                                    defaultOpen={true}
-                                    onChange={()=>{
+                            <img className={styles['img']} src={require('@/assets/image/supplier_order_48_37.png')} />
+                            <Select
+                                style={{marginLeft:28}}
+                                onSelect={(value)=>{
                                     this.setState({logisticsStatus:false});
-                                }}>
-                                     <Option value="jack">Jack</Option>
-                                </Select>}
+                                }}
+                                >
+                                <Option value="jack">Jack</Option>
+                            </Select>
+                            <Button type="primary" style={{marginLeft:20}} onClick={()=>{
+                                this.setState({logisticsStatus:false});
+                            }} >取消</Button>
                         </div>
-                        {this.state.logisticsStatus ? <div style={{width:828,marginTop:25,height:326}} ></div> :
+                        <div style={{display:this.state.logisticsStatus ? 'none' : 'block'}} >
+                        <div className={styles['order_modify_modal_company']} >
+                            <div className={styles['div_left']} >
+                                <span style={{color:'#FB4E5C',marginTop:'10px'}} >*</span>
+                                <img src={require('@/assets/image/gas_order_48_37.png')} />
+                                <div>
+                                    <p>昆仑燃气有限公司山东分公司<span onClick={()=>{
+                                        this.setState({logisticsStatus:true});
+                                    }} >更改</span></p>
+                                    <p>张三丰 12312313123</p>
+                                </div>
+                            </div>
+                        </div>
                         <div className={styles['order_modify_modal_input']} >
                             <div className={styles['div']} >
                                 <span style={{opacity:0}} className={styles['span']} >*</span>
                                 <p className={styles['p']} >计价方式</p>
                                 <Form.Item>
-                                    <Select defaultValue="lucy" style={{width:200}} onChange={()=>{}}>
+                                    <Select defaultValue="" style={{width:200}} onChange={()=>{}}>
                                          <Option value="jack">Jack</Option>
                                     </Select>
                                 </Form.Item>
                             </div>
                             <div className={styles['div']} style={{marginLeft:100}} >
-                                <span className={styles['span']} >*</span>
+                                <span style={{opacity:0}} className={styles['span']} >*</span>
                                 <p className={styles['p']} >付款方式</p>
                                 <Form.Item>
-                                    <Select defaultValue="lucy" style={{width:200}} onChange={()=>{}}>
+                                    <Select defaultValue="" style={{width:200}} onChange={()=>{}}>
                                          <Option value="jack">Jack</Option>
                                     </Select>
                                 </Form.Item>
@@ -363,49 +442,68 @@ const Option = Select.Option;
                                 <span className={styles['span']} >*</span>
                                 <p className={styles['p']} >运输距离</p>
                                 <Form.Item>
-                                    <Input style={{width:200}} addonAfter={'公里'} />
+                                    {getFieldDecorator('inputName', {
+                                        rules: [{ required: true}],
+                                        initialValue:'',
+                                    })(
+                                        <Input style={{width:200}} addonAfter={'公里'} />
+                                    )}
                                 </Form.Item>
                             </div>
                             <div className={styles['div']} style={{marginLeft:100}} >
                                 <span className={styles['span']} >*</span>
                                 <p className={styles['p']} >运输价格</p>
                                 <Form.Item>
-                                    <Input style={{width:200}} addonAfter={'元/吨'} />
+                                    {getFieldDecorator('inputName', {
+                                        rules: [{ required: true}],
+                                        initialValue:'',
+                                    })(
+                                        <Input style={{width:200}} addonAfter={'元/吨'} />
+                                    )}
                                 </Form.Item>
                             </div>
                             <div className={styles['div']} >
-                                <span className={styles['span']} >*</span>
+                                <span className={styles['span']} style={{opacity:0}} >*</span>
                                 <p className={styles['p']} >额外费用</p>
                                 <Form.Item>
                                     <Input style={{width:200}} addonAfter={'元'} />
                                 </Form.Item>
                             </div>
                             <div className={styles['div']} style={{marginLeft:100}} >
-                                <span style={{opacity:0}} className={styles['span']} >*</span>
+                                <span className={styles['span']} >*</span>
                                 <p className={styles['p']} >装货时间</p>
                                 <Form.Item>
-                                     <DatePicker
-                                        showTime
-                                        style={{width:200}}
-                                        onChange={()=>{}}
-                                        suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
-                                     />
+                                {getFieldDecorator('date-picker', {
+                                    rules: [{ type: 'object', required: true }],
+                                })(
+                                    <DatePicker
+                                       showTime
+                                       style={{width:200}}
+                                       onChange={()=>{}}
+                                       suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
+                                    />
+                                )}
                                 </Form.Item>
                             </div>
                             <div className={styles['div']} >
                                 <span className={styles['span']} >*</span>
                                 <p className={styles['p']} >司机选择</p>
                                 <Form.Item>
-                                    <Select defaultValue="lucy" style={{width:200}} onChange={()=>{}}>
-                                         <Option value="jack">Jack</Option>
-                                    </Select>
+                                    {getFieldDecorator('inputName', {
+                                        rules: [{ required: true}],
+                                        initialValue:'',
+                                    })(
+                                        <Select style={{width:200}} onChange={()=>{}}>
+                                             <Option value="jack">Jack</Option>
+                                        </Select>
+                                    )}
                                 </Form.Item>
                             </div>
                             <div className={styles['div']} style={{marginLeft:100}} >
-                                <span className={styles['span']} >*</span>
+                                <span className={styles['span']} style={{opacity:0}} >*</span>
                                 <p className={styles['p']} >押运选择</p>
                                 <Form.Item>
-                                    <Select defaultValue="lucy" style={{width:200}} onChange={()=>{}}>
+                                    <Select defaultValue="" style={{width:200}} onChange={()=>{}}>
                                          <Option value="jack">Jack</Option>
                                     </Select>
                                 </Form.Item>
@@ -414,27 +512,32 @@ const Option = Select.Option;
                                 <span className={styles['span']} >*</span>
                                 <p className={styles['p']} >车头选择</p>
                                 <Form.Item>
-                                    <Select defaultValue="lucy" style={{width:200}} onChange={()=>{}}>
-                                         <Option value="jack">Jack</Option>
-                                    </Select>
+                                    {getFieldDecorator('inputName', {
+                                        rules: [{ required: true}],
+                                        initialValue:'',
+                                    })(
+                                        <Select style={{width:200}} onChange={()=>{}}>
+                                             <Option value="jack">Jack</Option>
+                                        </Select>
+                                    )}
                                 </Form.Item>
                             </div>
                             <div className={styles['div']} style={{marginLeft:100}} >
-                                <span className={styles['span']} >*</span>
+                                <span className={styles['span']} style={{opacity:0}} >*</span>
                                 <p className={styles['p']} >车挂选择</p>
                                 <Form.Item>
-                                    <Select defaultValue="lucy" style={{width:200}} onChange={()=>{}}>
+                                    <Select defaultValue="" style={{width:200}} onChange={()=>{}}>
                                          <Option value="jack">Jack</Option>
                                     </Select>
                                 </Form.Item>
                             </div>
-                        </div>}
+                        </div>
+                        </div>
                     </div>
                     {/*第四级采购*/}
                     <div className={styles['order_modify']} >
                                 <div>
-                                {!this.state.purchaseStatus ?
-                                <div>
+                                <div style={{display:this.state.purchaseStatus ? 'none' : 'block'}} >
                                 <div className={styles['order_modify_modal_company']} >
                                     <div className={styles['div_left']} >
                                         <span style={{color:'#FB4E5C',marginTop:'10px'}} >*</span>
@@ -453,61 +556,202 @@ const Option = Select.Option;
                                 </div>
                                 <div className={styles['order_modify_modal_input']} >
                                     <div className={styles['div']} >
-                                        <span className={styles['span']} >*</span>
+                                        <span className={styles['span']} style={{opacity:0}} >*</span>
                                         <p className={styles['p']} >计划数量</p>
                                         <Form.Item>
                                             <Input style={{width:200}} addonAfter={'吨'} />
                                         </Form.Item>
                                     </div>
                                     <div className={styles['div']} style={{marginLeft:100}} >
-                                        <span style={{opacity:0}} className={styles['span']} >*</span>
+                                        <span  className={styles['span']} >*</span>
                                         <p className={styles['p']} >装货时间</p>
                                         <Form.Item>
-                                             <DatePicker
-                                                style={{width:200}}
-                                                onChange={()=>{
-
-                                                }}
-                                                suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
-                                             />
+                                        {getFieldDecorator('date-picker', {
+                                            rules: [{ type: 'object', required: true }],
+                                        })(
+                                            <DatePicker
+                                               showTime
+                                               style={{width:200}}
+                                               onChange={()=>{}}
+                                               suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
+                                            />
+                                        )}
                                         </Form.Item>
                                     </div>
                                 </div>
-                                </div> :
+                                </div>
                                 <div className={styles['order_modify_modal_logistics']} style={{
+                                    display:this.state.purchaseStatus ? 'flex' : 'none',
                                     marginBottom:10}} >
                                     <span className={styles['span']} >*</span>
-                                    <img className={styles['img']} src={require('@/assets/image/gas_order_48_37.png')} />
+                                    <img className={styles['img']} src={require('@/assets/image/supplier_order_48_37.png')} />
                                     <Select
-                                        autoFocus={true}
-                                        defaultOpen={true}
-                                        style={{width:756,marginLeft:28}}
-                                        onChange={(value)=>{
+                                        style={{marginLeft:28}}
+                                        onSelect={(value)=>{
                                             this.setState({purchaseStatus:false});
-                                    }}>
+                                        }}
+                                        >
                                         <Option value="jack">Jack</Option>
                                     </Select>
-                                </div>}
+                                    <Button type="primary" style={{marginLeft:20}} onClick={()=>{
+                                        this.setState({purchaseStatus:false});
+                                    }} >取消</Button>
                                 </div>
+                                </div>
+                    </div>
+                    {/*第五级供应商*/}
+                    <div className={styles['order_modify']} >
+                                <div>
+                                <div style={{display:this.state.supplierStatus ? 'none' : 'block'}} >
+                                <div className={styles['order_modify_modal_company']} >
+                                    <div className={styles['div_left']} >
+                                        <span style={{color:'#FB4E5C',marginTop:'10px'}} >*</span>
+                                        <img src={require('@/assets/image/supplier_order_48_37.png')} />
+                                        <div>
+                                            <p>昆仑燃气有限公司山东分公司<span onClick={()=>{
+                                                this.setState({supplierStatus:true});
+                                            }} >更改</span></p>
+                                            <p>张三丰 12312313123</p>
+                                        </div>
+                                    </div>
+                                    <div className={styles['div_center']} >
+                                        <p>预付款额<span>32.121000元</span></p>
+                                        <p>信用额度<span>32.121000元</span></p>
+                                    </div>
+                                    <div className={styles['div_right']} style={{opacity:0}} ></div>
+                                </div>
+                                <div className={styles['order_modify_modal_input']} >
+                                    <div className={styles['div']} >
+                                        <span className={styles['span']} >*</span>
+                                        <p className={styles['p']} >采购价格</p>
+                                        <Form.Item>
+                                            {getFieldDecorator('inputName', {
+                                                rules: [{ required: true}],
+                                                initialValue:'',
+                                            })(
+                                                <Input style={{width:200}} addonAfter={'元/吨'} />
+                                            )}
+                                        </Form.Item>
+                                    </div>
+                                    <div className={styles['div']} style={{marginLeft:100}} >
+                                        <span  className={styles['span']} >*</span>
+                                        <p className={styles['p']} >付款方式</p>
+                                        <Form.Item>
+                                            {getFieldDecorator('inputName', {
+                                                rules: [{ required: true}],
+                                                initialValue:'',
+                                            })(
+                                                <Select style={{width:200}} onChange={()=>{}}>
+                                                     <Option value="jack">Jack</Option>
+                                                </Select>
+                                            )}
+                                        </Form.Item>
+                                    </div>
+                                    <div className={styles['div']} >
+                                        <span className={styles['span']} style={{opacity:0}} >*</span>
+                                        <p className={styles['p']} >配送方式</p>
+                                        <Form.Item>
+                                            <Input style={{width:200}} />
+                                        </Form.Item>
+                                    </div>
+                                    <div className={styles['div']} style={{marginLeft:100}} >
+                                        <span className={styles['span']} style={{opacity:0}} >*</span>
+                                        <p className={styles['p']} >额外费用</p>
+                                        <Form.Item>
+                                            <Input style={{width:200}} addonAfter={'元'} />
+                                        </Form.Item>
+                                    </div>
+                                </div>
+                                </div>
+                                <div className={styles['order_modify_modal_logistics']} style={{
+                                    display:this.state.supplierStatus ? 'flex' : 'none',
+                                    marginBottom:10}} >
+                                    <span className={styles['span']} >*</span>
+                                    <img className={styles['img']} src={require('@/assets/image/supplier_order_48_37.png')} />
+                                    <Select
+                                        style={{marginLeft:28}}
+                                        onSelect={(value)=>{
+                                            this.setState({supplierStatus:false});
+                                        }}
+                                        >
+                                        <Option value="jack">Jack</Option>
+                                    </Select>
+                                    <Button type="primary" style={{marginLeft:20}} onClick={()=>{
+                                        this.setState({supplierStatus:false});
+                                    }} >取消</Button>
+                                </div>
+                                </div>
+                    </div>
+                    {/*第六级装卸货*/}
+                    <div className={styles['order_modify']} >
+                        <div className={styles['order_modify_modal_input']} >
+                            <div className={styles['div']} >
+                                <span className={styles['span']} style={{opacity:0}} >*</span>
+                                <p className={styles['p']} >实装数量</p>
+                                <Form.Item>
+                                    <Input style={{width:200}} addonAfter={'吨'} />
+                                </Form.Item>
+                            </div>
+                            <div className={styles['div']} style={{marginLeft:100}} >
+                                <span style={{opacity:0}} className={styles['span']} >*</span>
+                                <p className={styles['p']} >实装时间</p>
+                                <Form.Item>
+                                     <DatePicker
+                                        style={{width:200}}
+                                        onChange={()=>{}}
+                                        suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
+                                     />
+                                </Form.Item>
+                            </div>
+                        </div>
+                        <div className={styles['order_modify_modal_input']} >
+                            <div className={styles['div']} >
+                                <span className={styles['span']} style={{opacity:0}} >*</span>
+                                <p className={styles['p']} >实卸数量</p>
+                                <Form.Item>
+                                    <Input style={{width:200}} addonAfter={'吨'} />
+                                </Form.Item>
+                            </div>
+                            <div className={styles['div']} style={{marginLeft:100}} >
+                                <span style={{opacity:0}} className={styles['span']} >*</span>
+                                <p className={styles['p']} >实卸时间</p>
+                                <Form.Item>
+                                     <DatePicker
+                                        style={{width:200}}
+                                        onChange={()=>{}}
+                                        suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
+                                     />
+                                </Form.Item>
+                            </div>
+                        </div>
                     </div>
                     {/*最后级底部*/}
                     <div className={styles['order_modify_modal_foot']}>
                         <div className={styles['div_left']} >
                             <div>
                                 <p>销售总量<span>20.00000吨</span></p>
-                                <p style={{display:this.state.status===1 ? 'none' : 'inline-block'}} >采购总额<span>20.000吨</span></p>
-                                <p style={{display:this.state.status===1 ? 'none' : 'inline-block'}} >利润总额<span>20.000吨</span></p>
+                                <p>采购总额<span>20.000吨</span></p>
+                                <p>利润总额<span>20.000吨</span></p>
                             </div>
                             <div style={{marginLeft:'50px'}} >
-                                <p >销售总额<span>20.000吨</span></p>
-                                <p style={{display:this.state.status===1 ? 'none' : 'inline-block'}} >运输费用<span>20.000吨</span></p>
-                                <p style={{display:this.state.status===1 ? 'none' : 'inline-block'}} ><span></span></p>
+                                <p>销售总额<span>20.000吨</span></p>
+                                <p>运输费用<span>20.000吨</span></p>
+                                <p><span></span></p>
                             </div>
                         </div>
                         <div className={styles['div_right']}>
-                          <Button type='primary' style={{ marginRight: 10 }} loading={this.props.loading}
-                                  onClick={this.scheduling}>确认修改</Button>
-                          <Button className='red-btn' onClick={this.hideModal.bind(this)}>取消</Button>
+                        <Form.Item>
+                          {getFieldDecorator('ifNull')(
+                              <Button type='primary' htmlType="submit"
+                              style={{ marginRight: 10 }}
+                              loading={this.props.loading}
+                              onClick={this.scheduling}
+                              >确认修改</Button>
+                          )}
+                        </Form.Item>
+                        <Form.Item>
+                            <Button className='red-btn' onClick={this.hideModal.bind(this)}>取消</Button>
+                        </Form.Item>
                         </div>
                     </div>
                 </div>
