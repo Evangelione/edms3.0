@@ -18,7 +18,7 @@ export function insertClient(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/cust/add-cust`, {
+  return request(`${IP}/index/cust/add`, {
     method: 'POST',
     body: formData,
   })
@@ -29,7 +29,7 @@ export function updateClientInfo(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/cust/update-cust`, {
+  return request(`${IP}/index/cust/update`, {
     method: 'POST',
     body: formData,
   })
@@ -50,7 +50,7 @@ export function updateClientContact(form) {
 export function inquireClientInfoById(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/cust/cust-info`, {
+  return request(`${IP}/index/cust/info`, {
     method: 'POST',
     body: formData,
   })
@@ -73,7 +73,7 @@ export function fetchSiteList({page, customer_id, site_name}) {
   formData.append('limit', PAGE_LIMIT)
   formData.append('customer_id', customer_id)
   formData.append('site_name', site_name)
-  return request(`${IP}/index/site/list`, {
+  return request(`${IP}/index/site/page`, {
     method: 'POST',
     body: formData,
   })
@@ -84,7 +84,7 @@ export function insertSite(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/site/add-site`, {
+  return request(`${IP}/index/site/add`, {
     method: 'POST',
     body: formData,
   })
@@ -95,7 +95,7 @@ export function updateSiteInfo(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/site/update-site`, {
+  return request(`${IP}/index/site/update`, {
     method: 'POST',
     body: formData,
   })
@@ -104,7 +104,7 @@ export function updateSiteInfo(form) {
 export function inquireSiteInfoById(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/site/site-info`, {
+  return request(`${IP}/index/site/info`, {
     method: 'POST',
     body: formData,
   })

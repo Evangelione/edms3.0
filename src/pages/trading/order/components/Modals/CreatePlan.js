@@ -154,8 +154,7 @@ class CreatePlan extends Component {
       this.state.extraClient > 2 && (form3 = this.formRef3.getItemsValue())
 
       if (!err && form2 && form3) {
-        console.log(values)
-        values.delivery_type !== '2' && (values.site1_time = values.site1_time.format('YYYY-MM-DD'))
+        values.site1_time = values.site1_time && values.site1_time.format('YYYY-MM-DD')
         this.state.currentSiteInfo2.id && (values.site2_time = values.site2_time.format('YYYY-MM-DD'))
         this.state.currentSiteInfo3.id && (values.site3_time = values.site3_time.format('YYYY-MM-DD'))
         let list = [values]

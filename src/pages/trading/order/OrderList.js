@@ -10,6 +10,8 @@ import OrderPurchase from './components/Modals/OrderPurchase'
 import UpLoadPoundList from './components/Modals/UpLoadPoundList'
 import styles from './index.less'
 
+const ORDER_STATUS = ['', '待我方确认', '待调度', '待采购', '待供应商接单', '待装货', '待对账', '已完成', '已开票', '已取消']
+
 @connect(({ order, loading }) => ({
   order,
   loading: loading.models.order,
@@ -44,19 +46,23 @@ class OrderList extends Component {
         <div className={styles['order-card-header']}>
           <div>
             <img src={require('../../../assets/image/car_head_36_36.png')} style={{ width: 32, height: 28 }} alt="" />
-            <div style={{ marginLeft: 20 }}>{value.car_head_code}</div>
+            <div style={{ marginLeft: 20 }}>{value.car_head_code ? value.car_head_code : '暂无车头信息'}</div>
           </div>
-          <div style={{ color: '#FFAD4D', fontWeight: 400, fontSize: '1rem' }}>{value.order_status}</div>
+          <div style={{
+            color: value.status === '8' ? '#00CD93' : '#FFAD4D',
+            fontWeight: 400,
+            fontSize: '1rem',
+          }}>{ORDER_STATUS[value.status]}</div>
         </div>
         <Row className={styles['order-card-body']}>
           <Col span={span} style={{ position: 'relative' }}>
-            <div className={styles['name']}>卖家：{value.supp_name}</div>
+            <div className={styles['name']}>卖家：{value.supp_name ? value.supp_name : '暂无信息'}</div>
             <div
-              className={styles['detail']}>{value.load_quantity}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value.supp_price}元
+              className={styles['detail']}>购 {value.quantity ? value.quantity : '-'} 吨&nbsp;&nbsp;&nbsp;共&nbsp;{value.supp_price}元
             </div>
             <img src={require('@/assets/image/gas_blue.png')} className={styles['img']} alt="" />
             <div className={classnames(styles['gas'], styles['primary-color'])}>
-              {value.supp_goods_name}&nbsp;&nbsp;({value.quantity} 吨)
+              {value.supp_goods_name ? value.supp_goods_name : '暂无气源信息'}&nbsp;&nbsp;({value.load_quantity ? value.load_quantity : '-'} 吨)
             </div>
             <div className={classnames(styles['take-time'], styles['primary-color'])}>
               预计装车时间&nbsp;{value.load_time}
@@ -76,14 +82,16 @@ class OrderList extends Component {
           </Col>
           {value.sites.map((value1, index1) => {
             return <Col span={span} key={index1} style={{ position: 'relative' }}>
-              <div className={styles['name']}>买家：{value1.site_name}</div>
-              <div className={styles['detail']}>{value1.unload_quantity}吨&nbsp;&nbsp;&nbsp;共&nbsp;{value1.price}元</div>
+              <div className={styles['name']}>买家：{value1.company_name ? value1.company_name : '暂无信息'}</div>
+              <div
+                className={styles['detail']}>售 {value1.quantity ? value1.quantity : '-'} 吨&nbsp;&nbsp;&nbsp;共&nbsp;{value1.price}元
+              </div>
               {value.current_site > index1 + 1 ?
                 <img src={require('@/assets/image/site_blue.png')} className={styles['img']} alt="" />
                 :
                 <img src={require('@/assets/image/site_gray.png')} className={styles['img']} alt="" />}
               <div className={classnames(styles['gas'])}>
-                {value1.site_full_name}&nbsp;&nbsp;({value1.quantity} 吨)
+                {value1.site_name ? value1.site_name : '暂无站点信息'}&nbsp;&nbsp;({value1.unload_quantity ? value1.unload_quantity : '-'} 吨)
               </div>
               <div className={classnames(styles['take-time'])}>
                 预计卸车时间&nbsp;{value1.rece_time}
@@ -112,7 +120,7 @@ class OrderList extends Component {
               <OrderConfirm>
                 <Button type='primary' style={{ marginRight: 10 }}>确认订单</Button>
               </OrderConfirm>
-                <Button type='primary' style={{ marginRight: 10 }} >修改订单</Button>
+                <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
               <Button className='line-primary'>取消订单</Button>
             </div> :
             value.status === '2' ? <div>
@@ -126,14 +134,7 @@ class OrderList extends Component {
                   <OrderPurchase sites={JSON.stringify(value.sites)} delivery_type={value.delivery_type} id={value.id}>
                     <Button type='primary' style={{ marginRight: 10 }} >去采购</Button>
                   </OrderPurchase>
-                    <Button type='primary' style={{ marginRight: 10 }} onClick={()=>{this.props.dispatch({
-                        type: 'order/orderModifyOpen',
-                        payload: {
-                          id:value.id,
-                          type:1,
-                          visible:true,
-                        },
-                    })}} >修改订单</Button>
+                    <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                   <Button className='line-primary'>取消订单</Button>
                 </div> :
                 value.status === '4' ? <div>

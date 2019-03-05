@@ -144,7 +144,7 @@ class Index extends Component {
           <Upload
             accept='.xls,.xlsx'
             name='excel'
-            action={`${IP}/index/goods/goods-import`}
+            action={`${IP}/index/goods/import`}
             customRequest={this.upLoadExcel}
             showUploadList={false}
           >

@@ -84,11 +84,12 @@ class Index extends Component {
           <div>
             <img src={require('@/assets/image/Bitmap.png')} alt="" />
           </div>
-          <div className='company-name'>{value.role_name}</div>
+          <div className='company-name' style={{ color: !(value.enable - 0) ? '#ccc' : '#413857' }}>{value.role_name}</div>
         </div>
         <div className='contact-box'>
-          <div className='contact-name'>{value.name}</div>
-          <div className='contact-phone'>{value.mobile ? value.mobile : '--'}</div>
+          <div className='contact-name' style={{ color: !(value.enable - 0) ? '#ccc' : '#7B7B7B' }}>{value.name}</div>
+          <div className='contact-phone'
+               style={{ color: !(value.enable - 0) ? '#ccc' : '#7B7B7B' }}>{value.mobile ? value.mobile : '--'}</div>
         </div>
         <div className='sales-box'>
           <div style={{ visibility: 'hidden' }}>

@@ -2,6 +2,52 @@ import request from '@/common/request'
 import { IP, PAGE_LIMIT } from '@/common/constants'
 
 
+//我的供应商：对账历史-车牌-气源-站点Select
+export function supp_fetchCorderGoodsConditionList({ id }) {
+  return request(`${IP}/index/supp/corder-condition?id=${id}`)
+}
+//我的供应商：对账历史列表
+export function supp_fetchReconciliationHistoryPageList({
+    supplier_id,
+    time_start,
+    time_end,
+    car_head_id,
+    supp_goods_id,
+    cust_site_id,
+    status,
+    page,
+    limit,
+}) {
+  return request(`${IP}/index/supp/corder-page?supplier_id=${
+      supplier_id
+  }&time_start=${
+      time_start
+  }&time_end=${
+      time_end
+  }&supp_goods_id=${
+      supp_goods_id
+  }&cust_site_id=${
+      cust_site_id
+  }&status=${
+      status
+  }&page=${
+      page
+  }&limit=${
+      limit
+  }`)
+}
+//我的供应商：对账历史-删除
+export function supp_fetchCorderDelete({ id }) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP} /index/supp/corder-delete`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+
 export function fetchSupplierList({ page, supp_name }) {
   let formData = new FormData()
   formData.append('page', page)
@@ -18,7 +64,7 @@ export function insertSupplier(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/supp/add-supp`, {
+  return request(`${IP}/index/supp/add`, {
     method: 'POST',
     body: formData,
   })
@@ -29,7 +75,7 @@ export function updateSupplierInfo(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/supp/update-supp`, {
+  return request(`${IP}/index/supp/update`, {
     method: 'POST',
     body: formData,
   })
@@ -50,7 +96,7 @@ export function updateSupplierContact(form) {
 export function getSupplierInfoById(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/supp/supp-info`, {
+  return request(`${IP}/index/supp/info`, {
     method: 'POST',
     body: formData,
   })
@@ -84,7 +130,7 @@ export function insertGasSource(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/goods/add-goods`, {
+  return request(`${IP}/index/goods/add`, {
     method: 'POST',
     body: formData,
   })
@@ -95,7 +141,7 @@ export function updateGasSourceInfo(form) {
   Object.keys(form).forEach((key, i) => {
     formData.append(key, form[key] || '')
   })
-  return request(`${IP}/index/goods/update-goods`, {
+  return request(`${IP}/index/goods/update`, {
     method: 'POST',
     body: formData,
   })
@@ -104,7 +150,7 @@ export function updateGasSourceInfo(form) {
 export function inquireGasSourceInfoById(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/goods/goods-info`, {
+  return request(`${IP}/index/goods/info`, {
     method: 'POST',
     body: formData,
   })
@@ -113,7 +159,7 @@ export function inquireGasSourceInfoById(id) {
 export function deleteGasSource(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/goods/goods-info`, {
+  return request(`${IP}/index/goods/delete`, {
     method: 'POST',
     body: formData,
   })
