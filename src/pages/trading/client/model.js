@@ -14,32 +14,14 @@ export default {
     siteTotal: 0,
     currentSiteInfo: {},
     site_name: '',
-    salesHistoryList: [{
-      id: '1',
-      cp: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    }, {
-      id: '2',
-      cp: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    }],
+    salesHistoryList: [],
     salesHistoryPage: 1,
     salesHistoryTotal: 0,
-    reconciliationHistoryList: [{
-      id: '1',
-      kh: '胡彦斌12',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    }, {
-      id: '2',
-      kh: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    }],
+    reconciliationHistoryList: [],
     reconciliationHistoryPage: 1,
     reconciliationHistoryTotal: 0,
+    clientCondition: {},
+    reconciliationClient: {},
   },
 
   subscriptions: {
@@ -163,6 +145,62 @@ export default {
       } catch (e) {
         message.error(e)
       }
+    },
+    * fetchOrderCondition({ payload: { customer_id } }, { call, put }) {
+      const { data } = yield call(clientService.fetchOrderCondition, customer_id)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            clientCondition: data.data,
+          },
+        })
+        :
+        message.error(data.msg)
+    },
+    * fetchClientHistory({ payload: { form, page = 1 } }, { call, put }) {
+      const { data } = yield call(clientService.fetchClientHistory, form, page)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            salesHistoryList: data.data.list,
+            salesHistoryPage: parseInt(page, 10),
+            salesHistoryTotal: parseInt(data.data.total, 10),
+          },
+        })
+        :
+        message.error(data.msg)
+    },
+    * fetchReconciliationHistory({ payload: { form, page = 1 } }, { call, put }) {
+      const { data } = yield call(clientService.fetchReconciliationHistory, form, page)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            reconciliationHistoryList: data.data.list,
+            reconciliationHistoryPage: parseInt(page, 10),
+            reconciliationHistoryTotal: parseInt(data.data.total, 10),
+            reconciliationClient: data.data.customer,
+          },
+        })
+        :
+        message.error(data.msg)
+    },
+    * deleteReconciliationHistory({ payload: { id } }, { call, put }) {
+      const { data } = yield call(clientService.deleteReconciliationHistory, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * downloadExcel({ payload: { id } }, { call, put }) {
+      const { data } = yield call(clientService.downloadExcel, id)
+      console.log(data)
+      // parseInt(data.code, 10) === 1 ?
+      //   message.success(data.msg)
+      //   :
+      //   message.error(data.msg)
     },
   },
 
