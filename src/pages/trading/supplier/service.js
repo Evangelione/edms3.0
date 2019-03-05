@@ -2,6 +2,52 @@ import request from '@/common/request'
 import { IP, PAGE_LIMIT } from '@/common/constants'
 
 
+//我的供应商：对账历史-车牌-气源-站点Select
+export function supp_fetchCorderGoodsConditionList({ id }) {
+  return request(`${IP}/index/supp/corder-condition?id=${id}`)
+}
+//我的供应商：对账历史列表
+export function supp_fetchReconciliationHistoryPageList({
+    supplier_id,
+    time_start,
+    time_end,
+    car_head_id,
+    supp_goods_id,
+    cust_site_id,
+    status,
+    page,
+    limit,
+}) {
+  return request(`${IP}/index/supp/corder-page?supplier_id=${
+      supplier_id
+  }&time_start=${
+      time_start
+  }&time_end=${
+      time_end
+  }&supp_goods_id=${
+      supp_goods_id
+  }&cust_site_id=${
+      cust_site_id
+  }&status=${
+      status
+  }&page=${
+      page
+  }&limit=${
+      limit
+  }`)
+}
+//我的供应商：对账历史-删除
+export function supp_fetchCorderDelete({ id }) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP} /index/supp/corder-delete`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+
 export function fetchSupplierList({ page, supp_name }) {
   let formData = new FormData()
   formData.append('page', page)

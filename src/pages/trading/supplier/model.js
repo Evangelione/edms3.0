@@ -53,6 +53,65 @@ export default {
   },
 
   effects: {
+
+    //我的供应商：对账历史-车牌-气源-站点Select
+    * supp_fetchCorderGoodsConditionList({payload:{id}},{call,put}){
+        const { data } = yield call(supplierService.supp_fetchCorderGoodsConditionList, {id});
+        parseInt(data.code, 10) === 1 ?
+          yield put({
+            type: 'save',
+            payload: {
+              supp_CorderGoodsConditionList: data.data,
+            },
+        })
+          :
+          message.error(data.msg);
+    },
+    //我的供应商：对账历史列表
+    * supp_fetchReconciliationHistoryPageList({ payload: {
+        supplier_id,
+        time_start,
+        time_end,
+        supp_goods_id,
+        cust_site_id,
+        status,
+        page,
+        limit,
+    } }, { call, put }) {
+        const { data } = yield call(supplierService.supp_fetchReconciliationHistoryPageList, {
+            supplier_id,
+            time_start,
+            time_end,
+            supp_goods_id,
+            cust_site_id,
+            status,
+            page,
+            limit,
+        })
+        parseInt(data.code, 10) === 1 ?
+          yield put({
+            type: 'save',
+            payload: {
+              supp_ReconciliationHistoryPageList: data.data,
+            },
+          })
+          :
+          message.error(data.msg)
+    },
+    //我的供应商：对账历史-删除
+    * supp_fetchCorderDelete({payload:{id}},{call,put}){
+        const { data } = yield call(supplierService.supp_fetchCorderDelete, {id})
+        parseInt(data.code, 10) === 1 ?
+          yield put({
+            type: 'save',
+            payload: {
+              supp_CorderDelete: data.data,
+            },
+          })
+          :
+          message.error(data.msg)
+    },
+
     * fetchSupplierList({ payload: { page = 1, supp_name = '' } }, { call, put }) {
       const { data } = yield call(supplierService.fetchSupplierList, { page, supp_name })
       parseInt(data.code, 10) === 1 ?

@@ -78,6 +78,9 @@ export default {
     suppInfoByOrderPurchase: [],
     gasInfoByOrderPurchase: [],
     poundInfoByUpload: {},
+    order_modify_id:'',
+    order_modify_type:'',
+    order_modify_visible:false,
   },
 
   subscriptions: {
@@ -88,6 +91,18 @@ export default {
   },
 
   effects: {
+    * orderModifyOpen({payload:{id,type,visible}},{call,put}){
+        yield put({
+            type: 'save',
+            payload:{
+                order_modify_id:id,
+                order_modify_type:type,
+                order_modify_visible:visible,
+
+            }
+        })
+    },
+
     * fetchOrderList({ payload: { page = 1, status = '' } }, { call, put }) {
       const { data } = yield call(orderService.fetchOrderList, { page, status })
       parseInt(data.code, 10) === 1 ?
