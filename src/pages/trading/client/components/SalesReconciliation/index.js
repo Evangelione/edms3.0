@@ -167,6 +167,25 @@ class Index extends Component {
     })
   }
 
+  pageChange = (page) => {
+    const { load_time_start, load_time_end, car_head_id, supp_goods_id, cust_site_id, status } = this.state
+    this.props.dispatch({
+      type: 'client/fetchClientHistory',
+      payload: {
+        form: {
+          cust_id: this.props.match.params.ClientDetail,
+          load_time_start,
+          load_time_end,
+          car_head_id,
+          supp_goods_id,
+          cust_site_id,
+          status,
+        },
+        page,
+      },
+    })
+  }
+
   render() {
     const { load_time_start, load_time_end, endOpen, selectedRowKeys, car_head_id, supp_goods_id, cust_site_id, status } = this.state
     const { client, loading } = this.props
@@ -271,7 +290,7 @@ class Index extends Component {
           />
         </div>
         <div style={{ textAlign: 'center', marginTop: 40 }}>
-          <Pagination current={salesHistoryPage} total={salesHistoryTotal} />
+          <Pagination current={salesHistoryPage} total={salesHistoryTotal} onChange={this.pageChange} />
         </div>
       </>
     )

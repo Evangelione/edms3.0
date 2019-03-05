@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { DatePicker, Select, Table, Pagination } from 'antd'
+import { DatePicker, Select, Table, Pagination, Button, Popconfirm } from 'antd'
 import { connect } from 'dva'
-import { clientReconciliationHistoryColumns } from '@/common/tableColumns'
 import widthRouter from 'umi/withRouter'
+import { statusVar2 } from '@/common/constants'
+import router from 'umi/router'
 
 const Option = Select.Option
+const ButtonGroup = Button.Group
 
 @connect(({ client, loading }) => ({
   client,
@@ -116,11 +118,125 @@ class Index extends Component {
     })
   }
 
+  changePage = (page) => {
+    const { time_start, time_end, supp_goods_id, cust_site_id, status } = this.state
+    this.props.dispatch({
+      type: 'client/fetchReconciliationHistory',
+      payload: {
+        form: {
+          cust_id: this.props.match.params.ClientDetail,
+          time_start: time_start,
+          time_end: time_end,
+          supp_goods_id: supp_goods_id,
+          cust_site_id: cust_site_id,
+          status: status,
+        },
+        page: page,
+      },
+    })
+  }
+
 
   render() {
     const { time_start, time_end, endOpen, supp_goods_id, cust_site_id, status } = this.state
     const { client, loading } = this.props
     const { reconciliationHistoryList, reconciliationHistoryPage, reconciliationHistoryTotal, clientCondition } = client
+
+    const clientReconciliationHistoryColumns = [{
+      align: 'center',
+      title: '操作时间',
+      dataIndex: 'check_time',
+      key: 'check_time',
+    }, {
+      align: 'center',
+      title: '客户',
+      dataIndex: 'customer_name',
+      key: 'customer_name',
+    }, {
+      align: 'center',
+      title: '气源',
+      dataIndex: 'goods',
+      key: 'goods',
+    }, {
+      align: 'center',
+      title: '站点',
+      dataIndex: 'sites',
+      key: 'sites',
+    }, {
+      align: 'center',
+      title: '对账周期',
+      key: 'dzzq',
+      render: (text, record) => {
+        return <div>{record.account_cycle_start} - {record.account_cycle_end}</div>
+      },
+    }, {
+      align: 'center',
+      title: '对账量',
+      dataIndex: 'purchase_count',
+      key: 'purchase_count',
+    }, {
+      align: 'center',
+      title: '对账额（元）',
+      dataIndex: 'total_account',
+      key: 'total_account',
+    }, {
+      align: 'center',
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text) => (
+        <div>{statusVar2[text]}</div>
+      ),
+    }, {
+      align: 'center',
+      title: '操作',
+      key: 'cz',
+      render: (text, record, index) => (
+        <ButtonGroup className='button-group'>
+          <Button className='line-primary' onClick={() => {
+            let url = new URL(window.location.href)
+            let arr = url.pathname.split('/')
+            router.push(`/${arr[1]}/${arr[2]}/ReconciliationDetails?id=${record.id}&${url.search.substr(1)}`)
+          }}>明细</Button>
+          <Button className='line-primary' onClick={() => {
+            this.props.dispatch({
+              type: 'client/downloadExcel',
+              payload: {
+                id: record.id,
+              },
+            })
+          }}>导出</Button>
+          <Button className='line-primary'>确认对账</Button>
+          <Button className='line-primary'>确认结款</Button>
+          <Button className='line-primary'>确认开票</Button>
+          <Popconfirm title="确定删除此条记录？" placement="left" onConfirm={() => {
+            this.props.dispatch({
+              type: 'client/deleteReconciliationHistory',
+              payload: {
+                id: record.id,
+              },
+            }).then(() => {
+              this.props.dispatch({
+                type: 'client/fetchReconciliationHistory',
+                payload: {
+                  form: {
+                    cust_id: this.props.match.params.ClientDetail,
+                    time_start: time_start,
+                    time_end: time_end,
+                    supp_goods_id: supp_goods_id,
+                    cust_site_id: cust_site_id,
+                    status: status,
+                  },
+                  page: reconciliationHistoryPage,
+                },
+              })
+            })
+          }}>
+            <Button className='line-red'>删除</Button>
+          </Popconfirm>
+        </ButtonGroup>
+      ),
+    }]
     return (
       <>
         <div style={{ textAlign: 'right', fontSize: '1rem', margin: '5px 0 20px' }}>
@@ -187,7 +303,8 @@ class Index extends Component {
           />
         </div>
         <div style={{ textAlign: 'center', marginTop: 40 }}>
-          <Pagination current={reconciliationHistoryPage} total={reconciliationHistoryTotal} />
+          <Pagination current={reconciliationHistoryPage} total={reconciliationHistoryTotal}
+                      onChange={this.changePage} />
         </div>
       </>
     )

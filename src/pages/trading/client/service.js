@@ -164,3 +164,25 @@ export function fetchReconciliationHistory(form, page) {
     body: formData,
   })
 }
+
+export function deleteReconciliationHistory(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/cust/corder-delete`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function downloadExcel(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/cust/corder-export`, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'responseType': 'arraybuffer',
+    },
+  })
+}

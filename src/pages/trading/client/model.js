@@ -21,7 +21,7 @@ export default {
     reconciliationHistoryPage: 1,
     reconciliationHistoryTotal: 0,
     clientCondition: {},
-    reconciliationClient: {}
+    reconciliationClient: {},
   },
 
   subscriptions: {
@@ -186,6 +186,21 @@ export default {
         })
         :
         message.error(data.msg)
+    },
+    * deleteReconciliationHistory({ payload: { id } }, { call, put }) {
+      const { data } = yield call(clientService.deleteReconciliationHistory, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * downloadExcel({ payload: { id } }, { call, put }) {
+      const { data } = yield call(clientService.downloadExcel, id)
+      console.log(data)
+      // parseInt(data.code, 10) === 1 ?
+      //   message.success(data.msg)
+      //   :
+      //   message.error(data.msg)
     },
   },
 

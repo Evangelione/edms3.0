@@ -135,10 +135,13 @@ export const clientReconciliationHistoryColumns = [{
       <Button className='line-primary'>确认结款</Button>
       <Button className='line-primary'>确认开票</Button>
       <Popconfirm title="确定删除此条记录？" placement="left" onConfirm={() => {
-        window.g_app._store.dispatch({
-          type: '',
-          payload: {},
-        })
+        console.log(window.g_app)
+        // window.g_app._store.dispatch({
+        //   type: 'client/deleteReconciliationHistory',
+        //   payload: {
+        //     id: record.id,
+        //   },
+        // })
       }}>
         <Button className='line-red'>删除</Button>
       </Popconfirm>
