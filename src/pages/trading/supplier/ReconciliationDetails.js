@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, DatePicker, Select, Table, Pagination } from 'antd'
 import { connect } from 'dva'
-import { salesHistoryColumns } from '@/common/tableColumns'
+import { IP, PAGE_LIMIT } from '@/common/constants'
 import router from 'umi/router'
 
 const Option = Select.Option
@@ -10,12 +10,19 @@ const Option = Select.Option
   supplier,
   loading: loading.models.supplier,
 }))
+
+
+
 class ReconciliationDetails extends Component {
   state = {
     startValue: null,
     endValue: null,
     endOpen: false,
-    selectedRowKeys: [],
+
+
+    id:'',
+    page:1,
+    limit:PAGE_LIMIT,
   }
 
   disabledStartDate = (startValue) => {
@@ -58,11 +65,101 @@ class ReconciliationDetails extends Component {
     this.setState({ endOpen: open })
   }
 
+  componentWillMount(){
+      const {id} = this.props.location.query;
+      this.state.id = id;
+      this.props.dispatch({type:'supplier/supp_fetchCorderDetail',payload:{id:id}});
+  }
+
   render() {
     const { company } = this.props.location.query
+
     const { startValue, endValue, endOpen } = this.state
     const { supplier, loading } = this.props
-    const { salesHistoryList } = supplier
+    const { supp_CorderDetail,supp_CorderGoodsConditionList } = supplier
+    const {cars,goods,sites} = supp_CorderGoodsConditionList ? supp_CorderGoodsConditionList : {cars:null,goods:null,sites:null};
+    const {total,list} = supp_CorderDetail ? supp_CorderDetail : {total:0,list:[]};
+    console.log(supp_CorderDetail);
+
+    console.log(supplier);
+
+    const salesHistoryColumns = [{
+      align: 'center',
+      title: '装车时间',
+      dataIndex: 'real_load_time',
+      key: 'real_load_time',
+    }, {
+      align: 'center',
+      title: '车牌',
+      dataIndex: 'car_head_code',
+      key: 'car_head_code',
+    }, {
+      align: 'center',
+      title: '客户',
+      dataIndex: 'supp_company_name',
+      key: 'supp_company_name',
+    }, {
+      align: 'center',
+      title: '气源',
+      dataIndex: 'goods_name',
+      key: 'goods_name',
+    }, {
+      align: 'center',
+      title: '站点',
+      dataIndex: 'site_num',
+      key: 'site_num',
+    }, {
+      align: 'center',
+      title: '装货量（吨）',
+      dataIndex: 'load_quantity',
+      key: 'load_quantity',
+    }, {
+      align: 'center',
+      title: '卸货量（吨）',
+      dataIndex: 'unload_quantity',
+      key: 'unload_quantity',
+    }, {
+      align: 'center',
+      title: '结算量（吨）',
+      dataIndex: 'charge_quantity',
+      key: 'charge_quantity',
+    }, {
+      align: 'center',
+      title: '销售价（元/吨）',
+      dataIndex: 'price',
+      key: 'price',
+    }, {
+      align: 'center',
+      title: '销售额（元）',
+      dataIndex: 'fee_sum',
+      key: 'fee_sum',
+    }, {
+      align: 'center',
+      title: '额外费用（元）',
+      dataIndex: 'extra_fee',
+      key: 'extra_fee',
+    }, {
+      align: 'center',
+      title: '合计金额（元）',
+      dataIndex: 'total_sum',
+      key: 'total_sum',
+    }, {
+      align: 'center',
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text, record, index)=>{
+          let statusText = '';
+          if(record.status==28){statusText='待对账'}
+          if(record.status==29){statusText='对账中'}
+          if(record.status==30){statusText='已对账'}
+          if(record.status==31){statusText='待结款'}
+          if(record.status==32){statusText='已开票'}
+          if(record.status==33){statusText='已完成'}
+          if(record.status==34){statusText='已取消'}
+          return <span>{statusText}</span>
+      }
+    }]
 
     return (
       <div>
@@ -138,7 +235,7 @@ class ReconciliationDetails extends Component {
           <div className='table-container'>
             <Table
               columns={salesHistoryColumns}
-              dataSource={salesHistoryList}
+              dataSource={list}
               loading={loading}
               pagination={false}
               rowKey={record => record.id}
@@ -149,7 +246,7 @@ class ReconciliationDetails extends Component {
             />
           </div>
           <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <Pagination defaultCurrent={1} total={50} />
+            <Pagination current={this.state.page} pageSize={this.state.limit} total={parseInt(total)} />
           </div>
         </div>
       </div>
