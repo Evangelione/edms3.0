@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import withRouter from 'umi/withRouter'
-import { DatePicker, Select, Table, Pagination,Button ,Popconfirm} from 'antd'
+import { DatePicker, Select, Table, Pagination,Button ,Popconfirm,Modal} from 'antd'
 import { connect } from 'dva'
 import { IP, PAGE_LIMIT } from '@/common/constants'
 import moment from 'moment'
@@ -78,35 +78,71 @@ class Index extends Component {
   }
   //列表数据
   supp_fetchReconciliationHistoryPageList = ()=>{
-      const {
-          supplier_id,
-          time_start,
-          time_end,
-          supp_goods_id,
-          cust_site_id,
-          status,
-          page,
-          limit,
-      } = this.state;
+      const methodData = {
+          supplier_id:this.state.supplier_id,
+          time_start:this.state.time_start,
+          time_end:this.state.time_end,
+          supp_goods_id:this.state.supp_goods_id,
+          cust_site_id:this.state.cust_site_id,
+          status:this.state.status,
+          page:this.state.page,
+          limit:this.state.limit,
+      }
       this.props.dispatch({
           type:'supplier/supp_fetchReconciliationHistoryPageList',
-          payload:{
-              supplier_id,
-              time_start,
-              time_end,
-              supp_goods_id,
-              cust_site_id,
-              status,
-              page,
-              limit,
-          }
+          payload:{methodData}
       })
   }
 
   //删除
   listDelete = (id)=>{
+      Modal.confirm({
+          title: '是否确认删除?',
+    onOk() {
       this.props.dispatch({type:'supplier/supp_fetchCorderDelete',payload:{id:id}});
+    },
+    onCancel() {},
+  });
 
+
+  }
+  //对账
+  listReconciliation = (id)=>{
+      Modal.confirm({
+          title: '是否确认对账?',
+    onOk() {
+      this.props.dispatch({type:'supplier/supp_fetchCorderReconciliation',payload:{id:id}});
+    },
+    onCancel() {},
+  });
+
+  }
+  //结款
+  listPayment = (id)=>{
+      Modal.confirm({
+          title: '是否确认对账?',
+    onOk() {
+      this.props.dispatch({type:'supplier/supp_fetchCorderPayment',payload:{id:id}});
+    },
+    onCancel() {},
+  });
+
+
+  }
+  //开票
+  listInvoice = (id)=>{
+      Modal.confirm({
+          title: '是否确认结款?',
+    onOk() {
+      this.props.dispatch({type:'supplier/supp_fetchCorderInvoice',payload:{id:id}});
+    },
+    onCancel() {},
+  });
+
+  }
+  //导出
+  listExport = (id)=>{
+      this.props.dispatch({type:'supplier/supp_fetchCorderExport',payload:{id:id}});
   }
 
 
@@ -116,18 +152,6 @@ class Index extends Component {
       this.state.supplier_id = SupplierDetail;
       this.props.dispatch({type:'supplier/supp_fetchCorderGoodsConditionList',payload:{id:SupplierDetail}});
 
-      let setIntervaler = null;
-      new Promise((resolve, reject)=>{
-          setIntervaler = setInterval(()=>{
-              let {supp_CorderGoodsConditionList} = this.props.supplier;
-              if(supp_CorderGoodsConditionList){
-                  resolve();
-              }
-          },100);
-      }).then(()=>{
-          clearInterval(setIntervaler);
-          this.supp_fetchReconciliationHistoryPageList();
-      })
 
   }
 
@@ -139,9 +163,6 @@ class Index extends Component {
     const {supp_CorderGoodsConditionList,supp_ReconciliationHistoryPageList} = supplier
     const {cars,goods,sites} = supp_CorderGoodsConditionList ? supp_CorderGoodsConditionList : {cars:null,goods:null,sites:null};
     const {total,list} = supp_ReconciliationHistoryPageList ? supp_ReconciliationHistoryPageList : {total:0,list:[]};
-    if(cars){this.state.car_head_id = cars[0].id}
-    if(goods){this.state.supp_goods_id = goods[0].id}
-    if(sites){this.state.cust_site_id = sites[0].id}
 
 
     const columns = [{
@@ -188,6 +209,17 @@ class Index extends Component {
         title: '状态',
         dataIndex: 'status',
         key: 'status',
+        render:(text, record, index)=>{
+            let statusText = '';
+            if(record.status==61){statusText='对账中'}
+            if(record.status==62){statusText='已对账'}
+            if(record.status==63){statusText='待结款'}
+            if(record.status==64){statusText='待开票'}
+            if(record.status==65){statusText='已完成'}
+            if(record.status==66){statusText='已结款'}
+            if(record.status==67){statusText='已开票'}
+            return <span>{statusText}</span>
+        }
     }, {
       align: 'center',
       title: '操作',
@@ -198,15 +230,13 @@ class Index extends Component {
           <Button className='line-primary' onClick={() => {
             let url = new URL(window.location.href)
             let arr = url.pathname.split('/')
-            router.push(`/${arr[1]}/${arr[2]}/ReconciliationDetails?id=${record.id}&${url.search.substr(1)}`)
+            router.push(`/${arr[1]}/${arr[2]}/ReconciliationDetails?id=${record.id}`)
           }}>明细</Button>
-          <Button className='line-primary'>导出</Button>
-          <Button className='line-primary'>确认对账</Button>
-          <Button className='line-primary'>确认结款</Button>
-          <Button className='line-primary'>确认开票</Button>
-          <Popconfirm title='确定要删除改天信息吗？' onConfirm={this.listDelete.bind(this,record.id)} onCancel={()=>{}} okText="确认" cancelText="取消" >
-            <Button className='line-red'>删除</Button>
-          </Popconfirm>
+          <Button className='line-primary' onClick={this.listExport.bind(this,record.id)} >导出</Button>
+          <Button className='line-primary' onClick={this.listReconciliation.bind(this,record.id)}  disabled={!(record.status==61)} >确认对账</Button>
+          <Button className='line-primary' onClick={this.listPayment.bind(this,record.id)} disabled={!(record.status==63)} >确认结款</Button>
+          <Button className='line-primary' onClick={this.listInvoice.bind(this,record.id)} disabled={!(record.status==(63 || 64))} >确认开票</Button>
+          <Button onClick={this.listDelete.bind(this,record.id)} className='line-red'>删除</Button>
         </ButtonGroup>
       ),
     }];
@@ -236,7 +266,7 @@ class Index extends Component {
           />
           <span style={{margin: '0 12px 0 20px',display:'none'}}>车牌</span>
           {null &&
-             <Select defaultValue={cars[0].id} style={{width: '8.75rem'}} onChange={(value)=>{
+             <Select defaultValue={this.state.car_head_id ? this.state.car_head_id : cars[0].id} style={{width: '8.75rem'}} onChange={(value)=>{
                  this.state.car_head_id = value;
                  this.supp_fetchReconciliationHistoryPageList();
              }} >
@@ -246,7 +276,7 @@ class Index extends Component {
           </Select>}
           <span style={{margin: '0 12px 0 20px'}}>气源</span>
           {goods &&
-             <Select defaultValue={goods[0].id} style={{width: '8.75rem'}} onChange={(value)=>{
+             <Select defaultValue={this.state.supp_goods_id ? this.state.supp_goods_id : goods[0].id} style={{width: '8.75rem'}} onChange={(value)=>{
                  this.state.supp_goods_id = value;
                  this.supp_fetchReconciliationHistoryPageList();
              }} >
@@ -256,7 +286,7 @@ class Index extends Component {
           </Select>}
           <span style={{margin: '0 12px 0 20px'}}>站点</span>
           {sites &&
-             <Select defaultValue={sites[0].id} style={{width: '8.75rem'}} onChange={(value)=>{
+             <Select defaultValue={this.state.cust_site_id ? this.state.cust_site_id : sites[0].id} style={{width: '8.75rem'}} onChange={(value)=>{
                  this.state.cust_site_id = value;
                  this.supp_fetchReconciliationHistoryPageList();
              }} >
@@ -272,7 +302,7 @@ class Index extends Component {
             <Option value="" style={{color: '#7B7B7B'}}>全部</Option>
             <Option value="61" style={{color: '#FFAD4D'}}>对账中</Option>
             <Option value="62" style={{color: '#8FCBFF'}}>已对账</Option>
-            <Option value="65" style={{color: '#91A5F5'}}>已开票</Option>
+            <Option value="67" style={{color: '#91A5F5'}}>已开票</Option>
           </Select>
         </div>
         <div className='table-container'>
