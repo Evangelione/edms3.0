@@ -35,9 +35,7 @@ class OrderList extends Component {
   }
 
   goSupplierHistory = (id, name) => {
-    router.push({
-      pathname: `/trading/supplier/${id}?company=${name}`,
-    })
+    router.push(`/trading/supplier/${id}?company=${name}`)
     this.props.dispatch({
       type: 'global/save',
       payload: {
@@ -47,9 +45,7 @@ class OrderList extends Component {
   }
 
   goClientHistory = (id, name) => {
-    router.push({
-      pathname: `/trading/client/${id}?company=${name}`,
-    })
+    router.push(`/trading/client/${id}?company=${name}`)
     this.props.dispatch({
       type: 'global/save',
       payload: {

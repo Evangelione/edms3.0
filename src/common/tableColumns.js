@@ -1,5 +1,6 @@
-import { Button } from 'antd'
+import { Button, Popconfirm, message } from 'antd'
 import router from 'umi/router'
+import { statusVar, statusVar2 } from '@/common/constants'
 
 const ButtonGroup = Button.Group
 
@@ -26,23 +27,23 @@ export const salesHistoryColumns = [{
 }, {
   align: 'center',
   title: '站点',
-  dataIndex: 'g_cust_id2123',
-  key: 'g_cust_id2123',
+  dataIndex: 'site_name',
+  key: 'site_name',
 }, {
   align: 'center',
   title: '装货量（吨）',
-  dataIndex: 'g_cust_id3',
-  key: 'g_cust_id3',
+  dataIndex: 'load_quantity',
+  key: 'load_quantity',
 }, {
   align: 'center',
   title: '卸货量（吨）',
-  dataIndex: 'g_cust_id4',
-  key: 'g_cust_id',
+  dataIndex: 'unload_quantity',
+  key: 'unload_quantity',
 }, {
   align: 'center',
   title: '结算量（吨）',
-  dataIndex: 'unload_quantity',
-  key: 'unload_quantity',
+  dataIndex: 'charge_quantity',
+  key: 'charge_quantity',
 }, {
   align: 'center',
   title: '销售价（元/吨）',
@@ -51,8 +52,8 @@ export const salesHistoryColumns = [{
 }, {
   align: 'center',
   title: '销售额（元）',
-  dataIndex: 'xse',
-  key: 'xse',
+  dataIndex: 'fee_sum',
+  key: 'fee_sum',
 }, {
   align: 'center',
   title: '额外费用（元）',
@@ -61,64 +62,66 @@ export const salesHistoryColumns = [{
 }, {
   align: 'center',
   title: '合计金额（元）',
-  dataIndex: 'hjje',
-  key: 'hjje',
+  dataIndex: 'total_sum',
+  key: 'total_sum',
 }, {
   align: 'center',
   title: '状态',
   dataIndex: 'status',
   key: 'status',
+  render: (text) => (
+    <div>{statusVar[text]}</div>
+  ),
 }]
 
 export const clientReconciliationHistoryColumns = [{
   align: 'center',
   title: '操作时间',
-  dataIndex: 'czsj',
-  key: 'czsj',
-}, {
-  align: 'center',
-  title: '操作人',
-  dataIndex: 'czr',
-  key: 'czr',
+  dataIndex: 'check_time',
+  key: 'check_time',
 }, {
   align: 'center',
   title: '客户',
-  dataIndex: 'kh',
-  key: 'kh',
+  dataIndex: 'customer_name',
+  key: 'customer_name',
 }, {
   align: 'center',
   title: '气源',
-  dataIndex: 'qy',
-  key: 'qy',
+  dataIndex: 'goods',
+  key: 'goods',
 }, {
   align: 'center',
   title: '站点',
-  dataIndex: 'zd',
-  key: 'zd',
+  dataIndex: 'sites',
+  key: 'sites',
 }, {
   align: 'center',
   title: '对账周期',
-  dataIndex: 'dzzq',
   key: 'dzzq',
+  render: (text, record) => {
+    return <div>{record.account_cycle_start} - {record.account_cycle_end}</div>
+  },
 }, {
   align: 'center',
   title: '对账量',
-  dataIndex: 'dzl',
-  key: 'dzl',
+  dataIndex: 'purchase_count',
+  key: 'purchase_count',
 }, {
   align: 'center',
   title: '对账额（元）',
-  dataIndex: 'dze',
-  key: 'dze',
+  dataIndex: 'total_account',
+  key: 'total_account',
 }, {
   align: 'center',
   title: '状态',
-  dataIndex: 'zt',
-  key: 'zt',
+  dataIndex: 'status',
+  key: 'status',
+  render: (text) => (
+    <div>{statusVar2[text]}</div>
+  ),
 }, {
   align: 'center',
   title: '操作',
-  dataIndex: 'cz',
   key: 'cz',
   render: (text, record, index) => (
     <ButtonGroup className='button-group'>
@@ -131,7 +134,14 @@ export const clientReconciliationHistoryColumns = [{
       <Button className='line-primary'>确认对账</Button>
       <Button className='line-primary'>确认结款</Button>
       <Button className='line-primary'>确认开票</Button>
-      <Button className='line-red'>删除</Button>
+      <Popconfirm title="确定删除此条记录？" placement="left" onConfirm={() => {
+        window.g_app._store.dispatch({
+          type: '',
+          payload: {},
+        })
+      }}>
+        <Button className='line-red'>删除</Button>
+      </Popconfirm>
     </ButtonGroup>
   ),
 }]
@@ -210,7 +220,7 @@ export const logisticsReconciliationHistoryColumns = [{
   title: '操作时间',
   dataIndex: 'czsj',
   key: 'czsj',
-},{
+}, {
   align: 'center',
   title: '操作人',
   dataIndex: 'czr',

@@ -21,7 +21,7 @@ function BasicLayout({children, location}) {
 
   return (
     <LocaleProvider locale={zh_CN}>
-      <Layout className={styles.layout} id='scrollTop'>
+      <Layout className={styles.layout} id='scrollTop' style={{minWidth: 1920}}>
         <MyHeader location={location} />
         <MyContent location={location} children={children} />
       </Layout>

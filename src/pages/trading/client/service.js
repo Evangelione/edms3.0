@@ -2,7 +2,7 @@ import request from '@/common/request'
 import { IP, PAGE_LIMIT } from '@/common/constants'
 
 
-export function fetchClientList({page, customer_name}) {
+export function fetchClientList({ page, customer_name }) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
@@ -67,7 +67,7 @@ export function setClientFinance(form) {
   })
 }
 
-export function fetchSiteList({page, customer_id, site_name}) {
+export function fetchSiteList({ page, customer_id, site_name }) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
@@ -124,6 +124,42 @@ export function upLoadExcel(file) {
   let formData = new FormData()
   formData.append(file.filename, file.file)
   return request(file.action, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function fetchOrderCondition(customer_id) {
+  let formData = new FormData()
+  formData.append('customer_id', customer_id)
+  return request(`${IP}/index/cust/corder-condition`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function fetchClientHistory(form, page) {
+  let formData = new FormData()
+  Object.keys(form).forEach((key, i) => {
+    formData.append(key, form[key] || '')
+  })
+  formData.append('page', page)
+  formData.append('limit', PAGE_LIMIT)
+  return request(`${IP}/index/cust/order-page`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function fetchReconciliationHistory(form, page) {
+  let formData = new FormData()
+  Object.keys(form).forEach((key, i) => {
+    formData.append(key, form[key] || '')
+  })
+  formData.append('page', page)
+  formData.append('limit', PAGE_LIMIT)
+  return request(`${IP}/index/cust/corder-page`, {
     method: 'POST',
     body: formData,
   })

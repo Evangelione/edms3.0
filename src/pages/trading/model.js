@@ -3,8 +3,8 @@ export default {
   state: {},
 
   subscriptions: {
-    setup({dispatch, history}) {
-      return history.listen(({pathname, query}) => {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
         // if (pathname === '/') {
         //   dispatch({type: 'count', payload: query})
         //   dispatch({type: 'customerPer', payload: query})
@@ -24,7 +24,7 @@ export default {
 
   reducers: {
     save(state, action) {
-      return {...state, ...action.payload}
+      return { ...state, ...action.payload }
     },
   },
 }
