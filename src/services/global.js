@@ -1,6 +1,11 @@
 import request from '@/common/request'
 import { IP } from '@/common/constants'
 
+//退出登录
+export function fetchLogout({ }) {
+  return request(`${IP}/index/login/logout`, {
+    method: 'POST' })
+}
 
 export function inquireCascadeOptions({ module, district_name }) {
   let formData = new FormData()

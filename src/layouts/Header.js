@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Icon, Popover } from 'antd'
+import { Layout, Icon, Popover ,Button,Modal} from 'antd'
 import { menuData } from '@/common/constants'
 import { connect } from 'dva'
 import router from 'umi/router'
@@ -38,6 +38,17 @@ class MyHeader extends Component {
     router.push(menuPath + linkPath)
   }
 
+  fetchLogout = (_this)=>{
+      Modal.confirm({
+          title: '您是否要退出登录?',
+    onOk() {
+      _this.props.dispatch({type:'global/fetchLogout',payload:{}});
+    },
+    onCancel() {},
+  });
+
+  }
+
   render() {
     const { global: { menuPath, linkPath } } = this.props
     const menu = menuData.find(value => {
@@ -54,6 +65,9 @@ class MyHeader extends Component {
           <div>{value.name}</div>
         </div>
       })}
+      <div style={{width:'100%',textAlign:'center',marginTop:30,marginLeft:-10}} >
+        <Button className='yellow-btn' style={{ marginLeft: 10 }} onClick={this.fetchLogout.bind(this,this)}>退出登录</Button>
+      </div>
     </div>
     return (
       <Header className='top-menu'>

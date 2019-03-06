@@ -28,6 +28,20 @@ export default {
   },
 
   effects: {
+      //退出登录
+      * fetchLogout({ payload: { } }, { call, put }) {
+        const { data } = yield call(globalServices.fetchLogout, { })
+        if(parseInt(data.code) === 1){
+            localStorage.removeItem('userData')
+            router.push({pathname:'/login'})
+        }else{
+            message.error(data.msg)
+        }
+
+
+
+      },
+
     * inquireCascadeOptions({ payload: { module, district_name = '', targetOption } }, { call, put, select }) {
       const { data } = yield call(globalServices.inquireCascadeOptions, { module, district_name })
       if (parseInt(data.code) === 1) {

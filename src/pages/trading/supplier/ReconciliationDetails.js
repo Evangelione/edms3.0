@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Button, DatePicker, Select, Table, Pagination } from 'antd'
+import { Button, DatePicker, Select, Table, Pagination,Modal } from 'antd'
 import { connect } from 'dva'
 import { IP, PAGE_LIMIT } from '@/common/constants'
 import router from 'umi/router'
 
 const Option = Select.Option
+
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker
 
 @connect(({ supplier, loading }) => ({
   supplier,
@@ -15,54 +17,49 @@ const Option = Select.Option
 
 class ReconciliationDetails extends Component {
   state = {
-    startValue: null,
-    endValue: null,
-    endOpen: false,
 
-
-    id:'',
     page:1,
     limit:PAGE_LIMIT,
   }
 
-  disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue
-    if (!startValue || !endValue) {
-      return false
-    }
-    return startValue.valueOf() > endValue.valueOf()
-  }
 
-  disabledEndDate = (endValue) => {
-    const startValue = this.state.startValue
-    if (!endValue || !startValue) {
-      return false
-    }
-    return endValue.valueOf() <= startValue.valueOf()
-  }
+  //对账
+  listReconciliation = (id)=>{
+      Modal.confirm({
+          title: '是否确认对账?',
+    onOk() {
+      this.props.dispatch({type:'supplier/supp_fetchCorderReconciliation',payload:{id:id}});
+    },
+    onCancel() {},
+  });
 
-  onChange = (field, value) => {
-    this.setState({
-      [field]: value,
-    })
   }
+  //结款
+  listPayment = (id)=>{
+      Modal.confirm({
+          title: '是否确认对账?',
+    onOk() {
+      this.props.dispatch({type:'supplier/supp_fetchCorderPayment',payload:{id:id}});
+    },
+    onCancel() {},
+  });
 
-  onStartChange = (value) => {
-    this.onChange('startValue', value)
+
   }
+  //开票
+  listInvoice = (id)=>{
+      Modal.confirm({
+          title: '是否确认结款?',
+    onOk() {
+      this.props.dispatch({type:'supplier/supp_fetchCorderInvoice',payload:{id:id}});
+    },
+    onCancel() {},
+  });
 
-  onEndChange = (value) => {
-    this.onChange('endValue', value)
   }
-
-  handleStartOpenChange = (open) => {
-    if (!open) {
-      this.setState({ endOpen: true })
-    }
-  }
-
-  handleEndOpenChange = (open) => {
-    this.setState({ endOpen: open })
+  //导出
+  listExport = (id)=>{
+      this.props.dispatch({type:'supplier/supp_fetchCorderExport',payload:{id:id}});
   }
 
   componentWillMount(){
@@ -71,17 +68,20 @@ class ReconciliationDetails extends Component {
       this.props.dispatch({type:'supplier/supp_fetchCorderDetail',payload:{id:id}});
   }
 
+
+
+
+
   render() {
-    const { company } = this.props.location.query
+
+    const {company,start,end,status} = this.props.location.query
 
     const { startValue, endValue, endOpen } = this.state
     const { supplier, loading } = this.props
     const { supp_CorderDetail,supp_CorderGoodsConditionList } = supplier
     const {cars,goods,sites} = supp_CorderGoodsConditionList ? supp_CorderGoodsConditionList : {cars:null,goods:null,sites:null};
     const {total,list} = supp_CorderDetail ? supp_CorderDetail : {total:0,list:[]};
-    console.log(supp_CorderDetail);
 
-    console.log(supplier);
 
     const salesHistoryColumns = [{
       align: 'center',
@@ -169,12 +169,12 @@ class ReconciliationDetails extends Component {
                style={{ margin: '0 20px 0 40px' }} alt="" />
           <span className='font-purple-color' style={{ fontWeight: 'bold' }}>{company}</span>
           <span className='font-purple-color'
-                style={{ marginLeft: 40 }}>销售对账明细&nbsp;&nbsp;&nbsp;&nbsp;{company} 至 {company}</span>
+                style={{ marginLeft: 40 }}>销售对账明细<span style={{color:'#999',marginLeft:40}} >{start}</span> 至 <span style={{color:'#999'}} >{end}</span></span>
           <div style={{ float: 'right' }}>
-            <Button type='primary' style={{ marginRight: 10 }}>全部导出</Button>
-            <Button type='primary' style={{ marginRight: 10 }}>确认对账</Button>
-            <Button type='primary' style={{ marginRight: 10 }}>确认付款</Button>
-            <Button type='primary'>确认开票</Button>
+            <Button type='primary' style={{ marginRight: 10 }} onClick={this.listExport.bind(this,this.state.id)} >全部导出</Button>
+            <Button type='primary' style={{ marginRight: 10 }} onClick={this.listReconciliation.bind(this,this.state.id)} style={{display:status==61 ? 'inline-block' : 'none'}} >确认对账</Button>
+            <Button type='primary' style={{ marginRight: 10 }} onClick={this.listPayment.bind(this,this.state.id)} style={{display:status==63 ? 'inline-block' : 'none'}} >确认结款</Button>
+            <Button type='primary' onClick={this.listInvoice.bind(this,this.state.id)} style={{display:status==(63 || 64) ? 'inline-block' : 'none'}} >确认开票</Button>
 
           </div>
         </div>
@@ -186,25 +186,16 @@ class ReconciliationDetails extends Component {
         <div style={{ padding: '0px 24px 60px' }}>
           <div style={{ textAlign: 'right', fontSize: '1rem', margin: '20px 0px' }}>
             <span style={{ marginRight: 10 }}>对账时间</span>
-            <DatePicker
-              disabledDate={this.disabledStartDate}
-              showTime
-              format="YYYY-MM-DD HH:mm"
-              value={startValue}
-              placeholder="起始时间"
-              onChange={this.onStartChange}
-              onOpenChange={this.handleStartOpenChange}
-            />
-            <span style={{ margin: '0 10px' }}>-</span>
-            <DatePicker
-              disabledDate={this.disabledEndDate}
-              showTime
-              format="YYYY-MM-DD HH:mm"
-              value={endValue}
-              placeholder="截止时间"
-              onChange={this.onEndChange}
-              open={endOpen}
-              onOpenChange={this.handleEndOpenChange}
+            <RangePicker
+                showTime
+                style={{width:440}}
+                format="YYYY-MM-DD HH:mm"
+                onChange={(moment,timeText)=>{
+
+                }}
+                onOk={()=>{
+
+                }}
             />
             <span style={{ margin: '0 12px 0 20px' }}>车牌</span>
             <Select defaultValue="jack" style={{ width: '8.75rem' }}>
@@ -224,29 +215,16 @@ class ReconciliationDetails extends Component {
               <Option value="lucy">利润贡献</Option>
               <Option value="Yiminghe">贡献占比</Option>
             </Select>
-            <span style={{ margin: '0 12px 0 20px' }}>状态</span>
-            <Select defaultValue="" style={{ width: '8.75rem' }}>
-              <Option value="" style={{ color: '#7B7B7B' }}>全部</Option>
-              <Option value="1" style={{ color: '#FFAD4D' }}>对账中</Option>
-              <Option value="2" style={{ color: '#8FCBFF' }}>已对账</Option>
-              <Option value="3" style={{ color: '#91A5F5' }}>已开票</Option>
-            </Select>
           </div>
           <div className='table-container'>
             <Table
               columns={salesHistoryColumns}
               dataSource={list}
               loading={loading}
-              pagination={false}
-              rowKey={record => record.id}
+              pagination={{pageSize:this.state.limit}}
               highLightColor={'#aaa'}
-              rowClassName={(record, index) => {
-                return index % 2 === 0 ? 'oddRow' : 'evenRow'
-              }}
+              rowKey = {(record)=>(record.id)}
             />
-          </div>
-          <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <Pagination current={this.state.page} pageSize={this.state.limit} total={parseInt(total)} />
           </div>
         </div>
       </div>
