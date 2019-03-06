@@ -3,6 +3,7 @@ import { Button, DatePicker, Select, Table, Pagination } from 'antd'
 import { connect } from 'dva'
 import { salesHistoryColumns } from '@/common/tableColumns'
 import router from 'umi/router'
+import { IP } from '@/common/constants'
 
 const Option = Select.Option
 
@@ -18,6 +19,29 @@ class ReconciliationDetails extends Component {
     endValue: null,
     endOpen: false,
     selectedRowKeys: [],
+  }
+
+  componentDidMount() {
+    console.log(this.props)
+    this.props.dispatch({
+      type: 'logistics/fetchLogisticsCondition',
+      payload: {
+        logistics_id: this.props.location.query.id,
+      },
+    }).then(() => {
+      const { logisticsCondition } = this.props.logistics
+      console.log(logisticsCondition)
+      this.setState({
+        supp_goods_id: logisticsCondition.goods[0].id,
+        cust_site_id: logisticsCondition.sites[0].id,
+      })
+      this.props.dispatch({
+        type: 'logistics/fetchReconciliationDetail',
+        payload: {
+          id: this.props.location.query.id,
+        },
+      })
+    })
   }
 
   disabledStartDate = (startValue) => {
@@ -60,11 +84,70 @@ class ReconciliationDetails extends Component {
     this.setState({ endOpen: open })
   }
 
+
+  confirmReconciliation = (id) => {
+    this.props.dispatch({
+      type: 'logistics/confirmReconciliation',
+      payload: {
+        id,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'logistics/fetchReconciliationDetail',
+        payload: {
+          id: this.props.location.query.id,
+        },
+      })
+    })
+  }
+
+  payment = (id) => {
+    this.props.dispatch({
+      type: 'logistics/payment',
+      payload: {
+        id,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'logistics/fetchReconciliationDetail',
+        payload: {
+          id: this.props.location.query.id,
+        },
+      })
+    })
+  }
+
+  billing = (id) => {
+    this.props.dispatch({
+      type: 'logistics/billing',
+      payload: {
+        id,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'logistics/fetchReconciliationDetail',
+        payload: {
+          id: this.props.location.query.id,
+        },
+      })
+    })
+  }
+
+  pageChange = (page) => {
+    this.props.dispatch({
+      type: 'logistics/fetchReconciliationDetail',
+      payload: {
+        id: this.props.location.query.id,
+        page,
+      },
+    })
+  }
+
   render() {
     const { company } = this.props.location.query
     const { startValue, endValue, endOpen } = this.state
     const { logistics, loading } = this.props
-    const { logisticsHistoryList } = logistics
+    const { detailHistoryList, detailHistoryPage, detailHistoryTotal } = logistics
 
     return (
       <div>
@@ -76,10 +159,16 @@ class ReconciliationDetails extends Component {
           <span className='font-purple-color'
                 style={{ marginLeft: 40 }}>销售对账明细&nbsp;&nbsp;&nbsp;&nbsp;{company} 至 {company}</span>
           <div style={{ float: 'right' }}>
-            <Button type='primary' style={{ marginRight: 10 }}>确认对账</Button>
-            <Button type='primary' style={{ marginRight: 10 }}>确认开票</Button>
-            <Button type='primary'>全部导出</Button>
-
+            <Button type='primary' style={{ marginRight: 10 }} onClick={() => {
+              window.location.href = `${IP}/index/logistics/corder-export?id=${this.props.location.query.id}`
+            }}>全部导出</Button>
+            <Button type='primary' style={{ marginRight: 10 }} disabled={this.props.location.query.status !== '61'}
+                    onClick={this.confirmReconciliation.bind(null, this.props.location.query.id)}>确认对账</Button>
+            <Button type='primary' style={{ marginRight: 10 }}
+                    disabled={this.props.location.query.payment_status === '1'}
+                    onClick={this.payment.bind(null, this.props.location.query.id)}>确认付款</Button>
+            <Button type='primary' onClick={this.billing.bind(null, this.props.location.query.id)}
+                    disabled={this.props.location.query.invoice_status === '1'}>确认开票</Button>
           </div>
         </div>
         {/*<Tabs defaultActiveKey='1' style={{padding: '12px 24px 60px'}}>*/}
@@ -139,7 +228,7 @@ class ReconciliationDetails extends Component {
           <div className='table-container'>
             <Table
               columns={salesHistoryColumns}
-              dataSource={logisticsHistoryList}
+              dataSource={detailHistoryList}
               loading={loading}
               pagination={false}
               rowKey={record => record.id}
@@ -150,7 +239,7 @@ class ReconciliationDetails extends Component {
             />
           </div>
           <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <Pagination defaultCurrent={1} total={50} />
+            <Pagination defaultCurrent={detailHistoryPage} total={detailHistoryTotal} onChange={this.pageChange} />
           </div>
         </div>
       </div>

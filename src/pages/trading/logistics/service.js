@@ -114,3 +114,86 @@ export function deleteFleetCarBody(id, car_body_id) {
     body: formData,
   })
 }
+
+export function fetchLogisticsHistory(form, page) {
+  let formData = new FormData()
+  Object.keys(form).forEach((key, i) => {
+    formData.append(key, form[key] || '')
+  })
+  formData.append('page', page)
+  formData.append('limit', PAGE_LIMIT)
+  return request(`${IP}/index/logistics/order-page`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function fetchLogisticsCondition(logistics_id) {
+  let formData = new FormData()
+  formData.append('logistics_id', logistics_id)
+  return request(`${IP}/index/logistics/corder-condition`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function fetchReconciliationHistory(form, page) {
+  let formData = new FormData()
+  Object.keys(form).forEach((key, i) => {
+    formData.append(key, form[key] || '')
+  })
+  formData.append('page', page)
+  formData.append('limit', PAGE_LIMIT)
+  return request(`${IP}/index/logistics/corder-page`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function deleteReconciliationHistory(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/logistics/corder-delete`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+
+export function confirmReconciliation(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/logistics/corder-confirm`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function payment(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/logistics/corder-pay`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function billing(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/logistics/corder-invoice`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function fetchReconciliationDetail(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/logistics/corder-detail`, {
+    method: 'POST',
+    body: formData,
+  })
+}

@@ -175,14 +175,38 @@ export function deleteReconciliationHistory(id) {
 }
 
 
-export function downloadExcel(id) {
+export function confirmReconciliation(id) {
   let formData = new FormData()
   formData.append('id', id)
-  return request(`${IP}/index/cust/corder-export`, {
+  return request(`${IP}/index/cust/corder-confirm`, {
     method: 'POST',
     body: formData,
-    headers: {
-      'responseType': 'arraybuffer',
-    },
+  })
+}
+
+export function payment(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/cust/corder-pay`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function billing(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/cust/corder-invoice`, {
+    method: 'POST',
+    body: formData,
+  })
+}
+
+export function fetchReconciliationDetail(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/cust/corder-detail`, {
+    method: 'POST',
+    body: formData,
   })
 }

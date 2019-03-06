@@ -22,6 +22,10 @@ export default {
     reconciliationHistoryTotal: 0,
     clientCondition: {},
     reconciliationClient: {},
+    detailHistoryList: [],
+    detailHistoryPage: 1,
+    detailHistoryTotal: 0,
+
   },
 
   subscriptions: {
@@ -194,13 +198,40 @@ export default {
         :
         message.error(data.msg)
     },
-    * downloadExcel({ payload: { id } }, { call, put }) {
-      const { data } = yield call(clientService.downloadExcel, id)
-      console.log(data)
-      // parseInt(data.code, 10) === 1 ?
-      //   message.success(data.msg)
-      //   :
-      //   message.error(data.msg)
+    * confirmReconciliation({ payload: { id } }, { call, put }) {
+      const { data } = yield call(clientService.confirmReconciliation, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * payment({ payload: { id } }, { call, put }) {
+      const { data } = yield call(clientService.payment, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * billing({ payload: { id } }, { call, put }) {
+      const { data } = yield call(clientService.billing, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * fetchReconciliationDetail({ payload: { page = 1, id } }, { call, put }) {
+      const { data } = yield call(clientService.fetchReconciliationDetail, id)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            detailHistoryList: data.data.list,
+            detailHistoryPage: parseInt(page, 10),
+            detailHistoryTotal: parseInt(data.data.total, 10),
+          },
+        })
+        :
+        message.error(data.msg)
     },
   },
 

@@ -4,6 +4,7 @@ import { connect } from 'dva'
 import widthRouter from 'umi/withRouter'
 import { statusVar2 } from '@/common/constants'
 import router from 'umi/router'
+import { IP } from '@/common/constants'
 
 const Option = Select.Option
 const ButtonGroup = Button.Group
@@ -99,7 +100,7 @@ class Index extends Component {
       [field]: val,
     }, () => {
       if (field === 'time_start' || field === 'time_end') {
-        val = val.format('YYYY-MM-DD')
+        val = val ? val.format('YYYY-MM-DD') : val
       }
       this.props.dispatch({
         type: 'client/fetchReconciliationHistory',
@@ -136,6 +137,74 @@ class Index extends Component {
     })
   }
 
+  confirmReconciliation = (id) => {
+    this.props.dispatch({
+      type: 'client/confirmReconciliation',
+      payload: {
+        id,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'client/fetchReconciliationHistory',
+        payload: {
+          form: {
+            cust_id: this.props.match.params.ClientDetail,
+            time_start: this.state.time_start ? this.state.time_start.format('YYYY-MM-DD') : '',
+            time_end: this.state.time_end ? this.state.time_end.format('YYYY-MM-DD') : '',
+            supp_goods_id: this.state.supp_goods_id,
+            cust_site_id: this.state.cust_site_id,
+            status: this.state.status,
+          },
+        },
+      })
+    })
+  }
+
+  payment = (id) => {
+    this.props.dispatch({
+      type: 'client/payment',
+      payload: {
+        id,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'client/fetchReconciliationHistory',
+        payload: {
+          form: {
+            cust_id: this.props.match.params.ClientDetail,
+            time_start: this.state.time_start ? this.state.time_start.format('YYYY-MM-DD') : '',
+            time_end: this.state.time_end ? this.state.time_end.format('YYYY-MM-DD') : '',
+            supp_goods_id: this.state.supp_goods_id,
+            cust_site_id: this.state.cust_site_id,
+            status: this.state.status,
+          },
+        },
+      })
+    })
+  }
+
+  billing = (id) => {
+    this.props.dispatch({
+      type: 'client/billing',
+      payload: {
+        id,
+      },
+    }).then(() => {
+      this.props.dispatch({
+        type: 'client/fetchReconciliationHistory',
+        payload: {
+          form: {
+            cust_id: this.props.match.params.ClientDetail,
+            time_start: this.state.time_start ? this.state.time_start.format('YYYY-MM-DD') : '',
+            time_end: this.state.time_end ? this.state.time_end.format('YYYY-MM-DD') : '',
+            supp_goods_id: this.state.supp_goods_id,
+            cust_site_id: this.state.cust_site_id,
+            status: this.state.status,
+          },
+        },
+      })
+    })
+  }
 
   render() {
     const { time_start, time_end, endOpen, supp_goods_id, cust_site_id, status } = this.state
@@ -196,19 +265,17 @@ class Index extends Component {
           <Button className='line-primary' onClick={() => {
             let url = new URL(window.location.href)
             let arr = url.pathname.split('/')
-            router.push(`/${arr[1]}/${arr[2]}/ReconciliationDetails?id=${record.id}&${url.search.substr(1)}`)
+            router.push(`/${arr[1]}/${arr[2]}/ReconciliationDetails?status=${record.status}&payment_status=${record.payment_status}&invoice_status=${record.invoice_status}&id=${record.id}&${url.search.substr(1)}`)
           }}>明细</Button>
           <Button className='line-primary' onClick={() => {
-            this.props.dispatch({
-              type: 'client/downloadExcel',
-              payload: {
-                id: record.id,
-              },
-            })
+            window.location.href = `${IP}/index/cust/corder-export?id=${record.id}`
           }}>导出</Button>
-          <Button className='line-primary'>确认对账</Button>
-          <Button className='line-primary'>确认结款</Button>
-          <Button className='line-primary'>确认开票</Button>
+          <Button className='line-primary' disabled={record.status !== '61'}
+                  onClick={this.confirmReconciliation.bind(null, record.id)}>确认对账</Button>
+          <Button className='line-primary' disabled={record.payment_status === '1'}
+                  onClick={this.payment.bind(null, record.id)}>确认结款</Button>
+          <Button className='line-primary' disabled={record.invoice_status === '1'}
+                  onClick={this.billing.bind(null, record.id)}>确认开票</Button>
           <Popconfirm title="确定删除此条记录？" placement="left" onConfirm={() => {
             this.props.dispatch({
               type: 'client/deleteReconciliationHistory',

@@ -147,7 +147,7 @@ class Index extends Component {
       [field]: val,
     }, () => {
       if (field === 'load_time_start' || field === 'load_time_end') {
-        val = val.format('YYYY-MM-DD')
+        val = val ? val.format('YYYY-MM-DD') : val
       }
       this.props.dispatch({
         type: 'client/fetchClientHistory',
@@ -266,15 +266,15 @@ class Index extends Component {
             <Option value={33}>已完成</Option>
             <Option value={34}>已取消</Option>
           </Select>
-          <Button className={!selectedRowKeys.length ? '' : 'ant-btn-primary'} style={{ marginRight: 10 }}
-                  disabled={!selectedRowKeys.length}>对账</Button>
+          {/*<Button className={!selectedRowKeys.length ? '' : 'ant-btn-primary'} style={{ marginRight: 10 }}*/}
+                  {/*disabled={!selectedRowKeys.length}>对账</Button>*/}
           <Button type='primary'>全部对账</Button>
         </div>
         <div className='table-container'>
           <Table
             columns={salesHistoryColumns}
             dataSource={salesHistoryList}
-            rowSelection={rowSelection}
+            // rowSelection={rowSelection}
             loading={loading}
             pagination={false}
             rowKey={record => record.id}

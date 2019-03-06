@@ -1,6 +1,6 @@
-import { Button, Popconfirm, message } from 'antd'
+import { Button, Popconfirm } from 'antd'
 import router from 'umi/router'
-import { statusVar, statusVar2 } from '@/common/constants'
+import { statusVar, statusVar2, statusVar3 } from '@/common/constants'
 
 const ButtonGroup = Button.Group
 
@@ -153,81 +153,74 @@ export const clientReconciliationHistoryColumns = [{
 export const logisticsHistoryColumns = [{
   align: 'center',
   title: '装车时间',
-  dataIndex: 'zcsj',
-  key: 'zcsj',
+  dataIndex: 'real_load_time',
+  key: 'real_load_time',
 }, {
   align: 'center',
   title: '车牌',
-  dataIndex: 'cp',
-  key: 'cp',
+  dataIndex: 'car_head_code',
+  key: 'car_head_code',
 }, {
   align: 'center',
   title: '物流',
-  dataIndex: 'kh',
-  key: 'kh',
+  dataIndex: 'logistics_name',
+  key: 'logistics_name',
 }, {
   align: 'center',
   title: '气源',
-  dataIndex: 'qy',
-  key: 'qy',
+  dataIndex: 'goods_name',
+  key: 'goods_name',
 }, {
   align: 'center',
   title: '站点',
-  dataIndex: 'zd',
-  key: 'zd',
+  dataIndex: 'site_name',
+  key: 'site_name',
 }, {
   align: 'center',
   title: '装货量（吨）',
-  dataIndex: 'zql123',
-  key: 'zq34l',
+  dataIndex: 'load_quantity',
+  key: 'load_quantity',
 }, {
   align: 'center',
   title: '卸货量（吨）',
-  dataIndex: 'zq23l',
-  key: 'z11ql',
+  dataIndex: 'unload_quantity',
+  key: 'unload_quantity',
 }, {
   align: 'center',
   title: '结算量（吨）',
-  dataIndex: 'jsl',
-  key: 'jsl',
+  dataIndex: 'charge_quantity',
+  key: 'charge_quantity',
 }, {
   align: 'center',
   title: '运输价（元/吨）',
-  dataIndex: 'xsj',
-  key: 'xsj',
+  dataIndex: 'price',
+  key: 'price',
 }, {
   align: 'center',
-  title: '运输总额（元）',
-  dataIndex: 'xse',
-  key: 'xse',
+  title: '运输距离（元）',
+  dataIndex: 'distance',
+  key: 'distance',
 }, {
   align: 'center',
-  title: '额外费用（元）',
-  dataIndex: 'ewfy',
-  key: 'ewfy',
-}, {
-  align: 'center',
-  title: '合计金额（元）',
-  dataIndex: 'ewfy',
-  key: 'ewfy',
+  title: '运输费（元）',
+  dataIndex: 'freight',
+  key: 'freight',
 }, {
   align: 'center',
   title: '状态',
-  dataIndex: 'zt',
-  key: 'zt',
+  dataIndex: 'deliver_status',
+  key: 'deliver_status',
+  render: (text) => (
+    <div>{statusVar3[text]}</div>
+  ),
 }]
 
 
 export const logisticsReconciliationHistoryColumns = [{
   align: 'center',
   title: '操作时间',
-  dataIndex: 'czsj',
-  key: 'czsj',
-}, {
-  align: 'center',
-  title: '操作人',
-  dataIndex: 'czr',
-  key: 'czr',
+  dataIndex: 'check_time',
+  key: 'check_time',
 }, {
   align: 'center',
   title: '物流',
@@ -236,33 +229,38 @@ export const logisticsReconciliationHistoryColumns = [{
 }, {
   align: 'center',
   title: '气源',
-  dataIndex: 'qy',
-  key: 'qy',
+  dataIndex: 'goods',
+  key: 'goods',
 }, {
   align: 'center',
   title: '站点',
-  dataIndex: 'zd',
-  key: 'zd',
+  dataIndex: 'sites',
+  key: 'sites',
 }, {
   align: 'center',
   title: '对账周期',
-  dataIndex: 'dzzq',
   key: 'dzzq',
+  render: (text, record) => {
+    return <div>{record.account_cycle_start} - {record.account_cycle_end}</div>
+  },
 }, {
   align: 'center',
   title: '对账量',
-  dataIndex: 'dzl',
-  key: 'dzl',
+  dataIndex: 'order_delivery_count',
+  key: 'order_delivery_count',
 }, {
   align: 'center',
   title: '对账额（元）',
-  dataIndex: 'dze',
-  key: 'dze',
+  dataIndex: 'total_account',
+  key: 'total_account',
 }, {
   align: 'center',
   title: '状态',
-  dataIndex: 'zt',
-  key: 'zt',
+  dataIndex: 'status',
+  key: 'status',
+  render: (text) => (
+    <div>{statusVar2[text]}</div>
+  ),
 }, {
   align: 'center',
   title: '操作',

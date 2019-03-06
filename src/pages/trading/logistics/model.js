@@ -1,5 +1,6 @@
 import { message } from 'antd'
 import * as logisticsService from './service'
+import * as clientService from '@/pages/trading/client/service'
 
 // 有些是假数据，未对接口
 export default {
@@ -13,32 +14,16 @@ export default {
     fleetList: [],
     fleetPage: 1,
     fleetTotal: 0,
-    logisticsHistoryList: [{
-      id: '1',
-      cp: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    }, {
-      id: '2',
-      cp: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    }],
+    logisticsHistoryList: [],
     logisticsHistoryPage: 1,
     logisticsHistoryTotal: 0,
-    reconciliationHistoryList: [{
-      id: '1',
-      kh: '胡彦斌12',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    }, {
-      id: '2',
-      kh: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    }],
+    reconciliationHistoryList: [],
     reconciliationHistoryPage: 0,
     reconciliationHistoryTotal: 0,
+    logisticsCondition: {},
+    detailHistoryList: [],
+    detailHistoryPage: 1,
+    detailHistoryTotal: 0,
   },
 
   subscriptions: {
@@ -158,6 +143,89 @@ export default {
       const { data } = yield call(logisticsService.deleteFleetCarBody, id, car_body_id)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * fetchLogisticsHistory({ payload: { page = 1, form } }, { call, put }) {
+      const { data } = yield call(logisticsService.fetchLogisticsHistory, form, page)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            logisticsHistoryList: data.data.list,
+            logisticsHistoryPage: parseInt(page, 10),
+            logisticsHistoryTotal: parseInt(data.data.total, 10),
+          },
+        })
+        :
+        message.error(data.msg)
+    },
+    * fetchLogisticsCondition({ payload: { logistics_id } }, { call, put }) {
+      const { data } = yield call(logisticsService.fetchLogisticsCondition, logistics_id)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            logisticsCondition: data.data,
+          },
+        })
+        :
+        message.error(data.msg)
+    },
+    * fetchReconciliationHistory({ payload: { form, page = 1 } }, { call, put }) {
+      const { data } = yield call(logisticsService.fetchReconciliationHistory, form, page)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            reconciliationHistoryList: data.data.list,
+            reconciliationHistoryPage: parseInt(page, 10),
+            reconciliationHistoryTotal: parseInt(data.data.total, 10),
+            reconciliationClient: data.data.customer,
+          },
+        })
+        :
+        message.error(data.msg)
+    },
+    * deleteReconciliationHistory({ payload: { id } }, { call, put }) {
+      const { data } = yield call(logisticsService.deleteReconciliationHistory, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * confirmReconciliation({ payload: { id } }, { call, put }) {
+      const { data } = yield call(logisticsService.confirmReconciliation, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * payment({ payload: { id } }, { call, put }) {
+      const { data } = yield call(logisticsService.payment, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * billing({ payload: { id } }, { call, put }) {
+      const { data } = yield call(logisticsService.billing, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * fetchReconciliationDetail({ payload: { page = 1, id } }, { call, put }) {
+      const { data } = yield call(logisticsService.fetchReconciliationDetail, id)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            detailHistoryList: data.data.list,
+            detailHistoryPage: parseInt(page, 10),
+            detailHistoryTotal: parseInt(data.data.total, 10),
+          },
+        })
         :
         message.error(data.msg)
     },

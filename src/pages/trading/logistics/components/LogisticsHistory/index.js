@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { DatePicker, Select, Button, Pagination, Table } from 'antd'
 import { connect } from 'dva'
 import { logisticsHistoryColumns } from '@/common/tableColumns'
+import widthRouter from 'umi/withRouter'
 
 const Option = Select.Option
 
@@ -13,44 +14,81 @@ const Option = Select.Option
 }))
 class Index extends Component {
   state = {
-    startValue: null,
-    endValue: null,
+    load_time_start: null,
+    load_time_end: null,
     endOpen: false,
     selectedRowKeys: [],
+    car_head_id: '',
+    supp_goods_id: '',
+    cust_site_id: '',
+    status: '',
+  }
+
+  componentDidMount() {
+    console.log(this.props.match)
+    this.props.dispatch({
+      type: 'logistics/fetchLogisticsCondition',
+      payload: {
+        logistics_id: this.props.match.params.LogisticsDetail,
+      },
+    }).then(() => {
+      const { logisticsCondition } = this.props.logistics
+      console.log(logisticsCondition)
+      this.setState({
+        car_head_id: logisticsCondition.cars[0].id,
+        supp_goods_id: logisticsCondition.goods[0].id,
+        cust_site_id: logisticsCondition.sites[0].id,
+      })
+      this.props.dispatch({
+        type: 'logistics/fetchLogisticsHistory',
+        payload: {
+          form: {
+            logistics_id: this.props.match.params.LogisticsDetail,
+            load_time_start: '',
+            load_time_end: '',
+            car_head_id: logisticsCondition.cars[0].id,
+            supp_goods_id: logisticsCondition.goods[0].id,
+            cust_site_id: logisticsCondition.sites[0].id,
+            status: '',
+          },
+        },
+      })
+    })
   }
 
   // 日期组件可选开始时间
-  disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue
-    if (!startValue || !endValue) {
+  disabledStartDate = (load_time_start) => {
+    const load_time_end = this.state.load_time_end
+    if (!load_time_start || !load_time_end) {
       return false
     }
-    return startValue.valueOf() > endValue.valueOf()
+    return load_time_start.valueOf() > load_time_end.valueOf()
   }
 
   // 日期组件可选结束时间
-  disabledEndDate = (endValue) => {
-    const startValue = this.state.startValue
-    if (!endValue || !startValue) {
+  disabledEndDate = (load_time_end) => {
+    const load_time_start = this.state.load_time_start
+    if (!load_time_end || !load_time_start) {
       return false
     }
-    return endValue.valueOf() <= startValue.valueOf()
+    return load_time_end.valueOf() <= load_time_start.valueOf()
   }
 
   // 开始时间修改
   onStartChange = (value) => {
-    this.onChange('startValue', value)
+    this.onChange('load_time_start', value)
   }
 
   // 结束时间修改
   onEndChange = (value) => {
-    this.onChange('endValue', value)
+    this.onChange('load_time_end', value)
   }
 
   onChange = (field, value) => {
-    this.setState({
-      [field]: value,
-    })
+    // this.setState({
+    //   [field]: value,
+    // })
+    this.fetchHistoryList(field, value)
   }
 
   handleStartOpenChange = (open) => {
@@ -82,10 +120,56 @@ class Index extends Component {
     this.setState({ selectedRowKeys })
   }
 
+  fetchHistoryList = (field, val) => {
+    console.log(field)
+    console.log(val)
+    this.setState({
+      [field]: val,
+    }, () => {
+      if (field === 'load_time_start' || field === 'load_time_end') {
+        val = val ? val.format('YYYY-MM-DD') : val
+      }
+      this.props.dispatch({
+        type: 'logistics/fetchLogisticsHistory',
+        payload: {
+          form: {
+            logistics_id: this.props.match.params.LogisticsDetail,
+            load_time_start: this.state.load_time_start ? this.state.load_time_start.format('YYYY-MM-DD') : '',
+            load_time_end: this.state.load_time_end ? this.state.load_time_end.format('YYYY-MM-DD') : '',
+            car_head_id: this.state.car_head_id,
+            supp_goods_id: this.state.supp_goods_id,
+            cust_site_id: this.state.cust_site_id,
+            status: this.state.status,
+            ...{ [field]: val },
+          },
+        },
+      })
+    })
+  }
+
+  pageChange = (page) => {
+    const { load_time_start, load_time_end, car_head_id, supp_goods_id, cust_site_id, status } = this.state
+    this.props.dispatch({
+      type: 'client/fetchClientHistory',
+      payload: {
+        form: {
+          logistics_id: this.props.match.params.LogisticsDetail,
+          load_time_start,
+          load_time_end,
+          car_head_id,
+          supp_goods_id,
+          cust_site_id,
+          status,
+        },
+        page,
+      },
+    })
+  }
+
   render() {
-    const { startValue, endValue, endOpen, selectedRowKeys } = this.state
+    const { load_time_start, load_time_end, endOpen, selectedRowKeys, car_head_id, supp_goods_id, cust_site_id, status } = this.state
     const { logistics, loading } = this.props
-    const { logisticsHistoryList, logisticsHistoryPage, logisticsHistoryTotal } = logistics
+    const { logisticsHistoryList, logisticsHistoryPage, logisticsHistoryTotal, logisticsCondition } = logistics
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectedRowKeysChange,
@@ -101,9 +185,8 @@ class Index extends Component {
           <span style={{ marginRight: 10 }}>装车时间</span>
           <DatePicker
             disabledDate={this.disabledStartDate}
-            showTime
-            format="YYYY-MM-DD HH:mm"
-            value={startValue}
+            format="YYYY-MM-DD"
+            value={load_time_start}
             placeholder="起始时间"
             onChange={this.onStartChange}
             onOpenChange={this.handleStartOpenChange}
@@ -111,47 +194,62 @@ class Index extends Component {
           <span style={{ margin: '0 10px' }}>-</span>
           <DatePicker
             disabledDate={this.disabledEndDate}
-            showTime
-            format="YYYY-MM-DD HH:mm"
-            value={endValue}
+            format="YYYY-MM-DD"
+            value={load_time_end}
             placeholder="截止时间"
             onChange={this.onEndChange}
             open={endOpen}
             onOpenChange={this.handleEndOpenChange}
           />
           <span style={{ margin: '0 12px 0 20px' }}>车牌</span>
-          <Select defaultValue="jack" style={{ width: '8.75rem' }}>
-            <Option value="jack">销售额</Option>
-            <Option value="lucy">利润贡献</Option>
-            <Option value="Yiminghe">贡献占比</Option>
+          <Select value={car_head_id} style={{ width: '8.75rem' }}
+                  onChange={this.fetchHistoryList.bind(null, 'car_head_id')}>
+            {logisticsCondition.cars && logisticsCondition.cars.map((value, index) => {
+              return <Option key={index} value={value.id}>{value.car_code}</Option>
+            })}
           </Select>
           <span style={{ margin: '0 12px 0 20px' }}>气源</span>
-          <Select defaultValue="jack" style={{ width: '8.75rem' }}>
-            <Option value="jack">销售额</Option>
-            <Option value="lucy">利润贡献</Option>
-            <Option value="Yiminghe">贡献占比</Option>
+          <Select value={supp_goods_id} style={{ width: '8.75rem' }}
+                  onChange={this.fetchHistoryList.bind(null, 'supp_goods_id')}>
+            {logisticsCondition.goods && logisticsCondition.goods.map((value, index) => {
+              return <Option key={index} value={value.id}>{value.goods_name}</Option>
+            })}
           </Select>
           <span style={{ margin: '0 12px 0 20px' }}>站点</span>
-          <Select defaultValue="jack" style={{ width: '8.75rem' }}>
-            <Option value="jack">销售额</Option>
-            <Option value="lucy">利润贡献</Option>
-            <Option value="Yiminghe">贡献占比</Option>
+          <Select value={cust_site_id} style={{ width: '8.75rem' }}
+                  onChange={this.fetchHistoryList.bind(null, 'cust_site_id')}>
+            {logisticsCondition.sites && logisticsCondition.sites.map((value, index) => {
+              return <Option key={index} value={value.id}>{value.site_name}</Option>
+            })}
           </Select>
           <span style={{ margin: '0 12px 0 20px' }}>状态</span>
-          <Select defaultValue="jack" style={{ width: '8.75rem', marginRight: 20 }}>
-            <Option value="jack">销售额</Option>
-            <Option value="lucy">利润贡献</Option>
-            <Option value="Yiminghe">贡献占比</Option>
+          <Select value={status} style={{ width: '8.75rem', marginRight: 20 }}
+                  onChange={this.fetchHistoryList.bind(null, 'status')}>
+            <Option value={''}>全部</Option>
+            <Option value={21}>待我方确认</Option>
+            <Option value={22}>待采购</Option>
+            <Option value={23}>待供应商接单</Option>
+            <Option value={24}>待调度</Option>
+            <Option value={25}>待出发</Option>
+            <Option value={26}>待装货</Option>
+            <Option value={27}>待卸货</Option>
+            <Option value={28}>待对账</Option>
+            <Option value={29}>对账中</Option>
+            <Option value={30}>已对账</Option>
+            <Option value={31}>待结款</Option>
+            <Option value={32}>已开票</Option>
+            <Option value={33}>已完成</Option>
+            <Option value={34}>已取消</Option>
           </Select>
-          <Button className={!selectedRowKeys.length ? '' : 'ant-btn-primary'} style={{ marginRight: 10 }}
-                  disabled={!selectedRowKeys.length}>对账</Button>
+          {/*<Button className={!selectedRowKeys.length ? '' : 'ant-btn-primary'} style={{ marginRight: 10 }}*/}
+          {/*disabled={!selectedRowKeys.length}>对账</Button>*/}
           <Button type='primary'>全部对账</Button>
         </div>
         <div className='table-container'>
           <Table
             columns={logisticsHistoryColumns}
             dataSource={logisticsHistoryList}
-            rowSelection={rowSelection}
+            // rowSelection={rowSelection}
             loading={loading}
             pagination={false}
             rowKey={record => record.id}
@@ -167,11 +265,11 @@ class Index extends Component {
           />
         </div>
         <div style={{ textAlign: 'center', marginTop: 40 }}>
-          <Pagination current={logisticsHistoryPage} total={logisticsHistoryTotal} />
+          <Pagination current={logisticsHistoryPage} total={logisticsHistoryTotal} onChange={this.pageChange} />
         </div>
       </>
     )
   }
 }
 
-export default Index
+export default widthRouter(Index)
