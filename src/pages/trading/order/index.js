@@ -8,10 +8,16 @@ import { IP } from '@/common/constants'
 import styles from './index.less'
 import CreatePlan from './components/Modals/CreatePlan'
 
-@connect(({ loading }) => ({
+@connect(({ order, loading }) => ({
+  order,
   loading: loading.models.order,
 }))
 class Index extends Component {
+
+  state = {
+    currBarStatus: '筛选',
+    filterHei: 80,
+  }
 
   upLoadExcel = (file) => {
     this.props.dispatch({
@@ -22,8 +28,33 @@ class Index extends Component {
     })
   }
 
+  changeOrderStatus = (status) => {
+    if (this.props.loading) {
+      return false
+    }
+    console.log(status)
+    this.props.dispatch({
+      type: 'order/save',
+      payload: {
+        orderStatus: status,
+      },
+    })
+    this.props.dispatch({
+      type: 'order/fetchOrderList',
+      payload: {
+        status,
+      },
+    })
+  }
+
+  changeFilter = () => {
+    this.setState({})
+  }
+
   render() {
-    const { loading } = this.props
+    const { currBarStatus, filterHei } = this.state
+    const { loading, order } = this.props
+    const { orderStatus } = order
     const popTitle = <div>
       导入信息
     </div>
@@ -48,7 +79,7 @@ class Index extends Component {
     </>
     return (
       <div>
-        <div className='toolbar'>
+        <div className='toolbar' style={{ filterHei }}>
           <CreatePlan>
             <Button type='primary'>新增订单</Button>
           </CreatePlan>
@@ -56,11 +87,15 @@ class Index extends Component {
                    trigger="click">
             <Button type='primary' style={{ marginLeft: 10 }}>导入信息</Button>
           </Popover>
+          <Button type='primary' style={{ float: 'right', marginTop: 20 }}
+                  onClick={this.changeFilter}>{currBarStatus}</Button>
         </div>
         <div style={{ padding: 24 }}>
           <div>
             {order_type.map((value, index) => {
-              return <div key={index} className={styles['order-type']}>
+              return <div key={index} className={styles['order-type']}
+                          onClick={this.changeOrderStatus.bind(null, value.value)}
+                          style={{ color: orderStatus === value.value && '#91A5F5' }}>
                 <div>{value.label}</div>
               </div>
             })}

@@ -21,7 +21,9 @@ class OrderList extends Component {
   componentWillMount() {
     this.props.dispatch({
       type: 'order/fetchOrderList',
-      payload: {},
+      payload: {
+        status: this.props.order.orderStatus,
+      },
     })
   }
 
@@ -147,21 +149,21 @@ class OrderList extends Component {
               <OrderConfirm>
                 <Button type='primary' style={{ marginRight: 10 }}>确认订单</Button>
               </OrderConfirm>
-                <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+              <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
               <Button className='line-primary'>取消订单</Button>
             </div> :
             value.status === '2' ? <div>
                 <LogisticsScheduling sites={JSON.stringify(value.sites)} id={value.id}>
                   <Button type='primary' style={{ marginRight: 10 }}>去调度</Button>
                 </LogisticsScheduling>
-                  <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                 <Button className='line-primary'>取消订单</Button>
               </div> :
               value.status === '3' ? <div>
                   <OrderPurchase sites={JSON.stringify(value.sites)} delivery_type={value.delivery_type} id={value.id}>
-                    <Button type='primary' style={{ marginRight: 10 }} >去采购</Button>
+                    <Button type='primary' style={{ marginRight: 10 }}>去采购</Button>
                   </OrderPurchase>
-                    <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                  <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                   <Button className='line-primary'>取消订单</Button>
                 </div> :
                 value.status === '4' ? <div>
@@ -177,7 +179,7 @@ class OrderList extends Component {
                                        supp_goods_name={value.supp_goods_name} uploading={true} id={value.id}>
                         <Button type='primary' style={{ marginRight: 10 }}>确认装货</Button>
                       </UpLoadPoundList>
-                        <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                      <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                       <Button className='line-primary'>取消订单</Button>
                     </div> :
                     value.status === '6' ? <div>
@@ -185,7 +187,7 @@ class OrderList extends Component {
                                          supp_goods_name={value.supp_goods_name} unloading={true} id={value.id}>
                           <Button type='primary' style={{ marginRight: 10 }}>确认收货</Button>
                         </UpLoadPoundList>
-                          <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
+                        <Button type='primary' style={{ marginRight: 10 }}>修改订单</Button>
                         <Button className='line-primary'>取消订单</Button>
                       </div> :
                       value.status === '7' ? <div>

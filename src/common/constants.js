@@ -74,34 +74,40 @@ export const TransportImg = <img src={require('@/assets/image/transport_order_48
 // }
 
 export const order_type = [{
-  value: 'qb',
+  value: '',
   label: '全部',
 }, {
-  value: 'djd',
-  label: '待接单',
+  value: '1',
+  label: '待我方确认',
 }, {
-  value: 'dsk',
-  label: '代收款',
+  value: '4',
+  label: '待供应商接单',
 }, {
-  value: 'dfk',
-  label: '待付款',
-}, {
-  value: 'ddd',
+  value: '2',
   label: '待调度',
 }, {
-  value: 'dzh',
+  value: '3',
+  label: '待采购',
+}, {
+  value: '5',
   label: '待装货',
 }, {
-  value: 'dsh',
-  label: '待收货',
+  value: '6',
+  label: '待卸货',
 }, {
-  value: 'djs',
-  label: '待结算',
+  value: '7',
+  label: '待对账',
 }, {
-  value: 'ywc',
+  value: '72',
+  label: '待结款',
+}, {
+  value: '9',
+  label: '待开票',
+}, {
+  value: '8',
   label: '已完成',
 }, {
-  value: 'yqx',
+  value: '10',
   label: '已取消',
 }]
 export const company_type = ['贸易商', '零售商']
