@@ -6,6 +6,50 @@ import { IP, PAGE_LIMIT } from '@/common/constants'
 export function supp_fetchCorderGoodsConditionList({ id }) {
   return request(`${IP}/index/supp/corder-condition?id=${id}`)
 }
+//我的供应商：采购历史列表
+export function supp_fetchPurchaseHistoryPageList({methodData}) {
+    const {
+        supplier_id,
+        time_start,
+        time_end,
+        car_head_id,
+        supp_goods_id,
+        cust_site_id,
+        status,
+        page,
+        limit,
+    } = methodData;
+  return request(`${IP}/index/supp/order-page?supplier_id=${
+      supplier_id
+  }&time_start=${
+      time_start
+  }&time_end=${
+      time_end
+  }&car_head_id=${
+      car_head_id
+  }&supp_goods_id=${
+      supp_goods_id
+  }&cust_site_id=${
+      cust_site_id
+  }&status=${
+      status
+  }&page=${
+      page
+  }&limit=${
+      limit
+  }`)
+}
+//我的供应商：采购历史-全部对账
+export function supp_fetchPurchaseHistoryAllReconciliation({ supplier_id,time_start,time_end }) {
+  let formData = new FormData()
+  formData.append('supplier_id', supplier_id)
+  formData.append('time_start', time_start)
+  formData.append('time_end', time_end)
+  return request(`${IP}/index/supp/corder`, {
+    method: 'POST',
+    body: formData,
+  })
+}
 //我的供应商：对账历史列表
 export function supp_fetchReconciliationHistoryPageList({methodData}) {
     const {
@@ -78,7 +122,7 @@ export function supp_fetchCorderInvoice({ id }) {
 }
 //我的供应商：对账历史-导出
 export function supp_fetchCorderExport({ id }) {
-  return request(`${IP}/index/supp/corder-export?id=${id}`)
+    window.open(`${IP}/index/supp/corder-export?id=${id}`)
 }
 
 
