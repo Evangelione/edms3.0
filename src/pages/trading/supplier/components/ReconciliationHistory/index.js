@@ -10,15 +10,15 @@ const ButtonGroup = Button.Group
 
 const Option = Select.Option
 
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker
+
 @connect(({supplier, loading }) => ({
   supplier,
   loading: loading.models.supplier,
 }))
 class Index extends Component {
   state = {
-    startValue: null,
-    endValue: null,
-    endOpen: false,
+
 
     supplier_id:'',
     time_start:'',
@@ -30,52 +30,23 @@ class Index extends Component {
     limit:PAGE_LIMIT,
   }
 
-  disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue
-    if (!startValue || !endValue) {
-      return false
-    }
-    return startValue.valueOf() > endValue.valueOf()
-  }
+  // disabledStartDate = (startValue) => {
+  //   const endValue = this.state.endValue
+  //   if (!startValue || !endValue) {
+  //     return false
+  //   }
+  //   return startValue.valueOf() > endValue.valueOf()
+  // }
+  //
+  // disabledEndDate = (endValue) => {
+  //   const startValue = this.state.startValue
+  //   if (!endValue || !startValue) {
+  //     return false
+  //   }
+  //   return endValue.valueOf() <= startValue.valueOf()
+  // }
 
-  disabledEndDate = (endValue) => {
-    const startValue = this.state.startValue
-    if (!endValue || !startValue) {
-      return false
-    }
-    return endValue.valueOf() <= startValue.valueOf()
-  }
 
-  onChange = (field, value) => {
-
-      if(field==='startValue'){
-          this.state.time_start = moment(value).format('YYYY-MM-DD HH:mm');
-      }else{
-          this.state.time_end = moment(value).format('YYYY-MM-DD HH:mm');
-      }
-      this.setState({[field]: value},()=>{
-          this.supp_fetchReconciliationHistoryPageList();
-      });
-
-  }
-
-  onStartChange = (value) => {
-    this.onChange('startValue', value)
-  }
-
-  onEndChange = (value) => {
-    this.onChange('endValue', value)
-  }
-
-  handleStartOpenChange = (open) => {
-    if (!open) {
-      this.setState({endOpen: true})
-    }
-  }
-
-  handleEndOpenChange = (open) => {
-    this.setState({endOpen: open})
-  }
   //列表数据
   supp_fetchReconciliationHistoryPageList = ()=>{
       const methodData = {
@@ -150,7 +121,11 @@ class Index extends Component {
 
       let {SupplierDetail} = this.props.match.params;
       this.state.supplier_id = SupplierDetail;
-      this.props.dispatch({type:'supplier/supp_fetchCorderGoodsConditionList',payload:{id:SupplierDetail}});
+      const {supp_CorderGoodsConditionList} = this.props.supplier
+      if(!supp_CorderGoodsConditionList){
+          this.props.dispatch({type:'supplier/supp_fetchCorderGoodsConditionList',payload:{id:SupplierDetail,type:'dz'}});
+      }
+
 
 
   }
@@ -158,11 +133,15 @@ class Index extends Component {
 
 
   render() {
-    const {startValue, endValue, endOpen} = this.state
+    const {startValue, endValue, endOpen,supp_goods_id,cust_site_id} = this.state
     const {supplier, loading} = this.props
     const {supp_CorderGoodsConditionList,supp_ReconciliationHistoryPageList} = supplier
     const {cars,goods,sites} = supp_CorderGoodsConditionList ? supp_CorderGoodsConditionList : {cars:null,goods:null,sites:null};
     const {total,list} = supp_ReconciliationHistoryPageList ? supp_ReconciliationHistoryPageList : {total:0,list:[]};
+    if(supp_CorderGoodsConditionList){
+        if(!supp_goods_id){this.state.supp_goods_id = goods[0].id}
+        if(!cust_site_id){this.state.cust_site_id = sites[0].id}
+    }
 
 
     const columns = [{
@@ -230,7 +209,7 @@ class Index extends Component {
           <Button className='line-primary' onClick={() => {
             let url = new URL(window.location.href)
             let arr = url.pathname.split('/')
-            router.push(`/${arr[1]}/${arr[2]}/ReconciliationDetails?id=${record.id}`)
+            router.push(`/${arr[1]}/${arr[2]}/ReconciliationDetails?id=${record.id}&company=${this.props.location.query.company}&start=${record.account_cycle_start}&end=${record.account_cycle_end}&status=${record.status}`)
           }}>明细</Button>
           <Button className='line-primary' onClick={this.listExport.bind(this,record.id)} >导出</Button>
           <Button className='line-primary' onClick={this.listReconciliation.bind(this,record.id)}  disabled={!(record.status==61)} >确认对账</Button>
@@ -245,24 +224,20 @@ class Index extends Component {
       <>
         <div style={{textAlign: 'right', fontSize: '1rem', margin: '5px 0 20px'}}>
           <span style={{marginRight: 10}}>装车时间</span>
-          <DatePicker
-            disabledDate={this.disabledStartDate}
-            showTime
-            format="YYYY-MM-DD HH:mm"
-            value={startValue}
-            placeholder="起始时间"
-            onChange={this.onStartChange}
-          />
-          <span style={{margin: '0 10px'}}>-</span>
-          <DatePicker
-            disabledDate={this.disabledEndDate}
-            showTime
-            format="YYYY-MM-DD HH:mm"
-            value={endValue}
-            placeholder="截止时间"
-            onChange={this.onEndChange}
-            open={endOpen}
-            onOpenChange={this.handleEndOpenChange}
+          <RangePicker
+              showTime
+              style={{width:440}}
+              format="YYYY-MM-DD HH:mm"
+              onChange={(moment,timeText)=>{
+                  this.state.time_start = timeText[0];
+                  this.state.time_end = timeText[1];
+                  if(!timeText[0]){
+                      this.supp_fetchReconciliationHistoryPageList();
+                  }
+              }}
+              onOk={()=>{
+                  this.supp_fetchReconciliationHistoryPageList();
+              }}
           />
           <span style={{margin: '0 12px 0 20px',display:'none'}}>车牌</span>
           {null &&
@@ -299,10 +274,14 @@ class Index extends Component {
               this.state.status = value;
               this.supp_fetchReconciliationHistoryPageList();
           }}>
-            <Option value="" style={{color: '#7B7B7B'}}>全部</Option>
-            <Option value="61" style={{color: '#FFAD4D'}}>对账中</Option>
-            <Option value="62" style={{color: '#8FCBFF'}}>已对账</Option>
-            <Option value="67" style={{color: '#91A5F5'}}>已开票</Option>
+            <Option value="" >全部</Option>
+            <Option value="61" >对账中</Option>
+            <Option value="62" >已对账</Option>
+            <Option value="63" >待结款</Option>
+            <Option value="64" >待开票</Option>
+            <Option value="65" >已完成</Option>
+            <Option value="66" >已结款</Option>
+            <Option value="67" >已开票</Option>
           </Select>
         </div>
         <div className='table-container'>
@@ -311,11 +290,8 @@ class Index extends Component {
             dataSource={list}
             loading={loading}
             pagination={false}
-            rowKey={record => record.id}
             highLightColor={'#aaa'}
-            rowClassName={(record, index) => {
-              return index % 2 === 0 ? 'oddRow' : 'evenRow'
-            }}
+            rowKey = {(record)=>(record.id)}
           />
         </div>
         <div style={{textAlign: 'center', marginTop: 40}}>

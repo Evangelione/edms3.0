@@ -57,7 +57,7 @@ export default {
   effects: {
 
     //我的供应商：对账历史-车牌-气源-站点Select
-    * supp_fetchCorderGoodsConditionList({payload:{id}},{call,put}){
+    * supp_fetchCorderGoodsConditionList({payload:{id,type}},{call,put}){
         const { data } = yield call(supplierService.supp_fetchCorderGoodsConditionList, {id});
         if(parseInt(data.code, 10) === 1){
             yield put({
@@ -66,21 +66,58 @@ export default {
                 supp_CorderGoodsConditionList: data.data,
               },
           })
-          const methodData = {
-              supplier_id:id,
-              time_start:'',
-              time_end:'',
-              supp_goods_id:data.data.goods[0].id,
-              cust_site_id:data.data.sites[0].id,
-              status:'',
-              page:1,
-              limit:PAGE_LIMIT,
-          }
-          yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+              if(type=='cg'){
+                  const methodData = {
+                      supplier_id:id,
+                      time_start:'',
+                      time_end:'',
+                      car_head_id:data.data.cars[0].id,
+                      supp_goods_id:data.data.goods[0].id,
+                      cust_site_id:data.data.sites[0].id,
+                      status:'',
+                      page:1,
+                      limit:PAGE_LIMIT,
+                  }
+                  yield put({type: 'supp_fetchPurchaseHistoryPageList',payload:{methodData}})
+              }else{
+                  const methodData = {
+                      supplier_id:id,
+                      time_start:'',
+                      time_end:'',
+                      supp_goods_id:data.data.goods[0].id,
+                      cust_site_id:data.data.sites[0].id,
+                      status:'',
+                      page:1,
+                      limit:PAGE_LIMIT,
+                  }
+                  yield put({type: 'supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+              }
+
         }else{
             message.error(data.msg);
         }
 
+    },
+    //我的供应商：采购历史列表
+    * supp_fetchPurchaseHistoryPageList({ payload: {methodData} }, { call, put }) {
+        const { data } = yield call(supplierService.supp_fetchPurchaseHistoryPageList, {methodData})
+        parseInt(data.code, 10) === 1 ?
+          yield put({
+            type: 'save',
+            payload: {
+              supp_PurchaseHistoryPageList: data.data,
+              supp_PurchaseHistoryPageListMethod:methodData
+            },
+          })
+          :
+          message.error(data.msg)
+    },
+    //我的供应商：采购历史-全部对账
+    * supp_fetchPurchaseHistoryAllReconciliation({payload:{supplier_id,time_start,time_end}},{call,put,select}){
+        const { data } = yield call(supplierService.supp_fetchPurchaseHistoryAllReconciliation, {supplier_id,time_start,time_end})
+        if(!(parseInt(data.code, 10) === 1)){
+            message.error(data.msg)
+        }
     },
     //我的供应商：对账历史列表
     * supp_fetchReconciliationHistoryPageList({ payload: {methodData} }, { call, put }) {
@@ -114,7 +151,7 @@ export default {
         const { data } = yield call(supplierService.supp_fetchCorderDelete, {id})
         const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
         parseInt(data.code, 10) === 1 ?
-        yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+        yield put({type: 'supp_fetchReconciliationHistoryPageList',payload:{methodData}})
         :
         message.error(data.msg)
     },
@@ -123,7 +160,7 @@ export default {
         const { data } = yield call(supplierService.supp_fetchCorderReconciliation, {id})
         const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
         parseInt(data.code, 10) === 1 ?
-        yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+        yield put({type: 'supp_fetchReconciliationHistoryPageList',payload:{methodData}})
         :
         message.error(data.msg)
     },
@@ -132,7 +169,7 @@ export default {
         const { data } = yield call(supplierService.supp_fetchCorderPayment, {id})
         const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
         parseInt(data.code, 10) === 1 ?
-        yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+        yield put({type: 'supp_fetchReconciliationHistoryPageList',payload:{methodData}})
         :
         message.error(data.msg)
     },
@@ -141,7 +178,7 @@ export default {
         const { data } = yield call(supplierService.supp_fetchCorderInvoice, {id})
         const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
         parseInt(data.code, 10) === 1 ?
-        yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+        yield put({type: 'supp_fetchReconciliationHistoryPageList',payload:{methodData}})
         :
         message.error(data.msg)
     },
