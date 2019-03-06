@@ -233,6 +233,13 @@ export default {
         :
         message.error(data.msg)
     },
+    * deleteClient({ payload: { id } }, { call }) {
+      const { data } = yield call(clientService.deleteClient, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
   },
 
   reducers: {

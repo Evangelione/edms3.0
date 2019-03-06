@@ -6,6 +6,7 @@ import ClientInfo from './components/ClientInfo/index'
 import SupplySite from './components/SupplySite/index'
 import SalesHistory from './components/SalesReconciliation/index'
 import ReconciliationHistory from './components/ReconciliationHistory/index'
+import PromptModal from '../../../components/PromptModal'
 
 const TabPane = Tabs.TabPane
 
@@ -38,6 +39,7 @@ class clientDetail extends Component {
     console.log(currentClientInfo)
     const { clientInfoCurrentTabs } = this.props.global
     const { company } = this.props.location.query
+    const { ClientDetail } = this.props.match.params
     return (
       <>
         <div className='toolbar'>
@@ -46,7 +48,11 @@ class clientDetail extends Component {
                style={{ margin: '0 20px 0 40px' }} alt="" />
           <span className='font-purple-color' style={{ fontWeight: 'bold' }}>{company}</span>
           {clientInfoCurrentTabs === '1' ?
-            <Button className='red-btn-line' style={{ float: 'right', marginTop: 20 }}>删除客户</Button>
+            <div style={{ float: 'right' }}>
+              <PromptModal state='deleteClient' id={ClientDetail}>
+                <Button className='red-btn-line'>删除客户</Button>
+              </PromptModal>
+            </div>
             :
             null}
         </div>

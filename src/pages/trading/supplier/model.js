@@ -56,104 +56,101 @@ export default {
   effects: {
 
     //我的供应商：对账历史-车牌-气源-站点Select
-    * supp_fetchCorderGoodsConditionList({payload:{id}},{call,put}){
-        const { data } = yield call(supplierService.supp_fetchCorderGoodsConditionList, {id});
-        if(parseInt(data.code, 10) === 1){
-            yield put({
-              type: 'save',
-              payload: {
-                supp_CorderGoodsConditionList: data.data,
-              },
-          })
-          const methodData = {
-              supplier_id:id,
-              time_start:'',
-              time_end:'',
-              supp_goods_id:data.data.goods[0].id,
-              cust_site_id:data.data.sites[0].id,
-              status:'',
-              page:1,
-              limit:PAGE_LIMIT,
-          }
-          yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
-        }else{
-            message.error(data.msg);
+    * supp_fetchCorderGoodsConditionList({ payload: { id } }, { call, put }) {
+      const { data } = yield call(supplierService.supp_fetchCorderGoodsConditionList, { id })
+      if (parseInt(data.code, 10) === 1) {
+        yield put({
+          type: 'save',
+          payload: {
+            supp_CorderGoodsConditionList: data.data,
+          },
+        })
+        const methodData = {
+          supplier_id: id,
+          time_start: '',
+          time_end: '',
+          supp_goods_id: data.data.goods[0].id,
+          cust_site_id: data.data.sites[0].id,
+          status: '',
+          page: 1,
+          limit: PAGE_LIMIT,
         }
+        yield put({ type: 'supplier/supp_fetchReconciliationHistoryPageList', payload: { methodData } })
+      } else {
+        message.error(data.msg)
+      }
 
     },
     //我的供应商：对账历史列表
-    * supp_fetchReconciliationHistoryPageList({ payload: {methodData} }, { call, put }) {
-        const { data } = yield call(supplierService.supp_fetchReconciliationHistoryPageList, {methodData})
-        parseInt(data.code, 10) === 1 ?
-          yield put({
-            type: 'save',
-            payload: {
-              supp_ReconciliationHistoryPageList: data.data,
-              supp_ReconciliationHistoryPageListMethod:methodData
-            },
-          })
-          :
-          message.error(data.msg)
+    * supp_fetchReconciliationHistoryPageList({ payload: { methodData } }, { call, put }) {
+      const { data } = yield call(supplierService.supp_fetchReconciliationHistoryPageList, { methodData })
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            supp_ReconciliationHistoryPageList: data.data,
+            supp_ReconciliationHistoryPageListMethod: methodData,
+          },
+        })
+        :
+        message.error(data.msg)
     },
     //我的供应商：对账历史-明细
-    * supp_fetchCorderDetail({payload:{id}},{call,put,select}){
-        const { data } = yield call(supplierService.supp_fetchCorderDetail, {id})
-        parseInt(data.code, 10) === 1 ?
-          yield put({
-            type: 'save',
-            payload: {
-              supp_CorderDetail: data.data,
-            },
-          })
-          :
-          message.error(data.msg)
+    * supp_fetchCorderDetail({ payload: { id } }, { call, put, select }) {
+      const { data } = yield call(supplierService.supp_fetchCorderDetail, { id })
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            supp_CorderDetail: data.data,
+          },
+        })
+        :
+        message.error(data.msg)
     },
     //我的供应商：对账历史-删除
-    * supp_fetchCorderDelete({payload:{id}},{call,put,select}){
-        const { data } = yield call(supplierService.supp_fetchCorderDelete, {id})
-        const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
-        parseInt(data.code, 10) === 1 ?
-        yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+    * supp_fetchCorderDelete({ payload: { id } }, { call, put, select }) {
+      const { data } = yield call(supplierService.supp_fetchCorderDelete, { id })
+      const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
+      parseInt(data.code, 10) === 1 ?
+        yield put({ type: 'supplier/supp_fetchReconciliationHistoryPageList', payload: { methodData } })
         :
         message.error(data.msg)
     },
     //我的供应商：对账历史-对账
-    * supp_fetchCorderReconciliation({payload:{id}},{call,put,select}){
-        const { data } = yield call(supplierService.supp_fetchCorderReconciliation, {id})
-        const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
-        parseInt(data.code, 10) === 1 ?
-        yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+    * supp_fetchCorderReconciliation({ payload: { id } }, { call, put, select }) {
+      const { data } = yield call(supplierService.supp_fetchCorderReconciliation, { id })
+      const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
+      parseInt(data.code, 10) === 1 ?
+        yield put({ type: 'supplier/supp_fetchReconciliationHistoryPageList', payload: { methodData } })
         :
         message.error(data.msg)
     },
     //我的供应商：对账历史-结款
-    * supp_fetchCorderPayment({payload:{id}},{call,put,select}){
-        const { data } = yield call(supplierService.supp_fetchCorderPayment, {id})
-        const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
-        parseInt(data.code, 10) === 1 ?
-        yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+    * supp_fetchCorderPayment({ payload: { id } }, { call, put, select }) {
+      const { data } = yield call(supplierService.supp_fetchCorderPayment, { id })
+      const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
+      parseInt(data.code, 10) === 1 ?
+        yield put({ type: 'supplier/supp_fetchReconciliationHistoryPageList', payload: { methodData } })
         :
         message.error(data.msg)
     },
     //我的供应商：对账历史-开票
-    * supp_fetchCorderInvoice({payload:{id}},{call,put,select}){
-        const { data } = yield call(supplierService.supp_fetchCorderInvoice, {id})
-        const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
-        parseInt(data.code, 10) === 1 ?
-        yield put({type: 'supplier/supp_fetchReconciliationHistoryPageList',payload:{methodData}})
+    * supp_fetchCorderInvoice({ payload: { id } }, { call, put, select }) {
+      const { data } = yield call(supplierService.supp_fetchCorderInvoice, { id })
+      const methodData = yield select(state => state.supplier.supp_ReconciliationHistoryPageListMethod)
+      parseInt(data.code, 10) === 1 ?
+        yield put({ type: 'supplier/supp_fetchReconciliationHistoryPageList', payload: { methodData } })
         :
         message.error(data.msg)
     },
     //我的供应商：对账历史-导出
-    * supp_fetchCorderExport({payload:{id}},{call,put,select}){
-        const { data } = yield call(supplierService.supp_fetchCorderExport, {id})
-        if(!(parseInt(data.code, 10) === 1)){
-            message.error(data.msg)
-        }
+    * supp_fetchCorderExport({ payload: { id } }, { call, put, select }) {
+      const { data } = yield call(supplierService.supp_fetchCorderExport, { id })
+      if (!(parseInt(data.code, 10) === 1)) {
+        message.error(data.msg)
+      }
     },
-
-
-
 
 
     * fetchSupplierList({ payload: { page = 1, supp_name = '' } }, { call, put }) {
@@ -295,6 +292,13 @@ export default {
             salesHistoryTotal: parseInt(data.data.total, 10),
           },
         })
+        :
+        message.error(data.msg)
+    },
+    * deleteSupp({ payload: { id } }, { call }) {
+      const { data } = yield call(supplierService.deleteSupp, id)
+      parseInt(data.code, 10) === 1 ?
+        message.success(data.msg)
         :
         message.error(data.msg)
     },

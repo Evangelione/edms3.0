@@ -263,7 +263,7 @@ class HandleGasSourceModal extends Component {
               label="气质报告"
             >
               {getFieldDecorator('file', {
-                rules: [{ required: true }],
+                rules: [{ required: false }],
               })(
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Upload

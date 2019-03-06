@@ -210,3 +210,13 @@ export function fetchReconciliationDetail(id) {
     body: formData,
   })
 }
+
+
+export function deleteClient(id) {
+  let formData = new FormData()
+  formData.append('id', id)
+  return request(`${IP}/index/cust/delete`, {
+    method: 'POST',
+    body: formData,
+  })
+}

@@ -3,6 +3,7 @@ import { Card, Row, Col, Button, Icon, Form, Input } from 'antd'
 import { connect } from 'dva'
 import withRouter from 'umi/withRouter'
 import styles from '../../../index.less'
+import { toFixed } from '@/utils/Math'
 
 @connect(({ logistics, loading }) => ({
   logistics,
@@ -134,9 +135,10 @@ class FinanceCard extends Component {
                 </div>}
             </Col>
             <Col span={5}><i>剩余额度</i></Col>
-            <Col span={19}>9,334,234.52 元</Col>
+            <Col
+              span={19}>{toFixed((currentLogisticsInfo.credit - 0) - (currentLogisticsInfo.credit_used - 0), 2)} 元</Col>
             <Col span={5}><i>已用额度</i></Col>
-            <Col span={19}>9,334,234.52 元</Col>
+            <Col span={19}>{toFixed((currentLogisticsInfo.credit_used - 0), 2)} 元</Col>
           </Row>
         </Form>
 

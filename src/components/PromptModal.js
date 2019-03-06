@@ -46,6 +46,20 @@ class PromptModal extends Component {
           text: '是否确认删除此条物流信息？',
           okHandler: this.deleteLogistics,
         },
+        deleteClient: {
+          icon: 'cancel',
+          okText: '确定',
+          cancelText: '取消',
+          text: '是否确认删除此条客户信息？',
+          okHandler: this.deleteClient,
+        },
+        deleteSupp: {
+          icon: 'cancel',
+          okText: '确定',
+          cancelText: '取消',
+          text: '是否确认删除此条供应商信息？',
+          okHandler: this.deleteSupp,
+        },
       },
     }
   }
@@ -117,7 +131,7 @@ class PromptModal extends Component {
       this.props.dispatch({
         type: 'partner/fetchPartnerList',
         payload: {
-          page:this.props.page
+          page: this.props.page,
         },
       })
     })
@@ -134,7 +148,7 @@ class PromptModal extends Component {
       this.props.dispatch({
         type: 'partner/fetchPartnerList',
         payload: {
-          page:this.props.page
+          page: this.props.page,
         },
       })
     })
@@ -150,6 +164,34 @@ class PromptModal extends Component {
     }).then(() => {
       router.push({
         pathname: '/trading/logistics',
+      })
+    })
+  }
+
+  deleteClient = (e) => {
+    e && e.stopPropagation()
+    this.props.dispatch({
+      type: 'client/deleteClient',
+      payload: {
+        id: this.props.id,
+      },
+    }).then(() => {
+      router.push({
+        pathname: '/trading/client',
+      })
+    })
+  }
+
+  deleteSupp = (e) => {
+    e && e.stopPropagation()
+    this.props.dispatch({
+      type: 'supplier/deleteSupp',
+      payload: {
+        id: this.props.id,
+      },
+    }).then(() => {
+      router.push({
+        pathname: '/trading/supplier',
       })
     })
   }

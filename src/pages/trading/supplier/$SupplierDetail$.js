@@ -5,6 +5,7 @@ import router from 'umi/router'
 import SupplierInfo from './components/SupplierInfo/index'
 import PurchasingGasSource from './components/PurchasingGasSource/index'
 import PurchaseHistory from './components/PurchaseReconciliation/index'
+import PromptModal from '../../../components/PromptModal'
 import ReconciliationHistory from './components/ReconciliationHistory/index'
 
 const TabPane = Tabs.TabPane
@@ -37,6 +38,7 @@ class supplierDetail extends Component {
     const { currentSupplierInfo } = this.props.supplier
     const { supplierInfoCurrentTabs } = this.props.global
     const { company } = this.props.location.query
+    const { SupplierDetail } = this.props.match.params
     return (
       <>
         <div className='toolbar'>
@@ -45,7 +47,11 @@ class supplierDetail extends Component {
                style={{ margin: '0 20px 0 40px' }} alt="" />
           <span className='font-purple-color' style={{ fontWeight: 'bold' }}>{company}</span>
           {supplierInfoCurrentTabs === '1' ?
-            <Button className='red-btn-line' style={{ float: 'right', marginTop: 20 }}>删除供应商</Button>
+            <div style={{ float: 'right' }}>
+              <PromptModal state='deleteSupp' id={SupplierDetail}>
+                <Button className='red-btn-line'>删除供应商</Button>
+              </PromptModal>
+            </div>
             :
             null}
         </div>
