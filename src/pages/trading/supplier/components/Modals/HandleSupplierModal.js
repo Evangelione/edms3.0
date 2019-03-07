@@ -171,8 +171,10 @@ class HandleSupplierModal extends Component {
                 initialValue: '1',
               })(
                 <Select style={{width: '100%'}} onChange={this.handleChange}>
-                  <Option value="1">贸易商</Option>
-                  <Option value="2">零售商</Option>
+                  <Option value="1">运贸商</Option>
+                  <Option value="2">贸易商</Option>
+                  <Option value="3">液厂</Option>
+                  <Option value="4">接收站</Option>
                 </Select>,
               )}
             </Form.Item>
