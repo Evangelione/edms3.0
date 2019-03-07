@@ -189,8 +189,8 @@ class HandleSiteModal extends Component {
                 initialValue: modify ? currentSiteInfo.site_type : '1',
               })(
                 <Select style={{ width: '100%' }}>
-                  <Option value="1">贸易商</Option>
-                  <Option value="2">零售商</Option>
+                  <Option value="1">加气站</Option>
+                  <Option value="2">气化站</Option>
                 </Select>,
               )}
             </Form.Item>

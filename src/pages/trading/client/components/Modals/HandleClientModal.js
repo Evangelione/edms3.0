@@ -171,8 +171,9 @@ class HandleClientModal extends Component {
                 initialValue: '1',
               })(
                 <Select style={{width: '100%'}} onChange={this.handleChange}>
+                  <Option value="2">运贸商</Option>
                   <Option value="1">贸易商</Option>
-                  <Option value="2">零售商</Option>
+                  <Option value="9">零售商</Option>
                 </Select>,
               )}
             </Form.Item>
