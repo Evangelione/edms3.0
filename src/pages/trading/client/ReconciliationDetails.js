@@ -30,8 +30,8 @@ class ReconciliationDetails extends Component {
       const { clientCondition } = this.props.client
       console.log(clientCondition)
       this.setState({
-        supp_goods_id: clientCondition.goods[0].id,
-        cust_site_id: clientCondition.sites[0].id,
+        supp_goods_id: clientCondition.goods.length ? clientCondition.goods[0].id : '',
+        cust_site_id: clientCondition.sites.length ? clientCondition.sites[0].id : '',
       })
       this.props.dispatch({
         type: 'client/fetchReconciliationDetail',

@@ -521,11 +521,11 @@ class Index extends Component {
               <Upload
                 accept='.xls,.xlsx'
                 name='excel'
-                action={`${IP}/index/driver/driver-car-import`}
+                action={`${IP}/index/driver/car-import`}
                 customRequest={this.upLoadExcel}
                 showUploadList={false}
               >
-                <Button disabled={true}>导入车队</Button>
+                <Button disabled={true} loading={loading}>导入车队</Button>
               </Upload>
             </>
             :
@@ -536,11 +536,11 @@ class Index extends Component {
                 <Upload
                   accept='.xls,.xlsx'
                   name='excel'
-                  action={`${IP}/index/driver/driver-car-import`}
+                  action={`${IP}/index/driver/car-import`}
                   customRequest={this.upLoadExcel}
                   showUploadList={false}
                 >
-                  <Button disabled={true}>导入车队</Button>
+                  <Button disabled={true} loading={loading}>导入车队</Button>
                 </Upload>
               </>
               :
@@ -552,11 +552,11 @@ class Index extends Component {
                 <Upload
                   accept='.xls,.xlsx'
                   name='excel'
-                  action={`${IP}/index/driver/driver-car-import`}
+                  action={`${IP}/index/driver/car-import`}
                   customRequest={this.upLoadExcel}
                   showUploadList={false}
                 >
-                  <Button type='primary'>导入车队</Button>
+                  <Button type='primary' loading={loading}>导入车队</Button>
                 </Upload>
               </>
           }
@@ -566,9 +566,10 @@ class Index extends Component {
           {insertStatus ? this.renderInsertItem() : null}
           {this.mapItem()}
         </Row>
-        <div style={{ textAlign: 'center', marginTop: 15 }}>
+        {fleetTotal - 0 > 0 && <div style={{ textAlign: 'center', marginTop: 15 }}>
           <Pagination current={fleetPage} total={fleetTotal} onChange={this.fetchFleetList} />
-        </div>
+        </div>}
+
         <Modal
           title={modalTitle}
           visible={this.state.modalVisible}
@@ -596,7 +597,8 @@ class Index extends Component {
               {getFieldDecorator(`${modalFiled2}`, {
                 rules: [{ required: true }],
               })(
-                <Input placeholder={`请输入${modalLabel2}`} onBlur={this.parseNumber.bind(null, `${modalFiled2}`, 3)} />,
+                <Input placeholder={`请输入${modalLabel2}`} onBlur={this.parseNumber.bind(null, `${modalFiled2}`, 3)}
+                       addonAfter={modalLabel2 === '载重数量' ? '吨' : null} />,
               )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
@@ -722,7 +724,7 @@ class InsertCarBodyModal extends Component {
             {getFieldDecorator('car_load', {
               rules: [{ required: true }],
             })(
-              <Input placeholder={`请输入载重数量`} onBlur={this.parseNumber.bind(null, 'car_load', 3)} />,
+              <Input placeholder={`请输入载重数量`} onBlur={this.parseNumber.bind(null, 'car_load', 3)} addonAfter='吨' />,
             )}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>

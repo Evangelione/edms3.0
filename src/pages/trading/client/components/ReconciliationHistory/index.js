@@ -33,8 +33,8 @@ class Index extends Component {
       const { clientCondition } = this.props.client
       console.log(clientCondition)
       this.setState({
-        supp_goods_id: clientCondition.goods[0].id,
-        cust_site_id: clientCondition.sites[0].id,
+        supp_goods_id: clientCondition.goods.length ? clientCondition.goods[0].id : '',
+        cust_site_id: clientCondition.sites.length ? clientCondition.sites[0].id : '',
       })
       this.props.dispatch({
         type: 'client/fetchReconciliationHistory',
@@ -43,8 +43,8 @@ class Index extends Component {
             cust_id: this.props.match.params.ClientDetail,
             time_start: '',
             time_end: '',
-            supp_goods_id: clientCondition.goods[0].id,
-            cust_site_id: clientCondition.sites[0].id,
+            supp_goods_id: clientCondition.goods.length ? clientCondition.goods[0].id : '',
+            cust_site_id: clientCondition.sites.length ? clientCondition.sites[0].id : '',
             status: '',
           },
         },

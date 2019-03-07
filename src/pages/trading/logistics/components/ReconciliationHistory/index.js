@@ -31,9 +31,9 @@ class Index extends Component {
     }).then(() => {
       const { logisticsCondition } = this.props.logistics
       this.setState({
-        supp_goods_id: logisticsCondition.goods[0].id,
+        supp_goods_id: logisticsCondition.goods.length ? logisticsCondition.goods[0].id : '',
         // supp_goods_id: '',
-        cust_site_id: logisticsCondition.sites[0].id,
+        cust_site_id: logisticsCondition.sites.length ? logisticsCondition.sites[0].id : '',
         // cust_site_id: '',
       })
       this.props.dispatch({
@@ -44,9 +44,9 @@ class Index extends Component {
             time_start: '',
             time_end: '',
             // supp_goods_id: '',
-            supp_goods_id: logisticsCondition.goods[0].id,
+            supp_goods_id: logisticsCondition.goods.length ? logisticsCondition.goods[0].id : '',
             // cust_site_id: '',
-            cust_site_id: logisticsCondition.sites[0].id,
+            cust_site_id: logisticsCondition.sites.length ? logisticsCondition.sites[0].id : '',
             status: '',
           },
         },

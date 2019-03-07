@@ -167,7 +167,6 @@ class HandleGasSourceModal extends Component {
         modify && (values.id = modify)
         values.file = this.state.file
         console.log(values)
-        debugger
         this.props.dispatch({
           type: `supplier/${effect}`,
           payload: {

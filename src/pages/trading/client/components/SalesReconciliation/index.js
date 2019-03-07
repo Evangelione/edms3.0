@@ -36,8 +36,8 @@ class Index extends Component {
       console.log(clientCondition)
       this.setState({
         car_head_id: '27',
-        supp_goods_id: clientCondition.goods[0].id,
-        cust_site_id: clientCondition.sites[0].id,
+        supp_goods_id: clientCondition.goods.length ? clientCondition.goods[0].id : '',
+        cust_site_id: clientCondition.sites.length ? clientCondition.sites[0].id : '',
       })
       this.props.dispatch({
         type: 'client/fetchClientHistory',
@@ -48,8 +48,8 @@ class Index extends Component {
             load_time_end: '',
             // car_head_id: clientCondition.cars[0].id,
             car_head_id: '27',
-            supp_goods_id: clientCondition.goods[0].id,
-            cust_site_id: clientCondition.sites[0].id,
+            supp_goods_id: clientCondition.goods.length ? clientCondition.goods[0].id : '',
+            cust_site_id: clientCondition.sites.length ? clientCondition.sites[0].id : '',
             status: '',
           },
         },
@@ -267,7 +267,7 @@ class Index extends Component {
             <Option value={34}>已取消</Option>
           </Select>
           {/*<Button className={!selectedRowKeys.length ? '' : 'ant-btn-primary'} style={{ marginRight: 10 }}*/}
-                  {/*disabled={!selectedRowKeys.length}>对账</Button>*/}
+          {/*disabled={!selectedRowKeys.length}>对账</Button>*/}
           <Button type='primary'>全部对账</Button>
         </div>
         <div className='table-container'>

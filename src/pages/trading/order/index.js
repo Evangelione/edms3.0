@@ -48,7 +48,17 @@ class Index extends Component {
   }
 
   changeFilter = () => {
-    this.setState({})
+    if (this.state.currBarStatus === '筛选') {
+      this.setState({
+        currBarStatus: '收起',
+        filterHei: 220,
+      })
+    } else {
+      this.setState({
+        currBarStatus: '筛选',
+        filterHei: 80,
+      })
+    }
   }
 
   render() {
@@ -79,7 +89,7 @@ class Index extends Component {
     </>
     return (
       <div>
-        <div className='toolbar' style={{ filterHei }}>
+        <div className='toolbar' style={{ height: filterHei, transition: 'all 0.5s' }}>
           <CreatePlan>
             <Button type='primary'>新增订单</Button>
           </CreatePlan>

@@ -191,7 +191,7 @@ class SalesBilling extends Component {
               </Col>
               <Col span={10} style={{ width: '43.4%' }}>
                 <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
-                  {getFieldDecorator('balance15')(
+                  {getFieldDecorator('extra_fee')(
                     <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
                   )}
                   <div className='addonAfter'>元</div>

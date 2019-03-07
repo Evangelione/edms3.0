@@ -159,7 +159,7 @@ class Index extends Component {
           {/*<Upload*/}
           {/*accept='.xls,.xlsx'*/}
           {/*name='excel'*/}
-          {/*action={`${IP}/index/driver/driver-car-import`}*/}
+          {/*action={`${IP}/index/driver/car-import`}*/}
           {/*customRequest={this.upLoadExcel}*/}
           {/*showUploadList={false}*/}
           {/*>*/}

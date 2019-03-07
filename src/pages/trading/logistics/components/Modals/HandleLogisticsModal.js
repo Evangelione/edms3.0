@@ -165,11 +165,11 @@ class HandleLogisticsModal extends Component {
               label="公司类型"
             >
               {getFieldDecorator('company_flow', {
-                initialValue: '1',
+                initialValue: '2',
               })(
                 <Select style={{ width: '100%' }} onChange={this.handleChange}>
-                  <Option value="1">贸易商</Option>
-                  <Option value="2">零售商</Option>
+                  <Option value="8">承运商</Option>
+                  <Option value="2">运贸商</Option>
                 </Select>,
               )}
             </Form.Item>

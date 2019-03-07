@@ -32,8 +32,8 @@ class ReconciliationDetails extends Component {
       const { logisticsCondition } = this.props.logistics
       console.log(logisticsCondition)
       this.setState({
-        supp_goods_id: logisticsCondition.goods[0].id,
-        cust_site_id: logisticsCondition.sites[0].id,
+        supp_goods_id: logisticsCondition.goods.length ? logisticsCondition.goods[0].id : '',
+        cust_site_id: logisticsCondition.sites.length ? logisticsCondition.sites[0].id : '',
       })
       this.props.dispatch({
         type: 'logistics/fetchReconciliationDetail',
