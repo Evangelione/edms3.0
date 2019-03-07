@@ -58,7 +58,7 @@ class HandlePartnerModal extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         let { modify } = this.props
-        let effect = modify ? 'updatePartnerInfoById' : 'inquirePartnerInfoById'
+        let effect = modify ? 'updatePartnerInfoById' : 'insertPartner'
         modify && (values.id = modify)
         this.props.dispatch({
           type: `partner/${effect}`,
