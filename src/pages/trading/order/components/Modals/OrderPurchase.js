@@ -26,6 +26,7 @@ class OrderPurchase extends Component {
     },
     currentGas: {},
     planNum: 0,
+    pTotal: '0.00',
   }
 
   showModal = () => {
@@ -130,8 +131,15 @@ class OrderPurchase extends Component {
     })
   }
 
+  calc = (value) => {
+    const total = toFixed(value * this.state.planNum, 2)
+    this.setState({
+      pTotal: total,
+    })
+  }
+
   render() {
-    const { visible, supplierSelectionStatus, visibleSupplierInfo, gasSelectionStatus, visibleGasInfo, sites, currentSupp, currentGas, planNum } = this.state
+    const { visible, supplierSelectionStatus, visibleSupplierInfo, gasSelectionStatus, visibleGasInfo, sites, currentSupp, currentGas, planNum, pTotal } = this.state
     const { children, order: { suppInfoByOrderPurchase, gasInfoByOrderPurchase }, loading, form: { getFieldDecorator }, delivery_type } = this.props
     const supplierInfoLayout = {
       labelCol: {
@@ -274,7 +282,8 @@ class OrderPurchase extends Component {
                     {getFieldDecorator('price', {
                       rules: [{ required: true }],
                     })(
-                      <InputNumber placeholder="请输入价格" min={0} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber placeholder="请输入价格" min={0} precision={2} style={{ width: '100%' }}
+                                   onChange={this.calc} />,
                     )}
                     <div className='addonAfter'>元/吨</div>
                   </Form.Item>
@@ -309,11 +318,11 @@ class OrderPurchase extends Component {
                 </Col>
                 <Col span={10} style={{ width: '46.2%' }}>
                   <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
-                      {getFieldDecorator('extra_fee', {
-                        initialValue: '0.00',
-                      })(
-                          <InputNumber placeholder="请输入价格"  min={0} precision={2} style={{ width: '100%' }} />,
-                      )}
+                    {getFieldDecorator('extra_fee', {
+                      initialValue: '0.00',
+                    })(
+                      <InputNumber placeholder="请输入价格" min={0} precision={2} style={{ width: '100%' }} />,
+                    )}
                     <div className='addonAfter'>元</div>
                   </Form.Item>
                 </Col>
@@ -391,8 +400,8 @@ class OrderPurchase extends Component {
           <div className={styles['create-plan-modal-footer']}>
             <div>
               <div>
-                <div style={{ marginLeft: 30 }}>采购总量 <span className={styles['red-font']}>20.000 吨</span></div>
-                <div style={{ marginLeft: 30 }}>采购总额 <span className={styles['red-font']}>20.000 元</span></div>
+                <div style={{ marginLeft: 30 }}>采购总量 <span className={styles['red-font']}>{planNum} 吨</span></div>
+                <div style={{ marginLeft: 30 }}>采购总额 <span className={styles['red-font']}>{pTotal} 元</span></div>
               </div>
               <div style={{ marginRight: 20 }}>
                 <Button type='primary' style={{ marginRight: 10 }} loading={loading}
