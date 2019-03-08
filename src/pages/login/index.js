@@ -3,8 +3,9 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd'
 import { connect } from 'dva'
 import styles from './index.less'
 
-@connect(({ login, loading }) => ({
+@connect(({ login, global, loading }) => ({
   login,
+  global,
   loading: loading.models.login,
 }))
 @Form.create()
@@ -22,6 +23,12 @@ class Index extends Component {
       type: 'global/checkLogin',
       payload: {},
     })
+    this.props.dispatch({
+      type: 'global/getPlatFormId',
+      payload: {
+        str: window.location.hostname.match(/[A-Za-z]+/g)[0],
+      },
+    })
   }
 
   handleSubmit = (e) => {
@@ -29,7 +36,7 @@ class Index extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log(values)
-        values.platform_id = 'sh'
+        values.platform_id = this.props.global.platformId
         this.props.dispatch({
           type: 'global/login',
           payload: {

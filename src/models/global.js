@@ -9,7 +9,8 @@ export default {
     linkPath: '/report',
     cascadeOptions: [],
     clientInfoCurrentTabs: '1',
-    supplierInfoCurrentTabs: '1'
+    supplierInfoCurrentTabs: '1',
+    platformId: '',
   },
 
   subscriptions: {
@@ -28,19 +29,18 @@ export default {
   },
 
   effects: {
-      //退出登录
-      * fetchLogout({ payload: { } }, { call, put }) {
-        const { data } = yield call(globalServices.fetchLogout, { })
-        if(parseInt(data.code) === 1){
-            localStorage.removeItem('userData')
-            router.push({pathname:'/login'})
-        }else{
-            message.error(data.msg)
-        }
+    //退出登录
+    * fetchLogout({ payload: {} }, { call, put }) {
+      const { data } = yield call(globalServices.fetchLogout, {})
+      if (parseInt(data.code) === 1) {
+        localStorage.removeItem('userData')
+        router.push({ pathname: '/login' })
+      } else {
+        message.error(data.msg)
+      }
 
 
-
-      },
+    },
 
     * inquireCascadeOptions({ payload: { module, district_name = '', targetOption } }, { call, put, select }) {
       const { data } = yield call(globalServices.inquireCascadeOptions, { module, district_name })
@@ -114,6 +114,18 @@ export default {
         // message.error(data.msg)
         localStorage.removeItem('userData')
       }
+    },
+    * getPlatFormId({ payload: { str } }, { call, put }) {
+      const { data } = yield call(globalServices.getPlatFormId, str)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            platformId: data.data.id,
+          },
+        })
+        :
+        message.error(data.msg)
     },
   },
 

@@ -2,9 +2,10 @@ import request from '@/common/request'
 import { IP } from '@/common/constants'
 
 //退出登录
-export function fetchLogout({ }) {
+export function fetchLogout({}) {
   return request(`${IP}/index/login/logout`, {
-    method: 'POST' })
+    method: 'POST',
+  })
 }
 
 export function inquireCascadeOptions({ module, district_name }) {
@@ -48,4 +49,8 @@ export function checkLogin() {
   return request(`${IP}/index/login/check-login?t=${new Date().getTime()}`, {
     method: 'GET',
   })
+}
+
+export function getPlatFormId(str) {
+  return request(`${IP}/index/platform/info?domain=${str}`)
 }
