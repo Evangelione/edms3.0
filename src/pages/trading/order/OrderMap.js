@@ -125,7 +125,7 @@ class OrderMap extends Component {
       <div style={{ padding: '20px 0', height: 500 }}>
         <Card bodyStyle={{ padding: 0, position: 'relative' }}>
           <div className={styles['map-title']}>
-            <div>订单编号：{orderList[currentOrderNum].order_no}</div>
+            <div>订单编号：{orderList.length && orderList[currentOrderNum].order_no}</div>
             <div className={styles['distance']}>已行驶 34公里 <span>/ 共125公里</span></div>
           </div>
           <div className={styles['map-detail-min']}>
