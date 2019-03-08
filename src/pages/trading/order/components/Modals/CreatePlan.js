@@ -36,6 +36,7 @@ class CreatePlan extends Component {
     site1_quantity: 0,
     site2_quantity: 0,
     site3_quantity: 0,
+    footFormAll:{allquantity:0,allmoney:0},
   }
 
   showModal = () => {
@@ -177,6 +178,8 @@ class CreatePlan extends Component {
     })
   }
 
+
+
   parseNumber = (filed, precision, e) => {
     let val = e.target.value
     if (val === '') {
@@ -317,6 +320,51 @@ class CreatePlan extends Component {
       currentSiteNum: this.state.currentSiteNum - 1,
     })
     this.removeSiteField()
+  }
+
+  setIntervaler = null;
+
+  componentDidMount(){
+      this.setIntervaler = setInterval(()=>{
+          if(!this.state.visible){return}
+          let price_1 = 0,quantity_1 = 0,price_2 = 0,quantity_2 = 0,price_3 = 0,quantity_3 = 0;
+          let form1 =  this.props.form.getFieldsValue();
+          let zsquan_1 = 0;
+          price_1 = form1.price ? Number(form1.price) : 0;
+          for(let x in form1){
+              if(x.search('quantity')!=-1){
+                  zsquan_1 = form1[x] ? Number(form1[x]) : 0;
+                  quantity_1 = quantity_1 + zsquan_1;
+              }
+          }
+          if(this.formRef2){
+              let form2 = this.formRef2.getFormArr()
+              let zsquan_2 = 0;
+              price_2 = form2.price ? Number(form2.price) : 0;
+              for(let x in form2){
+                  if(x.search('quantity')!=-1){
+                      zsquan_2 = form2[x] ? Number(form2[x]) : 0;
+                      quantity_2 = quantity_2 + zsquan_2;
+                  }
+              }
+          }
+          if(this.formRef3){
+              let form3 = this.formRef3.getFormArr()
+              price_3 = form3.price ? Number(form3.price) : 0;
+              quantity_3 = form3.site1_quantity ? Number(form3.site1_quantity) : 0;
+          }
+          this.setState({
+              footFormAll:{
+                  allquantity:quantity_1+quantity_2+quantity_3,
+                  allmoney:quantity_1*price_1+quantity_2*price_2+quantity_3*price_3,
+              }
+          })
+
+      },500)
+  }
+
+  componentWillUnmount(){
+      clearInterval(this.setIntervaler)
   }
 
   render() {
@@ -673,9 +721,8 @@ class CreatePlan extends Component {
             <div>
               <div>
                 <div style={{ marginLeft: 30 }}>销售总量 <span
-                  className={styles['red-font']}>{(getFieldValue('quantity_1') || '0.000')} 吨</span></div>
-                <div style={{ marginLeft: 30 }}>销售总额 <span className={styles['red-font']}>
-                  {toFixed(parseFloat(getFieldValue('price') || 0) * parseFloat(getFieldValue('quantity_1') || 0) + parseFloat(getFieldValue('extra_fee') || 0), 2)} 元</span>
+                  className={styles['red-font']}>{this.state.footFormAll.allquantity.toFixed(3)} 吨</span></div>
+                <div style={{ marginLeft: 30 }}>销售总额 <span className={styles['red-font']}>{this.state.footFormAll.allmoney.toFixed(2)} 元</span>
                 </div>
               </div>
               <div style={{ marginRight: 20 }}>
