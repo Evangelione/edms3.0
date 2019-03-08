@@ -26,7 +26,7 @@ class Index extends Component {
     this.props.dispatch({
       type: 'global/getPlatFormId',
       payload: {
-        str: window.location.hostname.match(/[A-Za-z]+/g)[0],
+        str: window.location.hostname.match(/[A-Za-z0-9]+/g)[0],
       },
     })
   }
