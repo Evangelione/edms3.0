@@ -10,6 +10,7 @@ import OrderPurchase from './components/Modals/OrderPurchase'
 import UpLoadPoundList from './components/Modals/UpLoadPoundList'
 import styles from './index.less'
 import router from 'umi/router'
+import { toFixed } from '@/utils/Math'
 
 const ORDER_STATUS = ['', '待我方确认', '待调度', '待采购', '待供应商接单', '待装货', '待卸货', '待对账', '已完成', '已开票', '已取消']
 
@@ -56,6 +57,10 @@ class OrderList extends Component {
     })
   }
 
+  calcTotal = (price, quancity) => {
+    return toFixed((price - 0) * (quancity - 0), 2)
+  }
+
   mapOrderList = () => {
     const { order: { orderList, currentOrderNum } } = this.props
     return orderList.length ? orderList.map((value, index) => {
@@ -87,7 +92,7 @@ class OrderList extends Component {
           <Col span={span} style={{ position: 'relative' }}>
             <div className={styles['name']}>卖家：{value.supp_name ? value.supp_name : '暂无信息'}</div>
             <div
-              className={styles['detail']}>购 {value.quantity ? value.quantity : '-'} 吨&nbsp;&nbsp;&nbsp;共&nbsp;{value.supp_price}元
+              className={styles['detail']}>购 {value.quantity ? value.quantity : '-'} 吨&nbsp;&nbsp;&nbsp;共&nbsp;{this.calcTotal(value.supp_price, value.quantity)}元
             </div>
             <img src={require('@/assets/image/gas_blue.png')} className={styles['img']} alt="" />
             <div className={classnames(styles['gas'], styles['primary-color'])}>
@@ -113,7 +118,7 @@ class OrderList extends Component {
             return <Col span={span} key={index1} style={{ position: 'relative' }}>
               <div className={styles['name']}>买家：{value1.company_name ? value1.company_name : '暂无信息'}</div>
               <div
-                className={styles['detail']}>售 {value1.quantity ? value1.quantity : '-'} 吨&nbsp;&nbsp;&nbsp;共&nbsp;{value1.price}元
+                className={styles['detail']}>售 {value1.quantity ? value1.quantity : '-'} 吨&nbsp;&nbsp;&nbsp;共&nbsp;{this.calcTotal(value1.price, value1.quantity)}元
               </div>
               {value.current_site > index1 + 1 ?
                 <img src={require('@/assets/image/site_blue.png')} className={styles['img']} alt="" />
@@ -142,7 +147,7 @@ class OrderList extends Component {
         </Row>
         <div className={styles['order-card-footer']}>
           <div>
-            <div>订单编号：{value.id}</div>
+            <div>订单编号：{value.order_no}</div>
             <div>创建时间：{value.create_time}</div>
           </div>
           {value.status === '1' ? <div>

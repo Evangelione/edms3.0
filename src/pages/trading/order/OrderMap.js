@@ -5,7 +5,7 @@ import { Map } from 'react-amap'
 import styles from './index.less'
 
 
-@connect(({order, loading}) => ({
+@connect(({ order, loading }) => ({
   order,
   loading: loading.models.order,
 }))
@@ -27,13 +27,13 @@ class OrderMap extends Component {
 
 
   renderDetailItems = () => {
-    const {order: {orderMapDetail}} = this.props
+    const { order: { orderMapDetail } } = this.props
     return <>
       {orderMapDetail.client.map((value, index) => {
         return <div className={styles['detail-item']} key={index}>
           <div>
             <div className={styles['blue-color']}>客户：{value.name}</div>
-            <div style={{paddingLeft: 41}}>{value.contact}&nbsp;&nbsp;&nbsp;&nbsp;{value.contact_phone}</div>
+            <div style={{ paddingLeft: 41 }}>{value.contact}&nbsp;&nbsp;&nbsp;&nbsp;{value.contact_phone}</div>
           </div>
           <div>
             <div>
@@ -51,7 +51,7 @@ class OrderMap extends Component {
         return <div className={styles['detail-item-area']} key={index}>
           <div>
             <div className={styles['blue-color']}>站点：{value.name}</div>
-            <div style={{paddingLeft: 41}}>{value.contact}&nbsp;&nbsp;&nbsp;&nbsp;{value.contact_phone}</div>
+            <div style={{ paddingLeft: 41 }}>{value.contact}&nbsp;&nbsp;&nbsp;&nbsp;{value.contact_phone}</div>
           </div>
           <div>
             <div>
@@ -65,12 +65,12 @@ class OrderMap extends Component {
         </div>
       })}
       <div className={styles['detail-item']}>
-        <div style={{paddingLeft: 12}}>
+        <div style={{ paddingLeft: 12 }}>
           <div className={styles['blue-color']}>供应商：{orderMapDetail.supplier.name}</div>
           <div
-            style={{paddingLeft: 55}}>{orderMapDetail.supplier.contact}&nbsp;&nbsp;&nbsp;&nbsp;{orderMapDetail.supplier.contact_phone}</div>
+            style={{ paddingLeft: 55 }}>{orderMapDetail.supplier.contact}&nbsp;&nbsp;&nbsp;&nbsp;{orderMapDetail.supplier.contact_phone}</div>
         </div>
-        <div style={{paddingLeft: 12}}>
+        <div style={{ paddingLeft: 12 }}>
           <div>
             <div>采购总量&nbsp;&nbsp;&nbsp;{orderMapDetail.supplier.purchase_num}吨</div>
             <div>收款方式&nbsp;&nbsp;&nbsp;{orderMapDetail.supplier.type}</div>
@@ -85,7 +85,7 @@ class OrderMap extends Component {
         <div>
           <div className={styles['blue-color']}>气源：{orderMapDetail.gas.name}</div>
           <div
-            style={{paddingLeft: 41}}>{orderMapDetail.gas.contact}&nbsp;&nbsp;&nbsp;&nbsp;{orderMapDetail.gas.contact_phone}</div>
+            style={{ paddingLeft: 41 }}>{orderMapDetail.gas.contact}&nbsp;&nbsp;&nbsp;&nbsp;{orderMapDetail.gas.contact_phone}</div>
         </div>
         <div>
           <div>
@@ -102,7 +102,7 @@ class OrderMap extends Component {
         <div>
           <div className={styles['blue-color']}>物流：{orderMapDetail.logistics.name}</div>
           <div
-            style={{paddingLeft: 55}}>{orderMapDetail.logistics.contact}&nbsp;&nbsp;&nbsp;&nbsp;{orderMapDetail.logistics.contact_phone}</div>
+            style={{ paddingLeft: 55 }}>{orderMapDetail.logistics.contact}&nbsp;&nbsp;&nbsp;&nbsp;{orderMapDetail.logistics.contact_phone}</div>
         </div>
         <div>
           <div>
@@ -119,12 +119,13 @@ class OrderMap extends Component {
   }
 
   render() {
-    const {barState, detailHeight} = this.state
+    const { barState, detailHeight } = this.state
+    const { currentOrderNum, orderList } = this.props.order
     return (
-      <div style={{padding: '20px 0', height: 500}}>
-        <Card bodyStyle={{padding: 0, position: 'relative'}}>
+      <div style={{ padding: '20px 0', height: 500 }}>
+        <Card bodyStyle={{ padding: 0, position: 'relative' }}>
           <div className={styles['map-title']}>
-            <div>订单编号：DD2030124012509120334</div>
+            <div>订单编号：{orderList[currentOrderNum].order_no}</div>
             <div className={styles['distance']}>已行驶 34公里 <span>/ 共125公里</span></div>
           </div>
           <div className={styles['map-detail-min']}>
@@ -144,16 +145,16 @@ class OrderMap extends Component {
               <img src={require('@/assets/image/car_driver.png')} alt="" />
               <span>张三丰&nbsp;&nbsp;17878787878</span>
             </div>
-            <div className={styles['map-detail-box-bar']} style={{top: 40 + detailHeight}}>
-              <span style={{cursor: 'pointer'}} onClick={this.pullDetail}>{barState}</span>
+            <div className={styles['map-detail-box-bar']} style={{ top: 40 + detailHeight }}>
+              <span style={{ cursor: 'pointer' }} onClick={this.pullDetail}>{barState}</span>
             </div>
           </div>
-          <div className={styles['map-detail-box']} style={{height: detailHeight}}>
+          <div className={styles['map-detail-box']} style={{ height: detailHeight }}>
             <div className={styles['map-detail-items']}>
               {this.renderDetailItems()}
             </div>
           </div>
-          <div style={{height: 610}}>
+          <div style={{ height: 610 }}>
             <Map amapkey='c189acdbb56b56e76b4757d770c32e6c' />
           </div>
         </Card>
