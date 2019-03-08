@@ -595,7 +595,7 @@ class Index extends Component {
               label={modalLabel2}
             >
               {getFieldDecorator(`${modalFiled2}`, {
-                rules: [{ required: true }],
+                rules: [{ required: modalFiled2 !== 'GPS串号' }],
               })(
                 <Input placeholder={`请输入${modalLabel2}`} onBlur={this.parseNumber.bind(null, `${modalFiled2}`, 3)}
                        addonAfter={modalLabel2 === '载重数量' ? '吨' : null} />,

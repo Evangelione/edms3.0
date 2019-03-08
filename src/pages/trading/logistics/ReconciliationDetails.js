@@ -181,8 +181,7 @@ class ReconciliationDetails extends Component {
             <span style={{ marginRight: 10 }}>对账时间</span>
             <DatePicker
               disabledDate={this.disabledStartDate}
-              showTime
-              format="YYYY-MM-DD HH:mm"
+              format="YYYY-MM-DD"
               value={startValue}
               placeholder="起始时间"
               onChange={this.onStartChange}
@@ -191,8 +190,7 @@ class ReconciliationDetails extends Component {
             <span style={{ margin: '0 10px' }}>-</span>
             <DatePicker
               disabledDate={this.disabledEndDate}
-              showTime
-              format="YYYY-MM-DD HH:mm"
+              format="YYYY-MM-DD"
               value={endValue}
               placeholder="截止时间"
               onChange={this.onEndChange}
