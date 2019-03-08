@@ -3,11 +3,14 @@ import request from '@/common/request'
 import { IP, PAGE_LIMIT } from '@/common/constants'
 
 
-export function fetchOrderList({ page, status }) {
+export function fetchOrderList({ page, status, ...other }) {
   let formData = new FormData()
   formData.append('page', page)
   formData.append('limit', PAGE_LIMIT)
   formData.append('status', status)
+  Object.keys(other).forEach((key, i) => {
+    formData.append(key, other[key] || '')
+  })
   return request(`${IP}/index/order/page`, {
     method: 'POST',
     body: formData,
@@ -190,4 +193,16 @@ export function fetchClientSelect() {
   return request(`${IP}/index/cust/list`, {
     method: 'GET',
   })
+}
+
+export function fetchSuppCondition() {
+  return request(`${IP}/index/supp/corder-condition`)
+}
+
+export function fetchSuppList() {
+  return request(`${IP}/index/supp/list`)
+}
+
+export function fetchCustCondition() {
+  return request(`${IP}/index/cust/list`)
 }

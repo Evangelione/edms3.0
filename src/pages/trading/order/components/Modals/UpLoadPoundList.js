@@ -192,7 +192,7 @@ class UpLoadPoundList extends Component {
             </Col>
             <Col span={5} style={{ textAlign: 'right', marginTop: 20 }}>
               <div style={{ marginTop: 6, marginRight: 3, fontSize: '1rem' }}
-                   className='font-purple-color'>装货数量
+                   className='font-purple-color'>{this.props.uploading ? '装' : '卸'}货数量
               </div>
             </Col>
             <Col span={12} style={{ marginTop: 20 }}>
@@ -215,12 +215,13 @@ class UpLoadPoundList extends Component {
             </Col>
             <Col span={5} style={{ textAlign: 'right', marginTop: 20 }}>
               <div style={{ marginTop: 6, marginRight: 3, fontSize: '1rem' }}
-                   className='font-purple-color'>装货时间
+                   className='font-purple-color'>{this.props.uploading ? '装' : '卸'}货时间
               </div>
             </Col>
             <Col span={12} style={{ marginTop: 20 }}>
               <DatePicker suffixIcon={<IconFont className='time-icon' type='icon-icon-test8' />}
-                          style={{ width: '100%', marginLeft: 8 }} placeholder='暂无卸货时间' value={this.state.time}
+                          style={{ width: '100%', marginLeft: 8 }}
+                          placeholder={`暂无${this.props.uploading ? '装' : '卸'}货时间`} value={this.state.time}
                           onChange={this.changeTime} allowClear={false} disabled={readOnly} />
             </Col>
           </Col>
@@ -325,7 +326,9 @@ class UpLoadPoundList extends Component {
     const { children, readOnly } = this.props
     const uploadButton = (<div>
       <IconFont type="icon-icon-test110" className='upload-icon' />
-      <div className="ant-upload-text" style={{ marginTop: 10, fontSize: '1.125rem' }}>点击上传装车磅单</div>
+      <div className="ant-upload-text"
+           style={{ marginTop: 10, fontSize: '1.125rem' }}>点击上传{this.props.uploading ? '装' : '卸'}车磅单
+      </div>
     </div>)
     const sites = JSON.parse(this.props.sites)
     sites.unshift({})
@@ -333,7 +336,7 @@ class UpLoadPoundList extends Component {
       <div onClick={this.showModal} style={{ display: 'inline-block' }}>
         {children}
         <Modal
-          title="上传装车磅单"
+          title={`上传${this.props.uploading ? '装' : '卸'}车磅单`}
           visible={visible}
           onCancel={this.hideModal}
           footer={null}

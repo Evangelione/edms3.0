@@ -595,7 +595,7 @@ class Index extends Component {
               label={modalLabel2}
             >
               {getFieldDecorator(`${modalFiled2}`, {
-                rules: [{ required: !(modalFiled2=='imei') }],
+                rules: [{ required: !(modalFiled2 == 'imei') }],
               })(
                 <Input placeholder={`请输入${modalLabel2}`} onBlur={this.parseNumber.bind(null, `${modalFiled2}`, 3)}
                        addonAfter={modalLabel2 === '载重数量' ? '吨' : null} />,

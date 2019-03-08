@@ -197,7 +197,7 @@ export const logisticsHistoryColumns = [{
   key: 'price',
 }, {
   align: 'center',
-  title: '运输距离（元）',
+  title: '运输距离',
   dataIndex: 'distance',
   key: 'distance',
 }, {

@@ -78,9 +78,12 @@ export default {
     suppInfoByOrderPurchase: [],
     gasInfoByOrderPurchase: [],
     poundInfoByUpload: {},
-    order_modify_id:'',
-    order_modify_type:'',
-    order_modify_visible:false,
+    order_modify_id: '',
+    order_modify_type: '',
+    order_modify_visible: false,
+    filter_condition: {},
+    supp_list: [],
+    cust_list: [],
   },
 
   subscriptions: {
@@ -91,20 +94,20 @@ export default {
   },
 
   effects: {
-    * orderModifyOpen({payload:{id,type,visible}},{call,put}){
-        yield put({
-            type: 'save',
-            payload:{
-                order_modify_id:id,
-                order_modify_type:type,
-                order_modify_visible:visible,
+    * orderModifyOpen({ payload: { id, type, visible } }, { call, put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          order_modify_id: id,
+          order_modify_type: type,
+          order_modify_visible: visible,
 
-            }
-        })
+        },
+      })
     },
 
-    * fetchOrderList({ payload: { page = 1, status = '' } }, { call, put }) {
-      const { data } = yield call(orderService.fetchOrderList, { page, status })
+    * fetchOrderList({ payload: { page = 1, status = '', ...other } }, { call, put }) {
+      const { data } = yield call(orderService.fetchOrderList, { page, status, ...other })
       parseInt(data.code, 10) === 1 ?
         yield put({
           type: 'save',
@@ -309,6 +312,38 @@ export default {
       const { data } = yield call(orderService.unLoadingPound, form)
       parseInt(data.code, 10) === 1 ?
         message.success(data.msg)
+        :
+        message.error(data.msg)
+    },
+    * fetchFilterCondition({ payload: form }, { call, put }) {
+      const { data } = yield call(orderService.fetchSuppCondition, form)
+      parseInt(data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            filter_condition: data.data,
+          },
+        })
+        :
+        message.error(data.msg)
+      const data2 = yield call(orderService.fetchSuppList, form)
+      parseInt(data2.data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            supp_list: data2.data.data.list,
+          },
+        })
+        :
+        message.error(data.msg)
+      const data3 = yield call(orderService.fetchCustCondition, form)
+      parseInt(data3.data.code, 10) === 1 ?
+        yield put({
+          type: 'save',
+          payload: {
+            cust_list: data3.data.data.list,
+          },
+        })
         :
         message.error(data.msg)
     },
