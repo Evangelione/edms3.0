@@ -353,6 +353,9 @@ class CreatePlan extends Component {
               price_3 = form3.price ? Number(form3.price) : 0;
               quantity_3 = form3.site1_quantity ? Number(form3.site1_quantity) : 0;
           }
+          if( (quantity_1+quantity_2+quantity_3)==this.state.footFormAll.allquantity && (quantity_1*price_1+quantity_2*price_2+quantity_3*price_3)==this.state.footFormAll.allmoney ){
+              return
+          }
           this.setState({
               footFormAll:{
                   allquantity:quantity_1+quantity_2+quantity_3,
