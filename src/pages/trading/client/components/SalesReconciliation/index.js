@@ -222,12 +222,7 @@ class Index extends Component {
             onOpenChange={this.handleEndOpenChange}
           />
           <span style={{ margin: '0 12px 0 20px' }}>车牌</span>
-          {/*<Select defaultValue={clientCondition.cars && clientCondition.cars[0].id} style={{ width: '8.75rem' }}>*/}
-          {/*{clientCondition.cars && clientCondition.cars.map((value, index) => {*/}
-          {/*return <Option key={index} value={value.id}>{value.car_code}</Option>*/}
-          {/*})}*/}
-          {/*</Select>*/}
-          <Select value={car_head_id} style={{ width: '8.75rem' }}
+          <Select value={clientCondition.cars && clientCondition.cars[0].id} style={{ width: '8.75rem' }}
                   onChange={this.fetchHistoryList.bind(null, 'car_head_id')}>
             {clientCondition.cars && clientCondition.cars.map((value, index) => {
               return <Option key={index} value={value.id}>{value.car_code}</Option>
