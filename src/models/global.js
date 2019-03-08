@@ -111,7 +111,7 @@ export default {
           pathname: '/trading/order',
         })
       } else {
-        message.error(data.msg)
+        // message.error(data.msg)
         localStorage.removeItem('userData')
       }
     },
