@@ -133,8 +133,10 @@ class InfoCard extends Component {
                   initialValue: currentSupplierInfo.company_flow + '',
                 })(
                   <Select style={{ width: '100%' }}>
-                    <Option value="1">贸易商</Option>
-                    <Option value="2">零售商</Option>
+                      <Option value="1">运贸商</Option>
+                      <Option value="2">贸易商</Option>
+                      <Option value="3">液厂</Option>
+                      <Option value="4">接收站</Option>
                   </Select>,
                 )}
               </Form.Item> : company_type[currentSupplierInfo.company_flow - 1]}
