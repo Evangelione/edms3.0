@@ -144,11 +144,11 @@ class InfoCard extends Component {
                   initialValue: currentLogisticsInfo.company_flow + '',
                 })(
                   <Select style={{ width: '100%' }}>
-                    <Option value="1">贸易商</Option>
-                    <Option value="2">零售商</Option>
+                    <Option value="2">运贸商</Option>
+                    <Option value="8">承运商</Option>
                   </Select>,
                 )}
-              </Form.Item> : company_type[currentLogisticsInfo.company_flow - 1]}
+              </Form.Item> : currentLogisticsInfo.company_flow=='2' ? '运贸商' : '承运商'}
             </Col>
             <Col span={8} xxl={7}><i>省市区县</i></Col>
             <Col span={16} xxl={17}>

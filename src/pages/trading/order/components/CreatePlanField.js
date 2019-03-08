@@ -46,7 +46,7 @@ class CreatePlanField extends Component {
       values.customer_id = this.state.currentClientInfo.id
       values.site1_id = this.state.currentSiteInfo.id
       this.state.currentSiteInfo2.id && (values.site2_id = this.state.currentSiteInfo2.id)
-      console.log(values)
+      //console.log(values)
       if (!err) {
         values.site1_time = values.site1_time.format('YYYY-MM-DD')
         this.state.currentSiteInfo2.id && (values.site2_time = values.site2_time.format('YYYY-MM-DD'))
@@ -57,6 +57,8 @@ class CreatePlanField extends Component {
     })
     return result
   }
+
+  getFormArr = ()=>{return this.props.form.getFieldsValue()}
 
   deleteClientSelect = () => {
     this.setState({
@@ -274,6 +276,7 @@ class CreatePlanField extends Component {
             <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
               {getFieldDecorator(`extra_fee`, {
                 rules: [{ required: true }],
+                initialValue:'0.00'
               })(
                 <Input placeholder="请输入金额" onBlur={this.parseNumber.bind(null, `extra_fee`, 2)}
                        addonAfter='元' />,

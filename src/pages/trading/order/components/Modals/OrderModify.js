@@ -212,7 +212,7 @@ const Option = Select.Option;
                                         <Form.Item>
                                             {getFieldDecorator('selectName', {
                                                 rules: [{ required: true}],
-                                                initialValue:'',
+                                                initialValue:'0.00',
                                             })(
                                                 <Input style={{width:200}} addonAfter={'元'} />
                                             )}
@@ -477,7 +477,7 @@ const Option = Select.Option;
                                 <span className={styles['span']} style={{opacity:0}} >*</span>
                                 <p className={styles['p']} >额外费用</p>
                                 <Form.Item>
-                                    <Input style={{width:200}} addonAfter={'元'} />
+                                    <Input style={{width:200}} defaultValue={'0.00'} addonAfter={'元'} />
                                 </Form.Item>
                             </div>
                             <div className={styles['div']} style={{marginLeft:100}} >
@@ -669,7 +669,7 @@ const Option = Select.Option;
                                         <span className={styles['span']} style={{opacity:0}} >*</span>
                                         <p className={styles['p']} >额外费用</p>
                                         <Form.Item>
-                                            <Input style={{width:200}} addonAfter={'元'} />
+                                            <Input style={{width:200}} addonAfter={'元'} defaultValue={'0.00'} />
                                         </Form.Item>
                                     </div>
                                 </div>

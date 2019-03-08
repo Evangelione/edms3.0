@@ -168,8 +168,8 @@ class HandleLogisticsModal extends Component {
                 initialValue: '2',
               })(
                 <Select style={{ width: '100%' }} onChange={this.handleChange}>
+                    <Option value="2">运贸商</Option>
                   <Option value="8">承运商</Option>
-                  <Option value="2">运贸商</Option>
                 </Select>,
               )}
             </Form.Item>
