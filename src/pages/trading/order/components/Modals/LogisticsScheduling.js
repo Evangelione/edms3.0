@@ -26,6 +26,8 @@ class LogisticsScheduling extends Component {
     convoy: null,
     car_head_id: null,
     car_body_id: null,
+
+    transportMoney:0,
   }
 
   showModal = () => {
@@ -167,6 +169,22 @@ class LogisticsScheduling extends Component {
         })
       }
     })
+  }
+
+  //运输费用
+  transportPrice = (type,value)=>{
+      let form =  this.props.form.getFieldsValue();
+      let quantity = Number(this.state.sites[0].quantity);
+      let distance = 0,price = 0;
+      if(type=='distance'){
+          distance = Number(value ? value : 0);
+          price = Number(form.price ? form.price : 0);
+      }else{
+          distance = Number(form.distance ? form.distance : 0);
+          price = Number(value ? value : 0);
+      }
+      this.setState({transportMoney:form.charge_type=='1' ? quantity*price : quantity*price*distance});
+
   }
 
   render() {
@@ -322,7 +340,7 @@ class LogisticsScheduling extends Component {
                       {getFieldDecorator('distance', {
                         rules: [{ required: true }],
                       })(
-                        <Input addonAfter='公里' placeholder='请输入运输距离' />,
+                        <InputNumber addonAfter='公里' placeholder='请输入运输距离' onChange={this.transportPrice.bind(this,'distance')} min={0} precision={2} style={{ width: '100%' }} />,
                       )}
                     </Form.Item>
                   </Col>
@@ -331,7 +349,7 @@ class LogisticsScheduling extends Component {
                       {getFieldDecorator('price', {
                         rules: [{ required: true }],
                       })(
-                        <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
+                        <InputNumber placeholder="请输入金额" onChange={this.transportPrice.bind(this,'price')} min={0} precision={2} style={{ width: '100%' }} />,
                       )}
                       <div className='addonAfter'>元/吨</div>
                     </Form.Item>
@@ -340,9 +358,12 @@ class LogisticsScheduling extends Component {
                 <Row>
                   <Col span={9}>
                     <Form.Item label='额外费用' {...itemLayout}>
-                      {getFieldDecorator('extra_fee')(
-                        <InputNumber placeholder="请输入金额" defaultValue={'0.00'} min={0} precision={2} style={{ width: '100%' }} />,
-                      )}
+                    {getFieldDecorator('extra_fee', {
+                      rules: [{ required: true }],
+                      initialValue:'0.00'
+                    })(
+                        <InputNumber placeholder="请输入金额"  min={0} precision={2} style={{ width: '100%' }} />,
+                    )}
                       <div className='addonAfter'>元</div>
                     </Form.Item>
                   </Col>
@@ -426,8 +447,8 @@ class LogisticsScheduling extends Component {
           <div className={styles['create-plan-modal-footer']}>
             <div>
               <div>
-                <div style={{ marginLeft: 30 }}>运输总量 <span className={styles['red-font']}>20.000 吨</span></div>
-                <div style={{ marginLeft: 30 }}>运输费用 <span className={styles['red-font']}>20.000 元</span></div>
+                <div style={{ marginLeft: 30 }}>运输总量 <span className={styles['red-font']}>{!this.state.sites.length ? '0.000' : this.state.sites[0].quantity} 吨</span></div>
+                <div style={{ marginLeft: 30 }}>运输费用 <span className={styles['red-font']}>{this.state.transportMoney.toFixed(2)} 元</span></div>
               </div>
               <div style={{ marginRight: 20 }}>
                 <Button type='primary' style={{ marginRight: 10 }} loading={loading}
