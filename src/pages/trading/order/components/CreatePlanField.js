@@ -276,6 +276,7 @@ class CreatePlanField extends Component {
             <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
               {getFieldDecorator(`extra_fee`, {
                 rules: [{ required: true }],
+                initialValue:'0.00'
               })(
                 <Input placeholder="请输入金额" onBlur={this.parseNumber.bind(null, `extra_fee`, 2)}
                        addonAfter='元' />,

@@ -341,7 +341,7 @@ class LogisticsScheduling extends Component {
                   <Col span={9}>
                     <Form.Item label='额外费用' {...itemLayout}>
                       {getFieldDecorator('extra_fee')(
-                        <InputNumber placeholder="请输入金额" min={0} precision={2} style={{ width: '100%' }} />,
+                        <InputNumber placeholder="请输入金额" defaultValue={'0.00'} min={0} precision={2} style={{ width: '100%' }} />,
                       )}
                       <div className='addonAfter'>元</div>
                     </Form.Item>

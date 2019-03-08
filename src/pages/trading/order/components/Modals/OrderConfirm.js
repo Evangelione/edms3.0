@@ -165,7 +165,7 @@ class OrderConfirm extends Component {
                 <Col span={10} style={{ width: '43.4%' }}>
                   <Form.Item label='额外费用' {...itemLayout} style={{ marginLeft: 10 }}>
                     {getFieldDecorator('extra_fee')(
-                      <Input addonAfter='元' disabled />,
+                      <Input addonAfter='元' disabled defaultValue={'0.00'} />,
                     )}
                   </Form.Item>
                 </Col>
