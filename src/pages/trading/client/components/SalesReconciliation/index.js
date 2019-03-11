@@ -35,7 +35,7 @@ class Index extends Component {
       const { clientCondition } = this.props.client
       console.log(clientCondition)
       this.setState({
-        car_head_id: '27',
+        car_head_id: clientCondition.cars.length ? clientCondition.cars[0].id : '',
         supp_goods_id: clientCondition.goods.length ? clientCondition.goods[0].id : '',
         cust_site_id: clientCondition.sites.length ? clientCondition.sites[0].id : '',
       })
@@ -46,8 +46,7 @@ class Index extends Component {
             cust_id: this.props.match.params.ClientDetail,
             load_time_start: '',
             load_time_end: '',
-            // car_head_id: clientCondition.cars[0].id,
-            car_head_id: '27',
+            car_head_id: clientCondition.cars.length ? clientCondition.cars[0].id : '',
             supp_goods_id: clientCondition.goods.length ? clientCondition.goods[0].id : '',
             cust_site_id: clientCondition.sites.length ? clientCondition.sites[0].id : '',
             status: '',
